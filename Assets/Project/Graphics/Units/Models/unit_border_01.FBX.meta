@@ -1,20 +1,20 @@
 fileFormatVersion: 2
-guid: 91a0e6f418a4c0d48bdaa2e6a2917665
+guid: 6c3882c87127c714a99ae1697d56790e
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: Circle002
-    100002: Circle003
+    100000: Circle004
+    100002: Object001
     100004: //RootNode
-    400000: Circle002
-    400002: Circle003
+    400000: Circle004
+    400002: Object001
     400004: //RootNode
-    2300000: Circle002
-    2300002: Circle003
-    3300000: Circle002
-    3300002: Circle003
-    4300000: Circle002
-    4300002: Circle003
+    2300000: Circle004
+    2300002: Object001
+    3300000: Circle004
+    3300002: Object001
+    4300000: Circle004
+    4300002: Object001
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -23,7 +23,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    optimizeGameObjects: 1
+    optimizeGameObjects: 0
     motionNodeName: 
     animationCompression: 1
     animationRotationError: .5
