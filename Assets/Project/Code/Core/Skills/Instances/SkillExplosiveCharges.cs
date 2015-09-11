@@ -82,9 +82,9 @@ public class SkillExplosiveCharges : BaseUnitSkill {
 	public override void OnCasterTargetDeath() { }
 
 	private IEnumerator SkillPrepare() {
-		if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) {
-			_caster.StopTargetAttack(true);
-		}
+        if (_caster.UnitAttack.State == EUnitAttackState.WatchTarget)
+        //if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy)
+                _caster.StopTargetAttack(true);
 		_caster.CastingSkill = true;
 
 		_caster.ModelView.PlaySkillAnimation(ESkillKey.ExplosiveCharges);
@@ -97,9 +97,9 @@ public class SkillExplosiveCharges : BaseUnitSkill {
 		}
 
 		_caster.CastingSkill = false;
-		if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) {
-			_caster.StartTargetAttack();
-		}
+        if (_caster.UnitAttack.State == EUnitAttackState.WatchTarget)
+        //if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy)
+                _caster.StartTargetAttack();
 	}
 
 	private void OnUnitAttack(BaseUnitBehaviour attacker, BaseUnitBehaviour target) {

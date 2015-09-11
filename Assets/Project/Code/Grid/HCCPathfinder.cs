@@ -86,10 +86,11 @@ public class HCCPathfinder {
 
 		HCCGridPoint start = HCCGridController.Instance.GridView.WorldToGridPos(self.transform.position);
 		HCCGridPoint end = HCCGridController.Instance.GridView.WorldToGridPos(target.transform.position);
+            return new List<HCCCell>();
 
 		_openSet.Add(_gridData.GetCell(start.X, start.Z));
-		_gScore[start.X, start.Z] = 0f;
-		_fScore[start.X, start.Z] = _gScore[start.X, start.Z] + HeuristicCost(start, end);
+        _gScore[start.X, start.Z] = 0f;
+        _fScore[start.X, start.Z] = _gScore[start.X, start.Z] + HeuristicCost(start, end);
 
 		HCCCell currentCell = null;
 		while (_openSet.Length > 0) {
@@ -190,6 +191,7 @@ public class HCCPathfinder {
 	//working, simple
 	public List<HCCCell> FindPath(HCCGridPoint start, HCCGridPoint end, HCCGridObject[] excludedObjects) {
 		_openSet.Add(_gridData.GetCell(start.X, start.Z));
+            return new List<HCCCell>();
 		_gScore[start.X, start.Z] = 0f;
 		_fScore[start.X, start.Z] = _gScore[start.X, start.Z] + HeuristicCost(start, end);
 

@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11415054}
   - 114: {fileID: 11415056}
   - 114: {fileID: 11415058}
+  - 114: {fileID: 11449356}
   m_Layer: 8
   m_Name: Unit_Trooper_old
   m_TagString: Untagged
@@ -229,7 +230,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitPathfinder: {fileID: 11415056}
+  _unitAttack: {fileID: 11449356}
   _model: {fileID: 11462176}
+  _healthBarPosition: {x: 0, y: 1.20000005, z: 0}
 --- !u!114 &11415056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,6 +261,18 @@ MonoBehaviour:
   _xWorldSize: .5
   _zWorldSize: .5
   _isStatic: 0
+--- !u!114 &11449356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e2b8bf87ed6ae4281c8182c08a6b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11462176}
 --- !u!114 &11462176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,6 +290,8 @@ MonoBehaviour:
   _weaponBoneLeft: {fileID: 417094}
   _animator: {fileID: 9562176}
   _shootPositionTimeOffset: 0
+  _gunStanceOffset: .439999998
+  _rifleStanceOffset: .129999995
 --- !u!137 &13762176
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

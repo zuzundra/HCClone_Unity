@@ -8,16 +8,10 @@ public abstract class BaseUnitData {
 		get { return _key; }
 	}
 
-	[SerializeField]
-	protected int _baseHealth = 0;	//base health amount (without upgrades)
-	public int BaseHealth {
-		get { return _baseHealth; }
-	}
-
-	[SerializeField]
-	protected int _baseArmor = 0;	//base armor amount (without upgrades)
-	public int BaseArmor {
-		get { return _baseArmor; }
+    [SerializeField]
+	private int _baseHealthPoints = 0;	//base health amount (without upgrades)
+	public int BaseHealthPoints {
+		get { return _baseHealthPoints; }
 	}
 
 	[SerializeField]
@@ -26,16 +20,36 @@ public abstract class BaseUnitData {
 		get { return _baseDamage; }
 	}
 
+    [SerializeField]
+    protected EUnitRange _baseRange = EUnitRange.None;	//base attack range
+    public EUnitRange BaseRange
+    {
+        get { return _baseRange; }
+    }
+
+    [SerializeField]
+    protected EUnitRange _basePriority = EUnitRange.None;	//base priority range
+    public EUnitRange BasePriority
+    {
+        get { return _basePriority; }
+    }
+
 	[SerializeField]
-	protected float _baseAttackRange = 1;	//base attack range (without upgrades)
-	public float BaseAttackRange {
-		get { return _baseAttackRange; }
+	protected float _baseAR = 1;	//base attack range (without upgrades)
+	public float BaseAR {
+		get { return _baseAR; }
 	}
 
 	[SerializeField]
 	protected float _baseAttackSpeed = 1;	//base attack speed (without upgrades)
 	public float BaseAttackSpeed {
 		get { return _baseAttackSpeed; }
+	}
+
+	[SerializeField]
+	protected int _baseArmor = 0;	//base armor amount (without upgrades)
+	public int BaseArmor {
+		get { return _baseArmor; }
 	}
 
 	[SerializeField]

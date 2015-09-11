@@ -107,6 +107,7 @@ GameObject:
   - 114: {fileID: 11478878}
   - 114: {fileID: 11478880}
   - 114: {fileID: 11478882}
+  - 114: {fileID: 11442982}
   m_Layer: 8
   m_Name: Enemy_Jawa1
   m_TagString: Untagged
@@ -274,6 +275,18 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 0
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11442982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e2b8bf87ed6ae4281c8182c08a6b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11449072}
 --- !u!114 &11449072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,6 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitPathfinder: {fileID: 11478880}
+  _unitAttack: {fileID: 11442982}
   _model: {fileID: 11449072}
   _healthBarPosition: {x: 0, y: 1.20000005, z: 0}
 --- !u!114 &11478880

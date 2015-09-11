@@ -114,6 +114,7 @@ public class FightManager : MonoBehaviour {
 		StartFightPreparations();
 	}
 
+
 	public void OnDestroy() {
 		if (!Global.IsInitialized) {
 			return;
@@ -184,11 +185,27 @@ public class FightManager : MonoBehaviour {
 		while (_fightPreparationStep != EFightPreparationStep.UnitsGraphicsInitialized) {
 			yield return null;
 		}
-		InitializeUnitsPositions(_graphics.AllyUnits, _allySpawnPoints, _allyUnitsRoot);
-		InitializeUnitsPositions(_graphics.EnemyUnits, _enemySpawnPoints, _enemyUnitsRoot);
+        //InitializeUnitsPositions(_graphics.AllyUnits, _allySpawnPoints, _allyUnitsRoot);
+        //InitializeUnitsPositions(_graphics.EnemyUnits, _enemySpawnPoints, _enemyUnitsRoot);
 
+        SetUnitPositions();
 		_fightPreparationStep = EFightPreparationStep.UnitsInitialized;
 	}
+
+    bool _unitsInitialized = false;
+    public void Update()
+    {
+        if (!_unitsInitialized)
+            return;
+        SetUnitPositions();
+    }
+
+    void SetUnitPositions()
+    {
+        UnitSet.Instance.SetUnitPositions(_graphics.AllyUnits, true);
+        UnitSet.Instance.SetUnitPositions(_graphics.EnemyUnits, false);
+        _unitsInitialized = true;
+    }
 
 	private IEnumerator InitializeUnitsData(MissionMapData mapData) {
 		_fightPreparationStep = EFightPreparationStep.InitializeUnitsGraphics;
@@ -210,7 +227,8 @@ public class FightManager : MonoBehaviour {
 			}
 		}
 
-		_graphics.AllyUnits[_graphics.AllyUnits.Length - 1].Setup(Global.Instance.Player.Heroes.Current, playerHeroSkills, GameConstants.Tags.UNIT_ALLY, _graphics.UnitUIResource, Global.Instance.CurrentMission.SelectedSoldiers.Length);
+		_graphics.AllyUnits[_graphics.AllyUnits.Length - 1].Setup(Global.Instance.Player.Heroes.Current, playerHeroSkills,
+            GameConstants.Tags.UNIT_ALLY, _graphics.UnitUIResource, Global.Instance.CurrentMission.SelectedSoldiers.Length);
 		for(int i = 0; i < Global.Instance.CurrentMission.SelectedSoldiers.Length; i++) {
 			if (!Global.Instance.CurrentMission.SelectedSoldiers[i].IsDead) {
 				_graphics.AllyUnits[i].Setup(Global.Instance.CurrentMission.SelectedSoldiers[i], null, GameConstants.Tags.UNIT_ALLY, _graphics.UnitUIResource, i);	//TODO: setup units skills
@@ -269,11 +287,11 @@ public class FightManager : MonoBehaviour {
 					//sort soldiers
 					int insertIndex = sotrtedSoldiersList.Count;
 					for (int j = 0; j < sotrtedSoldiersList.Count; j++) {
-						if (units[i].UnitData.AttackRange > sotrtedSoldiersList[j].UnitData.AttackRange) {
+						if (units[i].UnitData.AR > sotrtedSoldiersList[j].UnitData.AR) {
 							insertIndex = j;
 							break;
-						} else if (sotrtedSoldiersList[j].UnitData.AttackRange == units[i].UnitData.AttackRange) {
-							if (units[i].UnitData.Health > sotrtedSoldiersList[j].UnitData.Health) {	//TODO: compare level
+						} else if (sotrtedSoldiersList[j].UnitData.AR == units[i].UnitData.AR) {
+							if (units[i].UnitData.HealthPoints > sotrtedSoldiersList[j].UnitData.HealthPoints) {	//TODO: compare level
 								insertIndex = j;
 								break;
 							}
@@ -523,7 +541,7 @@ public class FightManager : MonoBehaviour {
 	private void OnEnemyDeath(BaseUnit unit) {
 		_enemiesCount--;
 		if (_enemiesCount <= 0) {
-			MapComlete();
+            MapComlete();
 		}
 	}
 

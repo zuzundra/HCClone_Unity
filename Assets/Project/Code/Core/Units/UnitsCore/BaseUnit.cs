@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public abstract class BaseUnit {
+public abstract class BaseUnit  {
 	protected BaseUnitData _data;
 	public BaseUnitData Data {
 		get { return _data; }
@@ -19,20 +19,24 @@ public abstract class BaseUnit {
 		}
 	}
 
-	public int Health { get; private set; }	//health amount after all upgrades applied
+	public int HealthPoints { get; private set; }	//health amount after all upgrades applied
+	public int Damage { get; private set; }	//damage amount after all upgrades applied
+    public EUnitRange Range { get; private set; } //attack range
+    public EUnitRange Priority { get; private set; } //priority range
+
+	public float AR { get; private set; }	//damage range after all upgrades applied
+	public float AttackSpeed { get; private set; }	//damage speed after all upgrades applied
+
 	public int Armor { get; private set; }	//armor amount after all upgrades applied
 	public int ArmorDamageAbsorb { get; private set; }	//how much damage will be absorbed by armor all upgrades applied
 	
-	public int Damage { get; private set; }	//damage amount after all upgrades applied
-	public float AttackRange { get; private set; }	//damage range after all upgrades applied
-	public float AttackSpeed { get; private set; }	//damage speed after all upgrades applied
 	public int CritChance { get; private set; }	//critical hit chance after all upgrades applied
 	public float CritDamageMultiplier { get; private set; }	//critical hit damage multiplier after all upgrades applied
 
 	public UnitInventory Inventory { get; private set; }
 
 	public int DamageTaken { get; private set; }
-	public bool IsDead { get { return DamageTaken >= Health; } }
+	public bool IsDead { get { return DamageTaken >= HealthPoints; } }
 
 	protected UnitActiveSkills _activeSkills = new UnitActiveSkills();
 	public UnitActiveSkills ActiveSkills {
@@ -66,7 +70,8 @@ public abstract class BaseUnit {
 		DamageTaken += attackInfo.DamageAmount;
 
 		//broadcast hit
-		EventsAggregator.Units.Broadcast<BaseUnit, HitInfo>(EUnitEvent.HitReceived, this, new HitInfo(Health - DamageTaken + attackInfo.DamageAmount, Health - DamageTaken, attackInfo.IsCritical));
+		EventsAggregator.Units.Broadcast<BaseUnit, HitInfo>(EUnitEvent.HitReceived, this, 
+            new HitInfo(HealthPoints - DamageTaken + attackInfo.DamageAmount, HealthPoints - DamageTaken, attackInfo.IsCritical));
 
 		if (IsDead) {
 			//broadcast death
@@ -89,10 +94,10 @@ public abstract class BaseUnit {
 		
 		if (preHealDeadState && !IsDead) {
 			//broadcast revive
-			EventsAggregator.Units.Broadcast<BaseUnit, HitInfo>(EUnitEvent.ReviveCame, this, new HitInfo(Health - DamageTaken - attackInfo.DamageAmount, Health - DamageTaken, attackInfo.IsCritical));
+			EventsAggregator.Units.Broadcast<BaseUnit, HitInfo>(EUnitEvent.ReviveCame, this, new HitInfo(HealthPoints - DamageTaken - attackInfo.DamageAmount, HealthPoints - DamageTaken, attackInfo.IsCritical));
 		} else {
 			//broadcast heal
-			EventsAggregator.Units.Broadcast<BaseUnit, HitInfo>(EUnitEvent.HitReceived, this, new HitInfo(Health - DamageTaken - attackInfo.DamageAmount, Health - DamageTaken, attackInfo.IsCritical));
+			EventsAggregator.Units.Broadcast<BaseUnit, HitInfo>(EUnitEvent.HitReceived, this, new HitInfo(HealthPoints - DamageTaken - attackInfo.DamageAmount, HealthPoints - DamageTaken, attackInfo.IsCritical));
 		}
 	}
 
@@ -110,11 +115,14 @@ public abstract class BaseUnit {
 	}
 
 	protected virtual void RecalculateParamsInternal() {
-		Health = _data.BaseHealth;
-		Armor = _data.BaseArmor;
+		HealthPoints = _data.BaseHealthPoints;
 		Damage = _data.BaseDamage;
-		AttackRange = _data.BaseAttackRange;
+        Range = _data.BaseRange;
+
+		AR = _data.BaseAR;
 		AttackSpeed = _data.BaseAttackSpeed;
+
+		Armor = _data.BaseArmor;
 		CritChance = _data.BaseCritChance;
 		CritDamageMultiplier = _data.BaseCritDamageMultiplier;
 
@@ -131,10 +139,11 @@ public abstract class BaseUnit {
 		for (int i = 0; i < equipmentSlots.Length; i++) {
 			itemData = ItemsConfig.Instance.GetItem(Inventory.GetItemInSlot(i));
 			if (itemData != null) {
-				Health += itemData.ModHealth;
-				Armor += itemData.ModArmor;
+				HealthPoints += itemData.ModHealth;
 				Damage += itemData.ModDamage;
-				AttackRange += itemData.ModDamageRange;
+
+				Armor += itemData.ModArmor;
+				//AttackRange += itemData.ModDamageRange;
 				AttackSpeed += itemData.ModDamageSpeed;
 				CritChance += itemData.ModCritChance;
 				CritDamageMultiplier = itemData.ModCritDamageMultiplier;

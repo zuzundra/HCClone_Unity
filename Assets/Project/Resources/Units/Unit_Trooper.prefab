@@ -122,6 +122,7 @@ GameObject:
   - 114: {fileID: 11491646}
   - 114: {fileID: 11491644}
   - 114: {fileID: 11491642}
+  - 114: {fileID: 11499044}
   m_Layer: 8
   m_Name: Unit_Trooper
   m_TagString: Untagged
@@ -333,8 +334,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitPathfinder: {fileID: 11491644}
+  _unitAttack: {fileID: 11499044}
   _model: {fileID: 0}
   _healthBarPosition: {x: 0, y: 1.45000005, z: 0}
+--- !u!114 &11499044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e2b8bf87ed6ae4281c8182c08a6b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 0}
 --- !u!137 &13709054
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11400952}
   - 114: {fileID: 11400950}
   - 114: {fileID: 11400948}
+  - 114: {fileID: 11435782}
   m_Layer: 8
   m_Name: Hero_Capral
   m_TagString: Untagged
@@ -372,6 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitPathfinder: {fileID: 11400950}
+  _unitAttack: {fileID: 11435782}
   _model: {fileID: 11404076}
   _healthBarPosition: {x: 0, y: 1.60000002, z: 0}
 --- !u!114 &11404076
@@ -394,6 +396,18 @@ MonoBehaviour:
   _gunStanceOffset: 1.04999995
   _rifleStanceOffset: .129999995
   _clipDischargeStanceOffset: 0
+--- !u!114 &11435782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e2b8bf87ed6ae4281c8182c08a6b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11404076}
 --- !u!137 &13704076
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
