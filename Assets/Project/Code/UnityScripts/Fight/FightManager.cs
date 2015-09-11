@@ -187,25 +187,10 @@ public class FightManager : MonoBehaviour {
 		}
         //InitializeUnitsPositions(_graphics.AllyUnits, _allySpawnPoints, _allyUnitsRoot);
         //InitializeUnitsPositions(_graphics.EnemyUnits, _enemySpawnPoints, _enemyUnitsRoot);
+        UnitSet.Instance.SetUnitPositions();
 
-        SetUnitPositions();
 		_fightPreparationStep = EFightPreparationStep.UnitsInitialized;
 	}
-
-    bool _unitsInitialized = false;
-    public void Update()
-    {
-        if (!_unitsInitialized)
-            return;
-        SetUnitPositions();
-    }
-
-    void SetUnitPositions()
-    {
-        UnitSet.Instance.SetUnitPositions(_graphics.AllyUnits, true);
-        UnitSet.Instance.SetUnitPositions(_graphics.EnemyUnits, false);
-        _unitsInitialized = true;
-    }
 
 	private IEnumerator InitializeUnitsData(MissionMapData mapData) {
 		_fightPreparationStep = EFightPreparationStep.InitializeUnitsGraphics;
