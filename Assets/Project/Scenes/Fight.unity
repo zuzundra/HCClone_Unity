@@ -1710,6 +1710,7 @@ MonoBehaviour:
   - {fileID: 298107809}
   - {fileID: 183601485}
   _ui: {fileID: 1241442880}
+  _attackInterval: 2
 --- !u!4 &641451269
 Transform:
   m_ObjectHideFlags: 0
@@ -1721,7 +1722,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &651522148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,7 +2440,7 @@ Transform:
   m_LocalScale: {x: .0174932368, y: .0174932405, z: .0174932405}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!1 &921156481
 GameObject:
   m_ObjectHideFlags: 0
@@ -2648,6 +2649,50 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 987086282}
+--- !u!1001 &1002361694
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: dd4674e29672e914690989f42508aca2, type: 2}
+  m_RootGameObject: {fileID: 1618858066}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &1022358756
 GameObject:
   m_ObjectHideFlags: 0
@@ -3179,7 +3224,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &1180477403
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3484,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1248985376
 GameObject:
   m_ObjectHideFlags: 0
@@ -3507,7 +3552,7 @@ RectTransform:
   m_Children:
   - {fileID: 1103688031}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -3544,7 +3589,7 @@ Transform:
   - {fileID: 570479336}
   - {fileID: 1746456101}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &1381391519
 GameObject:
   m_ObjectHideFlags: 0
@@ -3937,6 +3982,166 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1586592704}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1618858066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 196294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+  m_PrefabInternal: {fileID: 1002361694}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1618858068}
+  - 114: {fileID: 1618858067}
+  m_Layer: 0
+  m_Name: UnitsConfig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1618858067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11496294, guid: dd4674e29672e914690989f42508aca2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1002361694}
+  m_GameObject: {fileID: 1618858066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32abf7a4b745d949aa752d6fdc56806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxUnitsHeroCanHire: 4
+  _heroEquipmentSlots: 01000000020000000b000000
+  _soldierEquipmentSlots: 01000000020000000b000000
+  _heroesData:
+  - _key: 1
+    _baseHealthPoints: 0
+    _baseDamage: 0
+    _baseRange: 2
+    _basePriority: 2
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000001
+    _prefabName: Hero_Capral
+    _iconName: Heroes/hero_1
+    _hexIconName: 
+    _baseLeadership: 17
+    _baseAggroCrystalsPerAttack: 2.5
+    _baseAggroCrystalsMaximum: 10
+    _availableItemTypes: []
+  - _key: 2
+    _baseHealthPoints: 0
+    _baseDamage: 15
+    _baseRange: 2
+    _basePriority: 2
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000002
+    _prefabName: Hero_Goblin
+    _iconName: 
+    _hexIconName: 
+    _baseLeadership: 17
+    _baseAggroCrystalsPerAttack: 0
+    _baseAggroCrystalsMaximum: 0
+    _availableItemTypes: []
+  _soldiersData:
+  - _key: 1000001
+    _baseHealthPoints: 0
+    _baseDamage: 1
+    _baseRange: 2
+    _basePriority: 2
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000001
+    _prefabName: Unit_Scout
+    _iconName: Soldiers/npc_5_icon
+    _hexIconName: Hexagonal/npc_5_element
+    _rarity: 0
+    _leadershipCost: 1
+    _npcReward: 0
+    _agroCost: 0
+  - _key: 1000002
+    _baseHealthPoints: 0
+    _baseDamage: 1
+    _baseRange: 2
+    _basePriority: 2
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000002
+    _prefabName: Unit_Trooper
+    _iconName: Soldiers/npc_6_icon
+    _hexIconName: Hexagonal/npc_6_element
+    _rarity: 0
+    _leadershipCost: 2
+    _npcReward: 0
+    _agroCost: 0
+  - _key: 1000004
+    _baseHealthPoints: 0
+    _baseDamage: 1
+    _baseRange: 2
+    _basePriority: 2
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000001
+    _prefabName: Enemy_Jawa1
+    _iconName: Jawas/unit_jawa1
+    _hexIconName: 
+    _rarity: 0
+    _leadershipCost: 0
+    _npcReward: 0
+    _agroCost: 0
+  - _key: 1000005
+    _baseHealthPoints: 0
+    _baseDamage: 3
+    _baseRange: 2
+    _basePriority: 2
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000002
+    _prefabName: Enemy_Jawa2
+    _iconName: Jawas/unit_jawa2
+    _hexIconName: 
+    _rarity: 0
+    _leadershipCost: 0
+    _npcReward: 0
+    _agroCost: 0
+  _soldierUpgrades:
+  - _soldierKey: 1000001
+    _levelsData:
+    - _modifierDamage: 0
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+  - _soldierKey: 1000002
+    _levelsData:
+    - _modifierDamage: 0
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+    - _modifierDamage: 1
+--- !u!4 &1618858068
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 496294, guid: dd4674e29672e914690989f42508aca2, type: 2}
+  m_PrefabInternal: {fileID: 1002361694}
+  m_GameObject: {fileID: 1618858066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!1 &1673723356
 GameObject:
   m_ObjectHideFlags: 0
@@ -4104,7 +4309,7 @@ RectTransform:
   - {fileID: 1999893163}
   - {fileID: 577300974}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}

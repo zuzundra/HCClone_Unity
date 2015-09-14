@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11404314}
   - 114: {fileID: 11404312}
   - 114: {fileID: 11404310}
+  - 114: {fileID: 11448158}
   m_Layer: 8
   m_Name: Unit_Scout_old
   m_TagString: Untagged
@@ -257,6 +258,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitPathfinder: {fileID: 11404312}
+  _unitAttack: {fileID: 11448158}
+  _model: {fileID: 11487524}
+  _healthBarPosition: {x: 0, y: 1.20000005, z: 0}
+--- !u!114 &11448158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e2b8bf87ed6ae4281c8182c08a6b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _model: {fileID: 11487524}
 --- !u!114 &11487524
 MonoBehaviour:
@@ -275,6 +290,8 @@ MonoBehaviour:
   _weaponBoneLeft: {fileID: 439102}
   _animator: {fileID: 9587524}
   _shootPositionTimeOffset: 0
+  _gunStanceOffset: .439999998
+  _rifleStanceOffset: .129999995
 --- !u!137 &13787524
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

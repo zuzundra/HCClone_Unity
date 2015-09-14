@@ -25,7 +25,7 @@
     <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_4_6_7;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_7;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_4_6_7;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
+    <DefineConstants>TRACE;UNITY_4_6_7;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -145,6 +145,7 @@
     <Compile Include="Assets\Project\Code\Core\Player\PlayerVIP.cs" />
     <Compile Include="Assets\Project\Code\Core\Player\Utils\PlayerBuildingConstructor.cs" />
     <Compile Include="Assets\Project\Code\Core\Player\Utils\PlayerFuelRefresher.cs" />
+    <Compile Include="Assets\Project\Code\Core\Skills\BaseUnit.cs" />
     <Compile Include="Assets\Project\Code\Core\Skills\BaseUnitSkill.cs" />
     <Compile Include="Assets\Project\Code\Core\Skills\HeroUniqueSkillsData.cs" />
     <Compile Include="Assets\Project\Code\Core\Skills\Instances\SkillClipDischarge.cs" />
@@ -157,8 +158,9 @@
     <Compile Include="Assets\Project\Code\Core\Units\UnitActiveSkills.cs" />
     <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\BaseHero.cs" />
     <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\BaseSoldier.cs" />
-    <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\BaseUnit.cs" />
     <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\UnitKeys.cs" />
+    <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\UnitRange.cs" />
+    <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\UnitRarity.cs" />
     <Compile Include="Assets\Project\Code\Core\Units\UnitsData\BaseHeroData.cs" />
     <Compile Include="Assets\Project\Code\Core\Units\UnitsData\BaseSoldierData.cs" />
     <Compile Include="Assets\Project\Code\Core\Units\UnitsData\BaseUnitData.cs" />
@@ -241,6 +243,8 @@
     <Compile Include="Assets\Project\Code\UnityScripts\Skills\SkillExplosiveChargesView.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Skills\SkillStunGrenadeView.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Units\BaseUnitBehaviour.cs" />
+    <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitAttack.cs" />
+    <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitAttackState.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitModels\HeroCapralModelView.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitModels\SoldierScoutModelView.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitModels\SoldierTrooperModelView.cs" />
@@ -248,6 +252,7 @@
     <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitModels\UnitModelView.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitMovementState.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitPathfinding.cs" />
+    <Compile Include="Assets\Project\Code\UnityScripts\Units\UnitSet.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Utils\GameTimer.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Utils\Utils.cs" />
     <Compile Include="Assets\Project\Code\UnityScripts\Weapons\WeaponView.cs" />
@@ -258,8 +263,8 @@
     <Compile Include="Assets\Project\Code\_Common\UnityScripts\UI\CanvasResolutionAdapter.cs" />
     <Compile Include="Assets\Project\Code\_Common\UnityScripts\UI\GradientText.cs" />
     <Compile Include="Assets\Project\Code\_Common\UnityScripts\UI\MultiImageButton.cs" />
-    <Compile Include="Assets\Project\_TestingStuff\FightTest\UnitsSelectGUI.cs" />
-    <Compile Include="Assets\Project\_TestingStuff\test.cs" />
+    <Compile Include="Assets\Project\Graphics\Units\Models\_TestingStuff\FightTest\UnitsSelectGUI.cs" />
+    <Compile Include="Assets\Project\Graphics\Units\Models\_TestingStuff\test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Additive.shader" />

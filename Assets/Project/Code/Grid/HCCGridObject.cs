@@ -83,7 +83,7 @@ public class HCCGridObject : MonoBehaviour {
 	public void Update() {
 		if (!_isStatic && _cachedTransform.position != _oldWorldPosition) {
 			_oldWorldPosition = _cachedTransform.position;
-			UpdateGidPosition();
+			//UpdateGidPosition();
 		}
 	}
 
@@ -130,9 +130,10 @@ public class HCCGridObject : MonoBehaviour {
 				}
 
 				cellsList = HCCGridController.Instance.GetGridRectCellsList(gridRect);
-				for (int i = 0; i < cellsList.Count; i++) {
-					cellsList[i].ObjectData.Add(this);
-				}
+                if (cellsList != null)
+				    for (int i = 0; i < cellsList.Count; i++) {
+					    cellsList[i].ObjectData.Add(this);
+				    }
 			}
 		//} else {
 		//	Debug.LogError(string.Format("Object \"{0}\": wrong grid position!", gameObject.name));

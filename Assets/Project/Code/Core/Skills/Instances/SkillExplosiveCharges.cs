@@ -82,9 +82,9 @@ public class SkillExplosiveCharges : BaseUnitSkill {
 	public override void OnCasterTargetDeath() { }
 
 	private IEnumerator SkillPrepare() {
-		if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) {
-			_caster.StopTargetAttack(true);
-		}
+        if (_caster.UnitAttack.State == EUnitAttackState.WatchTarget)
+        //if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy)
+                _caster.StopTargetAttack(true);
 		_caster.CastingSkill = true;
 
 		_caster.ModelView.PlaySkillAnimation(ESkillKey.ExplosiveCharges);
@@ -97,14 +97,14 @@ public class SkillExplosiveCharges : BaseUnitSkill {
 		}
 
 		_caster.CastingSkill = false;
-		if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) {
-			_caster.StartTargetAttack();
-		}
+        if (_caster.UnitAttack.State == EUnitAttackState.WatchTarget)
+        //if (_caster.UnitPathfinder.CurrentState == EUnitMovementState.WatchEnemy)
+                _caster.StartTargetAttack();
 	}
 
 	private void OnUnitAttack(BaseUnitBehaviour attacker, BaseUnitBehaviour target) {
 		if (attacker == _caster) {
-			AttackInfo attackInfo = _caster.UnitData.GetAttackInfo(true, false);			//aoe damage
+			AttackInfo attackInfo = _caster.UnitData.GetAttackInfo(true);//, false);			//aoe damage
 			ArrayRO<BaseUnitBehaviour> opposedUnits = _caster.IsAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits;
 			for (int i = 0; i < opposedUnits.Length; i++) {
 				if (opposedUnits[i] !=null && !opposedUnits[i].UnitData.IsDead && Vector3.Distance(_caster.CachedTransform.position, opposedUnits[i].CachedTransform.position) <= _skillParameters.Radius) {

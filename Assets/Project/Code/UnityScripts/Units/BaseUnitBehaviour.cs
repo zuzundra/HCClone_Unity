@@ -3,13 +3,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BaseUnitBehaviour : MonoBehaviour {
+public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	[SerializeField]
 	private UnitPathfinding _unitPathfinder;
 	public UnitPathfinding UnitPathfinder {
 		get { return _unitPathfinder; }
 	}
-	
+
+    [SerializeField]
+    private UnitAttack _unitAttack;
+    public UnitAttack UnitAttack
+    {
+        get { return _unitAttack; }
+    }
+
 	[SerializeField]
 	private UnitModelView _model;
 	public UnitModelView ModelView {
@@ -46,13 +53,15 @@ public class BaseUnitBehaviour : MonoBehaviour {
 	public Transform CachedTransform {
 		get { return _cachedTransform; }
 	}
+
+    private Vector3 _destinationPosition = Vector3.zero;
 	
 	public float DistanceToTarget {
 		get { return _targetUnit != null ? Vector3.Distance(_cachedTransform.position, _targetUnit.CachedTransform.position) : 0f; }
 	}
-	public bool TargetInRange {
-		get { return _targetUnit != null && DistanceToTarget <= _unitData.AttackRange; }
-	}
+    //public bool TargetInRange {
+    //    get { return _targetUnit != null && DistanceToTarget <= _unitData.AR; }
+    //}
 	
 	private Dictionary<ESkillKey, BaseUnitSkill> _skills;
 	public bool CastingSkill { get; set; }
@@ -105,8 +114,9 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		
 		_unitData = null;
 		_targetUnit = null;
-		_unitPathfinder = null;
-		_model = null;
+        _unitAttack = null;
+        //_unitPathfinder = null;
+        _model = null;
 		_ui = null;
 	}
 	
@@ -114,8 +124,8 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		_unitData = unitData;
 		gameObject.tag = tag;
 		_isAlly = gameObject.CompareTag(GameConstants.Tags.UNIT_ALLY);
-		
-		_attackTime = 1f / unitData.AttackSpeed;
+
+        _attackTime = FightManager.SceneInstance.AttackInterval;// 1f / unitData.AttackSpeed;
 		_cachedWaitForSeconds = new WaitForSeconds(_attackTime - _model.ShootPositionTimeOffset);
 		
 		_skills = skills != null ? skills : new Dictionary<ESkillKey, BaseUnitSkill>();
@@ -134,14 +144,13 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		}
 		
 		if (unitData.DamageTaken > 0) {
-			_ui.UpdateHealthBar(Mathf.Max(unitData.Health - unitData.DamageTaken, 0) / (unitData.Health * 1f));
+			_ui.UpdateHealthBar(Mathf.Max(unitData.HealthPoints - unitData.DamageTaken, 0) / (unitData.HealthPoints * 1f));
 		}
 		
 		if (_isStarted) {
 			EventsAggregator.Units.Broadcast<BaseUnitBehaviour>(EUnitEvent.ReadyToFight, this);
-		}
-		
-		_unitPathfinder.UnitNumber = unitNumber;
+		}		
+		//_unitPathfinder.UnitNumber = unitNumber;
 	}
 	
 	public void Stun(float duration) {
@@ -153,7 +162,8 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		
 		StopTargetAttack(false);
 		_targetUnit = null;
-		_unitPathfinder.Reset(true);
+        _unitAttack.Reset(true);
+		//_unitPathfinder.Reset(true);
 		
 		if (IsInvoking("Run")) {
 			CancelInvoke("Run");
@@ -166,15 +176,25 @@ public class BaseUnitBehaviour : MonoBehaviour {
 			_onStart += Run;
 			return;
 		}
-		_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, OnTargetFound, OnTargetReached);
+        _unitAttack.TargetAttack(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
+            OnTargetFound, OnTargetReached);
+        //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
+        //    OnTargetFound, OnTargetReached);
 	}
-	
+
+    public void SetPosition(Vector3 position)
+    {
+        UnitAttack.SetPosition(this, position);
+    }
+
 	public void GoToMapEnd() {
-		_unitPathfinder.WalkIntoSunset();
+        _unitAttack.WalkIntoSunset();
+		//_unitPathfinder.WalkIntoSunset();
 	}
 	
 	public void StopAllActions() {
-		_unitPathfinder.Reset(true);
+        _unitAttack.Reset(true);
+		//_unitPathfinder.Reset(true);
 		_model.PlayIdleAnimation();
 	}
 	
@@ -226,11 +246,13 @@ public class BaseUnitBehaviour : MonoBehaviour {
 	private void OnTargetDeath() {
 		for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++) {
 			UnitData.ActiveSkills.ActiveSkills[i].OnCasterTargetDeath();
-		}
-		
+		}		
 		StopTargetAttack(false);
 		_targetUnit = null;
-		_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, OnTargetFound, OnTargetReached);
+        _unitAttack.TargetAttack(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
+            OnTargetFound, OnTargetReached);
+        //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
+        //    OnTargetFound, OnTargetReached);
 	}
 	
 	private void OnSelfDeath() {
@@ -244,7 +266,8 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		
 		StopTargetAttack(true);
 		_targetUnit = null;
-		_unitPathfinder.Reset(true);
+        _unitAttack.Reset(true);
+		//_unitPathfinder.Reset(true);
 		
 		EventsAggregator.Fight.Broadcast<BaseUnit>(gameObject.tag == GameConstants.Tags.UNIT_ALLY ? EFightEvent.AllyDeath : EFightEvent.EnemyDeath, _unitData);
 		
@@ -252,21 +275,23 @@ public class BaseUnitBehaviour : MonoBehaviour {
 	}
 	
 	private void OnMapEnd() {
-		for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++) {
+        for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++)
+        {
 			UnitData.ActiveSkills.ActiveSkills[i].Break();
 		}
-		
-		if (IsInvoking("Run")) {
+        if (IsInvoking("Run"))
+        {
 			CancelInvoke("Run");
-		}
-		
+		}		
 		StopTargetAttack(true);
 		_targetUnit = null;
-		_unitPathfinder.Reset(true);
+        _unitAttack.Reset(true);
+		//_unitPathfinder.Reset(true);
 		
 		if (_unitData != null && !_unitData.IsDead) {
 			_model.PlayWinAnimation();
-			_unitPathfinder.LookIntoSunset();
+            _unitAttack.LookIntoSunset();
+			//_unitPathfinder.LookIntoSunset();
 		}
 	}
 	
@@ -280,8 +305,10 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		}
 		
 		EventsAggregator.Fight.Broadcast<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, this, _targetUnit);
-		
-		if (_unitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) {
+
+        if (_unitAttack.State == EUnitAttackState.WatchTarget)
+		//if (_unitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) 
+        {
 			yield return _cachedWaitForSeconds;
 			
 			if (_targetUnit != null && !_targetUnit.UnitData.IsDead) {
@@ -294,8 +321,8 @@ public class BaseUnitBehaviour : MonoBehaviour {
 	
 	private void OnHitReceived(BaseUnit unit, HitInfo hitInfo) {
 		if (unit == _unitData) {
-			_model.PlayHitAnimation(unit.Health, hitInfo);
-			_ui.ApplyDamage(unit.Health, hitInfo);
+			_model.PlayHitAnimation(unit.HealthPoints, hitInfo);
+			_ui.ApplyDamage(unit.HealthPoints, hitInfo);
 		}
 	}
 	
@@ -335,4 +362,42 @@ public class BaseUnitBehaviour : MonoBehaviour {
 		StartCoroutine(Vanish());
 	}
 	#endregion
+
+    #region Члены IComparable
+
+    public int CompareTo(object obj)
+    {
+        BaseUnitBehaviour unitBehaviour = obj as BaseUnitBehaviour;
+        if (unitBehaviour != null)
+        {
+            if (IsAlly == unitBehaviour.IsAlly)
+            {
+                if (UnitsConfig.Instance.IsHero(UnitData.Data.Key))
+                    return 1;
+                else if (UnitsConfig.Instance.IsHero(unitBehaviour.UnitData.Data.Key))
+                    return -1;
+                else
+                {
+                    if (UnitData.Data.BaseRange == unitBehaviour.UnitData.Data.BaseRange)
+                    {
+                        return UnitData.HealthPoints.CompareTo(unitBehaviour.UnitData.HealthPoints);
+                    }
+                    else if (UnitData.Data.BaseRange == EUnitRange.Melee)
+                        return 1;
+                    else
+                        return -1;
+                }
+            }
+            else if (IsAlly)
+                return 1;
+            else
+                return -1;
+        }
+        else
+        {
+            throw new ArgumentException("Cравниваемый объект не является BaseUnitBehaviour!");
+        }
+    }
+
+    #endregion
 }

@@ -18,9 +18,9 @@ public class UnitPathfinding : MonoBehaviour {
 	private EHCCGridDirection _freePointDirection = EHCCGridDirection.None;
 	private HCCGridPoint _freePointDirectionVector = HCCGridPoint.Zero;
 
-	private Vector3 _targetPosition = Vector3.zero;
-	private Transform _nearestTarget = null;
-	private BaseUnitBehaviour _nearestTargetBUB = null;
+	private BaseUnitBehaviour _nearestTarget = null;
+	private Transform _nearestTargetT = null;
+	private Vector3 _nearestTargetTP = Vector3.zero;
 
 	private Transform _cachedTransform;
 	private Transform _cachedModelTransform;
@@ -52,7 +52,7 @@ public class UnitPathfinding : MonoBehaviour {
 		_movementStateActions.Add(EUnitMovementState.MoveToAttackPoint, MoveToAttackPoint);
 		_movementStateActions.Add(EUnitMovementState.WatchEnemy, WatchEnemy);
 		_movementStateActions.Add(EUnitMovementState.LookIntoSunset, LookForward);
-		_movementStateActions.Add(EUnitMovementState.WaklIntoSunset, MoveForward);
+		_movementStateActions.Add(EUnitMovementState.WalkIntoSunset, MoveForward);
 
 		_cachedTransform = transform;
 		_cachedModelTransform = _model.transform;
@@ -66,8 +66,8 @@ public class UnitPathfinding : MonoBehaviour {
 	}
 
 	public void Reset(bool full) {
+		_nearestTargetT = null;
 		_nearestTarget = null;
-		_nearestTargetBUB = null;
 		_onTargetReached = null;
 		StopAllCoroutines();
 
@@ -77,7 +77,7 @@ public class UnitPathfinding : MonoBehaviour {
 	}
 
 	private IEnumerator FindPathTimer() {
-		_gridObject.FindPath(_nearestTarget.gameObject.GetComponent<HCCGridObject>());
+		_gridObject.FindPath(_nearestTargetT.gameObject.GetComponent<HCCGridObject>());
 
 		yield return _cachedWaitForSeconds;
 		StartCoroutine(FindPathTimer());
@@ -87,8 +87,8 @@ public class UnitPathfinding : MonoBehaviour {
 		_possibleTargets = possibleTargets;
 
 		if (possibleTargets == null) {
+			_nearestTargetT = null;
 			_nearestTarget = null;
-			_nearestTargetBUB = null;
 			return;
 		}
 
@@ -110,9 +110,9 @@ public class UnitPathfinding : MonoBehaviour {
 		}
 
 		if (nearestTarget != null) {
-			_nearestTarget = nearestTarget.transform;
-			_nearestTargetBUB = nearestTarget;
-			_targetPosition = _nearestTarget.transform.position;
+			_nearestTargetT = nearestTarget.transform;
+			_nearestTarget = nearestTarget;
+			_nearestTargetTP = _nearestTargetT.transform.position;
 		} else {
 			Debug.LogWarning(string.Format("{0} \"{1}\" reporting: No target found!", gameObject.tag, gameObject.name));
 		}
@@ -124,23 +124,23 @@ public class UnitPathfinding : MonoBehaviour {
 	}
 
 	public void WalkIntoSunset() {
-		CurrentState = EUnitMovementState.WaklIntoSunset;
+		CurrentState = EUnitMovementState.WalkIntoSunset;
 		_model.PlayRunAnimation();
 	}
 
 	public void MoveToTarget(BaseUnitBehaviour self, ArrayRO<BaseUnitBehaviour> possibleTargets, Action<BaseUnitBehaviour> onTargetFound, Action<BaseUnitBehaviour> onTargetReached) {
 		Reset(false);
 
-		_minDistanceToTargetUnit = self.UnitData.AttackRange;
+		//_minDistanceToTargetUnit = self.UnitData.AR;
 		_onTargetReached = onTargetReached;
 
 		FindNearestTarget(possibleTargets);
-		if (_nearestTarget == null) {
+		if (_nearestTargetT == null) {
 			Reset(false);
 			CurrentState = EUnitMovementState.NoEnemy;
 			return;
 		}
-		onTargetFound(_nearestTarget.gameObject.GetComponent<BaseUnitBehaviour>());
+		onTargetFound(_nearestTargetT.gameObject.GetComponent<BaseUnitBehaviour>());
 
 		_model.PlayRunAnimation();
 
@@ -156,8 +156,8 @@ public class UnitPathfinding : MonoBehaviour {
 			//}
 			OnFreePointReached();
 		} else {
-			if (Vector3.Distance(_cachedTransform.position, _targetPosition) <= _minDistanceToTargetUnit) {
-				OnAttackPointReached(_nearestTargetBUB);
+			if (Vector3.Distance(_cachedTransform.position, _nearestTargetTP) <= _minDistanceToTargetUnit) {
+				OnAttackPointReached(_nearestTarget);
 			} else {
 				OnPreparationPointReached();
 			}
@@ -204,7 +204,8 @@ public class UnitPathfinding : MonoBehaviour {
 		}
 
 		if (_gridObject.Path.Count > 0) {
-			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
+			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, 
+                Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
 			//_cachedModelTransform.LookAt(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition));
 		}
 	}
@@ -213,10 +214,10 @@ public class UnitPathfinding : MonoBehaviour {
 		_freePointDirection = EHCCGridDirection.None;
 		_freePointDirectionVector = HCCGridPoint.Zero;
 
-		_targetPosition.z = transform.position.z;
-		_targetPosition.x = gameObject.CompareTag(GameConstants.Tags.UNIT_ALLY) ? FightManager.SceneInstance.AllyStartLine.position.x : FightManager.SceneInstance.EnemyStartLine.position.x;
+		_nearestTargetTP.z = transform.position.z;
+		_nearestTargetTP.x = gameObject.CompareTag(GameConstants.Tags.UNIT_ALLY) ? FightManager.SceneInstance.AllyStartLine.position.x : FightManager.SceneInstance.EnemyStartLine.position.x;
 
-		_gridObject.FindPath(_targetPosition, _gridObject);
+		_gridObject.FindPath(_nearestTargetTP, _gridObject);
 
 		CurrentState = EUnitMovementState.MoveToPrepPoint;
 	}
@@ -248,18 +249,19 @@ public class UnitPathfinding : MonoBehaviour {
 	}
 
 	private void MoveToAttackPoint() {
-		_targetPosition = _nearestTarget.position;
+		_nearestTargetTP = _nearestTargetT.position;
 
 		PerformMovement();
 		if (_gridObject.Path.Count > 0) {
-			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
+			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, 
+                Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
 			//_cachedModelTransform.LookAt(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition));
 		}
 
 		BaseUnitBehaviour nearestTargetInRange = GetNearestTargetInRange();
 		if (nearestTargetInRange != null) {
-			_nearestTarget = nearestTargetInRange.CachedTransform;
-			_nearestTargetBUB = nearestTargetInRange;
+			_nearestTargetT = nearestTargetInRange.CachedTransform;
+			_nearestTarget = nearestTargetInRange;
 			OnAttackPointReached(nearestTargetInRange);
 		}
 	}
@@ -277,7 +279,8 @@ public class UnitPathfinding : MonoBehaviour {
 	}
 
 	private void WatchEnemy() {
-		_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, Quaternion.LookRotation(_nearestTarget.transform.position - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
+		_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation,
+            Quaternion.LookRotation(_nearestTargetT.transform.position - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
 		//_cachedModelTransform.LookAt(_nearestTarget.transform);
 	}
 
@@ -311,6 +314,7 @@ public class UnitPathfinding : MonoBehaviour {
 	#endregion
 
 	#region auxiliary
+
 	private BaseUnitBehaviour GetNearestTargetInRange() {
 		for (int i = 0; i < _possibleTargets.Length; i++) {
 			if (_possibleTargets[i] != null && !_possibleTargets[i].UnitData.IsDead) {

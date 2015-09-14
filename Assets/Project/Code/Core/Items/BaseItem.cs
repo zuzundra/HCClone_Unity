@@ -34,40 +34,47 @@ public class BaseItem {
 	}
 
 	[SerializeField]
-	protected int _modArmor = 0;
-	public int ModArmor {
-		get { return _modArmor; }
-	}
-
-	[SerializeField]
 	protected int _modDamage = 0;
 	public int ModDamage {
 		get { return _modDamage; }
 	}
 
-	[SerializeField]
-	protected float _modDamageRange = 0;
-	public float ModDamageRange {
-		get { return _modDamageRange; }
-	}
+    //[SerializeField]
+    //protected float _modDamageRange = 0;
+    //public float ModDamageRange {
+    //    get { return _modDamageRange; }
+    //}
 
-	[SerializeField]
-	protected float _modDamageSpeed = 0;
-	public float ModDamageSpeed {
-		get { return _modDamageSpeed; }
-	}
+    //[SerializeField]
+    //protected float _modDamageSpeed = 0;
+    //public float ModDamageSpeed {
+    //    get { return _modDamageSpeed; }
+    //}
 
-	[SerializeField]
-	protected int _modCritChance = 0;
-	public int ModCritChance {
-		get { return _modCritChance; }
-	}
+    //[SerializeField]
+    //protected int _modArmor = 0;
+    //public int ModArmor {
+    //    get { return _modArmor; }
+    //}   
 
-	[SerializeField]
-	protected float _modCritDamageMultiplier = 0;
-	public float ModCritDamageMultiplier {
-		get { return _modCritDamageMultiplier; }
-	}
+    [SerializeField]
+    protected int _modReward = 0;
+    public int ModReward
+    {
+        get { return _modReward; }
+    }
+
+    //[SerializeField]
+    //protected int _modCritChance = 0;
+    //public int ModCritChance {
+    //    get { return _modCritChance; }
+    //}
+
+    //[SerializeField]
+    //protected float _modCritDamageMultiplier = 0;
+    //public float ModCritDamageMultiplier {
+    //    get { return _modCritDamageMultiplier; }
+    //}
 
 	[SerializeField]
 	protected int _levelRequirement = 1;

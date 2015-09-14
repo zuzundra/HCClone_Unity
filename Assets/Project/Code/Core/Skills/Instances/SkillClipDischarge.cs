@@ -23,10 +23,10 @@ public class SkillClipDischarge : BaseUnitSkill {
 			return;
 		}
 
-		//check target locked
-		if (caster.UnitPathfinder.CurrentState != EUnitMovementState.WatchEnemy) {
-			return;
-		}
+        //check target locked
+        if (caster.UnitAttack.State != EUnitAttackState.WatchTarget)
+        //if (caster.UnitPathfinder.CurrentState != EUnitMovementState.WatchEnemy)
+                return;
 
 		//check cooldown
 		if (_lastUsageTime != 0f && Time.time - _lastUsageTime < _skillParameters.CooldownTime) {

@@ -6,5 +6,5 @@
 	WatchEnemy,
 	NoEnemy,
 	LookIntoSunset,
-	WaklIntoSunset
+	WalkIntoSunset
 }

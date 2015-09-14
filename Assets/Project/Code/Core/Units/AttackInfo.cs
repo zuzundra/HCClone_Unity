@@ -5,14 +5,14 @@
 		set { _damageAmount = value; }
 	}
 
-	private bool _isCritical;
-	public bool IsCritical {
-		get { return _isCritical; }
-		set { _isCritical = value; }
-	}
+    //private bool _isCritical;
+    //public bool IsCritical {
+    //    get { return _isCritical; }
+    //    set { _isCritical = value; }
+    //}
 
-	public AttackInfo(int damageAmount, bool isCritical) {
+	public AttackInfo(int damageAmount) {//, bool isCritical) {
 		_damageAmount = damageAmount;
-		_isCritical = isCritical;
+		//_isCritical = isCritical;
 	}
 }

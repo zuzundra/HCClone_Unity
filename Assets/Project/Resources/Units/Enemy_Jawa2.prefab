@@ -90,6 +90,7 @@ GameObject:
   - 114: {fileID: 11433380}
   - 114: {fileID: 11433378}
   - 114: {fileID: 11433376}
+  - 114: {fileID: 11461504}
   m_Layer: 8
   m_Name: Enemy_Jawa2
   m_TagString: Untagged
@@ -333,8 +334,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitPathfinder: {fileID: 11433378}
+  _unitAttack: {fileID: 11461504}
   _model: {fileID: 11406820}
   _healthBarPosition: {x: 0, y: 1.20000005, z: 0}
+--- !u!114 &11461504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 133382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e2b8bf87ed6ae4281c8182c08a6b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11406820}
 --- !u!137 &13706820
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

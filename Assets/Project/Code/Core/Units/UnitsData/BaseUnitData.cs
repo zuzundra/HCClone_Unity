@@ -8,16 +8,10 @@ public abstract class BaseUnitData {
 		get { return _key; }
 	}
 
-	[SerializeField]
-	protected int _baseHealth = 0;	//base health amount (without upgrades)
-	public int BaseHealth {
-		get { return _baseHealth; }
-	}
-
-	[SerializeField]
-	protected int _baseArmor = 0;	//base armor amount (without upgrades)
-	public int BaseArmor {
-		get { return _baseArmor; }
+    [SerializeField]
+	private int _baseHealthPoints = 0;	//base health amount (without upgrades)
+	public int BaseHealthPoints {
+		get { return _baseHealthPoints; }
 	}
 
 	[SerializeField]
@@ -26,41 +20,61 @@ public abstract class BaseUnitData {
 		get { return _baseDamage; }
 	}
 
-	[SerializeField]
-	protected float _baseAttackRange = 1;	//base attack range (without upgrades)
-	public float BaseAttackRange {
-		get { return _baseAttackRange; }
-	}
+    [SerializeField]
+    protected EUnitRange _baseRange = EUnitRange.None;	//base attack range
+    public EUnitRange BaseRange
+    {
+        get { return _baseRange; }
+    }
 
-	[SerializeField]
-	protected float _baseAttackSpeed = 1;	//base attack speed (without upgrades)
-	public float BaseAttackSpeed {
-		get { return _baseAttackSpeed; }
-	}
+    [SerializeField]
+    protected EUnitRange _basePriority = EUnitRange.None;	//base priority range
+    public EUnitRange BasePriority
+    {
+        get { return _basePriority; }
+    }
 
-	[SerializeField]
-	protected int _baseCritChance = 0;	//base critical hit chance (without upgrades)
-	public int BaseCritChance {
-		get { return _baseCritChance; }
-	}
+    //[SerializeField]
+    //protected float _baseAR = 1;	//base attack range (without upgrades)
+    //public float BaseAR {
+    //    get { return _baseAR; }
+    //}
 
-	[SerializeField]
-	protected float _baseCritDamageMultiplier = 2f;	//base critical damage multiplier (without upgrades)
-	public float BaseCritDamageMultiplier {
-		get { return _baseCritDamageMultiplier; }
-	}
+    //[SerializeField]
+    //protected float _baseAttackSpeed = 1;	//base attack speed (without upgrades)
+    //public float BaseAttackSpeed {
+    //    get { return _baseAttackSpeed; }
+    //}
 
-	[SerializeField]
-	protected float _aggroCrystalsForDeathToEnemy = 0;	//amount of aggro crystals unit gives to enemies after death
-	public float AggroCrystalsForDeathToEnemy {
-		get { return _aggroCrystalsForDeathToEnemy; }
-	}
+    //[SerializeField]
+    //protected int _baseArmor = 0;	//base armor amount (without upgrades)
+    //public int BaseArmor {
+    //    get { return _baseArmor; }
+    //}
 
-	[SerializeField]
-	protected float _aggroCrystalsForDeathToAlly = 0;	//amount of aggro crystals unit gives to allies after death
-	public float AggroCrystalsForDeathToAlly {
-		get { return _aggroCrystalsForDeathToAlly; }
-	}
+    //[SerializeField]
+    //protected float _agroCrystalsDeath = 0;	//amount of aggro crystals unit gives to enemies after death
+    //public float AgroCrystalsDeath {
+    //    get { return _agroCrystalsDeath; }
+    //}
+
+    //[SerializeField]
+    //protected float _aggroCrystalsForDeathToAlly = 0;	//amount of aggro crystals unit gives to allies after death
+    //public float AggroCrystalsForDeathToAlly {
+    //    get { return _aggroCrystalsForDeathToAlly; }
+    //}
+
+    //[SerializeField]
+    //protected int _baseCritChance = 0;	//base critical hit chance (without upgrades)
+    //public int BaseCritChance {
+    //    get { return _baseCritChance; }
+    //}
+
+    //[SerializeField]
+    //protected float _baseCritDamageMultiplier = 2f;	//base critical damage multiplier (without upgrades)
+    //public float BaseCritDamageMultiplier {
+    //    get { return _baseCritDamageMultiplier; }
+    //}
 
 	[SerializeField]
 	protected ItemSlot[] _baseEquipment = null;

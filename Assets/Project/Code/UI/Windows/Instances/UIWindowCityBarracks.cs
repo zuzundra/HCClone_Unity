@@ -109,10 +109,10 @@ public class UIWindowCityBarracks : UIWindow {
 		_lblUnitName.text = _unitImages[index].UnitData.Key.ToString();
 
 		//TODO: set correct data (including ammunition and level-ups)
-		_lblParamHealth.text = _unitImages[index].UnitData.BaseHealth.ToString();
+		_lblParamHealth.text = _unitImages[index].UnitData.BaseHealthPoints.ToString();
 		_lblParamDamage.text = _unitImages[index].UnitData.BaseDamage.ToString();
-		_lblParamSpeed.text = _unitImages[index].UnitData.BaseAttackSpeed.ToString();
-		_lblParamRange.text = _unitImages[index].UnitData.BaseAttackRange.ToString();
+        _lblParamSpeed.text = "No speed";//_unitImages[index].UnitData.BaseAttackSpeed.ToString();
+		_lblParamRange.text = _unitImages[index].UnitData.BaseRange.ToString();//BaseAR.ToString();
 
 		_imgHexUnit.sprite = GetHexagonalIconResource(_unitImages[index].UnitData.HexIconName);
 	}
