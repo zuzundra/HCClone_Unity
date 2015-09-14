@@ -59,9 +59,9 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	public float DistanceToTarget {
 		get { return _targetUnit != null ? Vector3.Distance(_cachedTransform.position, _targetUnit.CachedTransform.position) : 0f; }
 	}
-	public bool TargetInRange {
-		get { return _targetUnit != null && DistanceToTarget <= _unitData.AR; }
-	}
+    //public bool TargetInRange {
+    //    get { return _targetUnit != null && DistanceToTarget <= _unitData.AR; }
+    //}
 	
 	private Dictionary<ESkillKey, BaseUnitSkill> _skills;
 	public bool CastingSkill { get; set; }
@@ -124,8 +124,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		_unitData = unitData;
 		gameObject.tag = tag;
 		_isAlly = gameObject.CompareTag(GameConstants.Tags.UNIT_ALLY);
-		
-		_attackTime = 1f / unitData.AttackSpeed;
+
+        _attackTime = FightManager.SceneInstance.AttackInterval;// 1f / unitData.AttackSpeed;
 		_cachedWaitForSeconds = new WaitForSeconds(_attackTime - _model.ShootPositionTimeOffset);
 		
 		_skills = skills != null ? skills : new Dictionary<ESkillKey, BaseUnitSkill>();
@@ -275,11 +275,12 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	}
 	
 	private void OnMapEnd() {
-		for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++) {
+        for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++)
+        {
 			UnitData.ActiveSkills.ActiveSkills[i].Break();
 		}
-		
-		if (IsInvoking("Run")) {
+        if (IsInvoking("Run"))
+        {
 			CancelInvoke("Run");
 		}		
 		StopTargetAttack(true);
@@ -377,11 +378,11 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
                     return -1;
                 else
                 {
-                    if (UnitData.Range == unitBehaviour.UnitData.Range)
+                    if (UnitData.Data.BaseRange == unitBehaviour.UnitData.Data.BaseRange)
                     {
                         return UnitData.HealthPoints.CompareTo(unitBehaviour.UnitData.HealthPoints);
                     }
-                    else if (UnitData.Range == EUnitRange.Melee)
+                    else if (UnitData.Data.BaseRange == EUnitRange.Melee)
                         return 1;
                     else
                         return -1;

@@ -131,7 +131,7 @@ public class UnitPathfinding : MonoBehaviour {
 	public void MoveToTarget(BaseUnitBehaviour self, ArrayRO<BaseUnitBehaviour> possibleTargets, Action<BaseUnitBehaviour> onTargetFound, Action<BaseUnitBehaviour> onTargetReached) {
 		Reset(false);
 
-		_minDistanceToTargetUnit = self.UnitData.AR;
+		//_minDistanceToTargetUnit = self.UnitData.AR;
 		_onTargetReached = onTargetReached;
 
 		FindNearestTarget(possibleTargets);
@@ -204,7 +204,8 @@ public class UnitPathfinding : MonoBehaviour {
 		}
 
 		if (_gridObject.Path.Count > 0) {
-			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
+			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, 
+                Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
 			//_cachedModelTransform.LookAt(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition));
 		}
 	}
@@ -252,7 +253,8 @@ public class UnitPathfinding : MonoBehaviour {
 
 		PerformMovement();
 		if (_gridObject.Path.Count > 0) {
-			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
+			_cachedModelTransform.localRotation = Quaternion.Lerp(_cachedModelTransform.localRotation, 
+                Quaternion.LookRotation(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition) - _cachedTransform.position), _rotationSpeed * Time.deltaTime);
 			//_cachedModelTransform.LookAt(HCCGridController.Instance.GridView.GridToWorldPos(_gridObject.Path[0].GridPosition));
 		}
 

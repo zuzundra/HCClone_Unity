@@ -39,7 +39,7 @@ public class HCCGridView : MonoBehaviourResourceSingleton<HCCGridView> {
 
 	public void LateUpdate() {
 #if UNITY_EDITOR
-		DrawMap();
+		//DrawMap();
 #endif
 	}
 

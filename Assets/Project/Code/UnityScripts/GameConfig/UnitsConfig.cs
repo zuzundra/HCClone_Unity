@@ -11,11 +11,11 @@ public class UnitsConfig : MonoBehaviourResourceSingleton<UnitsConfig> {
 		get { return _maxUnitsHeroCanHire; }
 	}
 
-	[SerializeField]
-	private float _damageReducePerOneArmor = 0f;
-	public float DamageReducePerOneArmor {
-		get { return _damageReducePerOneArmor; }
-	}
+    //[SerializeField]
+    //private float _damageReducePerOneArmor = 0f;
+    //public float DamageReducePerOneArmor {
+    //    get { return _damageReducePerOneArmor; }
+    //}
 
 	[SerializeField]
 	private EUnitEqupmentSlot[] _heroEquipmentSlots = new EUnitEqupmentSlot[0];

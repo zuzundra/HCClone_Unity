@@ -69,14 +69,14 @@ public class UnitSet
                 }
                 else
                 {
-                    if (unit.UnitData.Range == EUnitRange.Ranged)
+                    if (unit.UnitData.Data.BaseRange == EUnitRange.Ranged)
                     {
                         if (remoteUnits.Count < 3)
                             remoteUnits.Add(unit);
                         else if (nearUnits.Count < 3)
                             nearUnits.Add(unit);
                     }
-                    else if (unit.UnitData.Range == EUnitRange.Melee)
+                    else if (unit.UnitData.Data.BaseRange == EUnitRange.Melee)
                     {
                         if (nearUnits.Count < 3)
                             nearUnits.Add(unit);

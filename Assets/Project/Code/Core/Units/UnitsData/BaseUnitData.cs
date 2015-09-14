@@ -34,47 +34,47 @@ public abstract class BaseUnitData {
         get { return _basePriority; }
     }
 
-	[SerializeField]
-	protected float _baseAR = 1;	//base attack range (without upgrades)
-	public float BaseAR {
-		get { return _baseAR; }
-	}
+    //[SerializeField]
+    //protected float _baseAR = 1;	//base attack range (without upgrades)
+    //public float BaseAR {
+    //    get { return _baseAR; }
+    //}
 
-	[SerializeField]
-	protected float _baseAttackSpeed = 1;	//base attack speed (without upgrades)
-	public float BaseAttackSpeed {
-		get { return _baseAttackSpeed; }
-	}
+    //[SerializeField]
+    //protected float _baseAttackSpeed = 1;	//base attack speed (without upgrades)
+    //public float BaseAttackSpeed {
+    //    get { return _baseAttackSpeed; }
+    //}
 
-	[SerializeField]
-	protected int _baseArmor = 0;	//base armor amount (without upgrades)
-	public int BaseArmor {
-		get { return _baseArmor; }
-	}
+    //[SerializeField]
+    //protected int _baseArmor = 0;	//base armor amount (without upgrades)
+    //public int BaseArmor {
+    //    get { return _baseArmor; }
+    //}
 
-	[SerializeField]
-	protected int _baseCritChance = 0;	//base critical hit chance (without upgrades)
-	public int BaseCritChance {
-		get { return _baseCritChance; }
-	}
+    //[SerializeField]
+    //protected float _agroCrystalsDeath = 0;	//amount of aggro crystals unit gives to enemies after death
+    //public float AgroCrystalsDeath {
+    //    get { return _agroCrystalsDeath; }
+    //}
 
-	[SerializeField]
-	protected float _baseCritDamageMultiplier = 2f;	//base critical damage multiplier (without upgrades)
-	public float BaseCritDamageMultiplier {
-		get { return _baseCritDamageMultiplier; }
-	}
+    //[SerializeField]
+    //protected float _aggroCrystalsForDeathToAlly = 0;	//amount of aggro crystals unit gives to allies after death
+    //public float AggroCrystalsForDeathToAlly {
+    //    get { return _aggroCrystalsForDeathToAlly; }
+    //}
 
-	[SerializeField]
-	protected float _aggroCrystalsForDeathToEnemy = 0;	//amount of aggro crystals unit gives to enemies after death
-	public float AggroCrystalsForDeathToEnemy {
-		get { return _aggroCrystalsForDeathToEnemy; }
-	}
+    //[SerializeField]
+    //protected int _baseCritChance = 0;	//base critical hit chance (without upgrades)
+    //public int BaseCritChance {
+    //    get { return _baseCritChance; }
+    //}
 
-	[SerializeField]
-	protected float _aggroCrystalsForDeathToAlly = 0;	//amount of aggro crystals unit gives to allies after death
-	public float AggroCrystalsForDeathToAlly {
-		get { return _aggroCrystalsForDeathToAlly; }
-	}
+    //[SerializeField]
+    //protected float _baseCritDamageMultiplier = 2f;	//base critical damage multiplier (without upgrades)
+    //public float BaseCritDamageMultiplier {
+    //    get { return _baseCritDamageMultiplier; }
+    //}
 
 	[SerializeField]
 	protected ItemSlot[] _baseEquipment = null;

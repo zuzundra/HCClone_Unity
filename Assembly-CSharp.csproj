@@ -135,6 +135,7 @@
      <Compile Include="Assets\Project\Code\Core\Player\PlayerVIP.cs" />
      <Compile Include="Assets\Project\Code\Core\Player\Utils\PlayerBuildingConstructor.cs" />
      <Compile Include="Assets\Project\Code\Core\Player\Utils\PlayerFuelRefresher.cs" />
+     <Compile Include="Assets\Project\Code\Core\Skills\BaseUnit.cs" />
      <Compile Include="Assets\Project\Code\Core\Skills\BaseUnitSkill.cs" />
      <Compile Include="Assets\Project\Code\Core\Skills\HeroUniqueSkillsData.cs" />
      <Compile Include="Assets\Project\Code\Core\Skills\Instances\SkillClipDischarge.cs" />
@@ -147,9 +148,9 @@
      <Compile Include="Assets\Project\Code\Core\Units\UnitActiveSkills.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\BaseHero.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\BaseSoldier.cs" />
-     <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\BaseUnit.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\UnitKeys.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\UnitRange.cs" />
+     <Compile Include="Assets\Project\Code\Core\Units\UnitsCore\UnitRarity.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsData\BaseHeroData.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsData\BaseSoldierData.cs" />
      <Compile Include="Assets\Project\Code\Core\Units\UnitsData\BaseUnitData.cs" />

@@ -97,12 +97,11 @@ public class BaseHero : BaseUnit {
 		if (unit == this) {
 			return;
 		}
-
-		AggroCrystals += unit.Data.AggroCrystalsForDeathToAlly;
-	}
+        //AggroCrystals += unit.Data.AggroCrystalsForDeathToAlly;
+    }
 
 	protected void OnEnemyDeath(BaseUnit unit) {
-		AggroCrystals += unit.Data.AggroCrystalsForDeathToEnemy;
+        //AggroCrystals += unit.Data.AggroCrystalsForDeathToEnemy;
 	}
 	#endregion
 }

@@ -2,6 +2,12 @@
 
 [System.Serializable]
 public class BaseSoldierData : BaseUnitData {
+    [SerializeField]
+    protected EUnitRarity _rarity = EUnitRarity.Usual; //unit rarity
+    public EUnitRarity Rarity
+    {
+        get { return _rarity; }
+    }
 
 	[SerializeField]
 	protected int _leadershipCost = 0;	//how much leadership hero must have to hire the soldier
@@ -9,10 +15,16 @@ public class BaseSoldierData : BaseUnitData {
 		get { return _leadershipCost; }
 	}
 
-	//TODO: maybe credits cost will be recalculated on unit upgrade
 	[SerializeField]
-	protected int _creditsCost = 0;	//price in credits
-	public int CreditsCost {
-		get { return _creditsCost; }
+	protected int _npcReward = 0;
+	public int NpcReward {
+		get { return _npcReward; }
 	}
+
+    [SerializeField]
+    protected int _agroCost = 0;
+    public int AgroCost
+    {
+        get { return _agroCost; }
+    }
 }
