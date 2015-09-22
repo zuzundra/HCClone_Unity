@@ -22,12 +22,12 @@ public class UIMainMenu : MonoBehaviour {
 	[SerializeField]
 	private Text _lblFuel;
 
-	public void Awake() {
-		float widthRatio = 1f * Screen.width / 1048;
-		float heightRatio = 1f * Screen.height / 540;
+	//public void Awake() {
+	//	float widthRatio = 1f * Screen.width / 1048;
+	//	float heightRatio = 1f * Screen.height / 540;
 
-		gameObject.GetComponent<CanvasScaler>().scaleFactor = Mathf.Min(widthRatio, heightRatio);
-	}
+	//	gameObject.GetComponent<CanvasScaler>().scaleFactor = Mathf.Min(widthRatio, heightRatio);
+	//}
 
 	public void Start() {
 		Global.Instance.Initialize();
