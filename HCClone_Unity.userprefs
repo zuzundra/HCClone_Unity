@@ -1,7 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Project\Code\UI\Fight\UIFight.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\AndroidImmersiveMode\Instructions\Instructions.txt">
     <Files>
+      <File FileName="Assets\Project\Code\UI\MainMenu\UIMainMenu.cs" Line="15" Column="18" />
+      <File FileName="Assets\Puppet2D\Scripts\Puppet2D_SkinnedVertices.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Code\UI\Fight\UIFight.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Code\UnityScripts\Units\UnitModels\SoldierScoutModelView.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Code\UI\Windows\Instances\UIWindowPvPBattleSetup.cs" Line="1" Column="1" />
@@ -10,6 +12,7 @@
       <File FileName="Assets\Project\Code\UnityScripts\Particles\TracerParticleController.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Code\UnityScripts\Units\BaseUnitBehaviour.cs" Line="1" Column="1" />
       <File FileName="Assets\123.cs" Line="1" Column="1" />
+      <File FileName="Assets\AndroidImmersiveMode\Instructions\Instructions.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
