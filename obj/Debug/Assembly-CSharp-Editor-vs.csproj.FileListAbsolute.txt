@@ -16,4 +16,3 @@ D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\ICSharpCode.NRe
 D:\Оля\My works\Star Wars\Github\HCClone_Unity\obj\Debug\ResolveAssemblyReference.cache
 D:\Оля\My works\Star Wars\Github\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Оля\My works\Star Wars\Github\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor.pdb
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Assembly-CSharp.pdb
