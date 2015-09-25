@@ -136,25 +136,45 @@ public class UnitSet
         }
     }
 
-    public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour currentUnit, BaseUnitBehaviour lastAttackUnit)
+    public BaseUnitBehaviour GetFirstAttackUnit(BaseUnitBehaviour unit)
     {
-        BaseUnitBehaviour nextAttackUnit = null;
-        if (lastAttackUnit != null)
-        {
-            nextAttackUnit = lastAttackUnit.NextAttackUnit;
-            while (nextAttackUnit != null)
-            {
-                if (!nextAttackUnit.UnitData.IsDead)
-                    return nextAttackUnit;
-                nextAttackUnit = nextAttackUnit.NextAttackUnit;
-            }
-        }
-        if (nextAttackUnit == null)
-        {
-            nextAttackUnit = currentUnit;
-            while (nextAttackUnit.PrevAttackUnit != null && !nextAttackUnit.PrevAttackUnit.UnitData.IsDead)
-                nextAttackUnit = nextAttackUnit.PrevAttackUnit;
-        }
-        return nextAttackUnit;
+        BaseUnitBehaviour first = unit;
+        while (first.PrevAttackUnit != null && !first.PrevAttackUnit.UnitData.IsDead)
+            first = first.PrevAttackUnit;
+        return first;
     }
+
+    public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour last)
+    {
+        BaseUnitBehaviour next = last.NextAttackUnit;
+        while (next != null)
+        {
+            if (!next.UnitData.IsDead)
+                return next;
+            next = next.NextAttackUnit;
+        }
+        return next;
+    }
+
+    //public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour currentUnit, BaseUnitBehaviour lastAttackUnit)
+    //{
+    //    BaseUnitBehaviour nextAttackUnit = null;
+    //    if (lastAttackUnit != null)
+    //    {
+    //        nextAttackUnit = lastAttackUnit.NextAttackUnit;
+    //        while (nextAttackUnit != null)
+    //        {
+    //            if (!nextAttackUnit.UnitData.IsDead)
+    //                return nextAttackUnit;
+    //            nextAttackUnit = nextAttackUnit.NextAttackUnit;
+    //        }
+    //    }
+    //    if (nextAttackUnit == null)
+    //    {
+    //        nextAttackUnit = currentUnit;
+    //        while (nextAttackUnit.PrevAttackUnit != null && !nextAttackUnit.PrevAttackUnit.UnitData.IsDead)
+    //            nextAttackUnit = nextAttackUnit.PrevAttackUnit;
+    //    }
+    //    return nextAttackUnit;
+    //}
 }
