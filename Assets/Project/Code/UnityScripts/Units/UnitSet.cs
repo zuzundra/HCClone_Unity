@@ -41,9 +41,16 @@ public class UnitSet
         float yMax = height / 2;
         float delta = (xMax - xMin) / 12;
 
+        List<BaseUnitBehaviour> thirdUnits = rangeUnits[SecondZoneIndex];
+        List<BaseUnitBehaviour> secondUnits = rangeUnits[ThirdZoneIndex];
         SetZonePositions(rangeUnits[FirstZoneIndex], isAlly ? xMin + delta : xMax - delta, yMin, yMax);
-        SetZonePositions(rangeUnits[SecondZoneIndex], isAlly ? xMin + delta * 3 : xMax - delta * 3, yMin, yMax);
-        SetZonePositions(rangeUnits[ThirdZoneIndex], isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
+        SetZonePositions(secondUnits, isAlly ? xMin + delta * 3 : xMax - delta * 3, yMin, yMax);
+        SetZonePositions(thirdUnits, isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
+        if (thirdUnits.Count != 0 && secondUnits.Count != 0)
+        {
+            thirdUnits[thirdUnits.Count - 1].NextAttackUnit = secondUnits[0];
+            secondUnits[0].PrevAttackUnit = thirdUnits[thirdUnits.Count - 1];
+        }
     }
 
     public List<BaseUnitBehaviour>[] GetRangeUnits(ArrayRO<BaseUnitBehaviour> units)
@@ -94,6 +101,14 @@ public class UnitSet
         if (units.Count == 0)
             return;
         units.Sort();
+        for (int i = 0; i < units.Count; i++)
+        {
+            if (i < units.Count - 1)
+            {
+                units[i].NextAttackUnit = units[i + 1];
+                units[i + 1].PrevAttackUnit = units[i];
+            }
+        }
         if (units.Count > 3)
         {
             units = units.GetRange(0, 3);
@@ -119,6 +134,27 @@ public class UnitSet
                 thirdUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
             } 
         }
+    }
 
+    public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour currentUnit, BaseUnitBehaviour lastAttackUnit)
+    {
+        BaseUnitBehaviour nextAttackUnit = null;
+        if (lastAttackUnit != null)
+        {
+            nextAttackUnit = lastAttackUnit.NextAttackUnit;
+            while (nextAttackUnit != null)
+            {
+                if (!nextAttackUnit.UnitData.IsDead)
+                    return nextAttackUnit;
+                nextAttackUnit = nextAttackUnit.NextAttackUnit;
+            }
+        }
+        if (nextAttackUnit == null)
+        {
+            nextAttackUnit = currentUnit;
+            while (nextAttackUnit.PrevAttackUnit != null && !nextAttackUnit.PrevAttackUnit.UnitData.IsDead)
+                nextAttackUnit = nextAttackUnit.PrevAttackUnit;
+        }
+        return nextAttackUnit;
     }
 }
