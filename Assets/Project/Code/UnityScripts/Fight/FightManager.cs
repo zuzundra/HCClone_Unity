@@ -56,13 +56,6 @@ public class FightManager : MonoBehaviour {
 		get { return _ui; }
 	}
 
-    [SerializeField]
-    private float _attackInterval = 2f;
-    public float AttackInterval
-    {
-        get { return _attackInterval; }
-    }
-
 	private EFightStatus _status = EFightStatus.None;
 	public EFightStatus Status {
 		get { return _status; }
@@ -86,9 +79,15 @@ public class FightManager : MonoBehaviour {
 		get { return _graphics.EnemyUnits; }
 	}
 
+    [SerializeField]
+    private float _attackInterval = 2f;
+    public float AttackInterval
+    {
+        get { return _attackInterval; }
+    }
+
 	private int _alliesCount = 0;
 	private int _enemiesCount = 0;
-
 	private int _rtfUnitsAmount = 0;
 
 	private EFightPreparationStep _fightPreparationStep = EFightPreparationStep.None;
@@ -96,7 +95,8 @@ public class FightManager : MonoBehaviour {
 	public void Awake() {
 		_sceneInstance = this;
 
-		HCCGridController.Instance.Initialize((int)(-HCCGridView.Instance.ZeroPoint.x / HCCGridView.Instance.TileSize) * 2, (int)(-HCCGridView.Instance.ZeroPoint.z / HCCGridView.Instance.TileSize) * 2);
+		HCCGridController.Instance.Initialize((int)(-HCCGridView.Instance.ZeroPoint.x / HCCGridView.Instance.TileSize) * 2, 
+            (int)(-HCCGridView.Instance.ZeroPoint.z / HCCGridView.Instance.TileSize) * 2);
 
 		EventsAggregator.Units.AddListener<BaseUnitBehaviour>(EUnitEvent.ReadyToFight, OnUnitReadyToFight);
 		EventsAggregator.Fight.AddListener<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, OnUnitAttack);
@@ -324,8 +324,8 @@ public class FightManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region dialogues
-	private IEnumerator PlayFightDialog() {
+    #region dialogues
+    private IEnumerator PlayFightDialog() {
 		LoadingScreen.Instance.SetProgress(1f);
 
 		while (_rtfUnitsAmount < _alliesCount + _enemiesCount) {

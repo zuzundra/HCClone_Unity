@@ -32,7 +32,8 @@ public class FightLogger {
 		GetAttacksList(attacker).Add(new UnitDamageInfo(attacker.UnitData.Data.Key, target.UnitData.Data.Key, attacker.UnitData.Damage));
 
 		//WARNING! temp info
-		Debug.Log(attacker.gameObject.tag + " unit " + attacker.UnitData.Data.Key + " attacks " + target.UnitData.Data.Key + " for " + attacker.UnitData.Damage + " damage");
+		Debug.Log(attacker.gameObject.tag + " unit " + attacker.UnitData.Data.Key + " (" + attacker.name
+            + ") attacks " + target.UnitData.Data.Key + " for " + attacker.UnitData.Damage + " damage");
 	}
 
 	public string ToJSON() {

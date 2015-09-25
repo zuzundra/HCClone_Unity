@@ -42,11 +42,20 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	public bool IsAlly {
 		get { return _isAlly; }
 	}
+
+    public BaseUnitBehaviour NextAttackUnit { get; set; }
+    public BaseUnitBehaviour PrevAttackUnit { get; set; }
 	
 	private float _attackTime = 0f;
 	
 	private WaitForSeconds _cachedWaitForSeconds;
-	private float _lastAttackTime = 0f;
+	//private float _lastAttackTime = 0f;
+    private static float _lastAllyAttackTime = 0f;
+    private static float _lastEnemyAttackTime = 0f;
+
+    private static BaseUnitBehaviour _lastAllyAttackUnit = null;
+    private static BaseUnitBehaviour _lastEnemyAttackUnit = null;
+
 	private Coroutine _corTargetAttack;
 	
 	private Transform _cachedTransform = null;
@@ -54,8 +63,6 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		get { return _cachedTransform; }
 	}
 
-    private Vector3 _destinationPosition = Vector3.zero;
-	
 	public float DistanceToTarget {
 		get { return _targetUnit != null ? Vector3.Distance(_cachedTransform.position, _targetUnit.CachedTransform.position) : 0f; }
 	}
@@ -205,22 +212,34 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	}
 	
 	public void StartTargetAttack() {
-		if (CastingSkill) {
+		if (UnitsConfig.Instance.IsHero(UnitData.Data.Key) || CastingSkill) {
 			return;
 		}
-		
-		if (_lastAttackTime != 0f && Time.time - _lastAttackTime < _attackTime) {
+        BaseUnitBehaviour nextAttackUnit = UnitSet.Instance.GetNextAttackUnit(this, IsAlly ? _lastAllyAttackUnit : _lastEnemyAttackUnit);
+        float lastAttackTime = IsAlly ? _lastAllyAttackTime : _lastEnemyAttackTime;
+        if (lastAttackTime != 0f && Time.time - lastAttackTime < _attackTime || nextAttackUnit != null && !nextAttackUnit.Equals(this))
+        {
 			_model.PlayAttackAnimation(0);
 			_model.StopCurrentAnimation();
-			Invoke("StartTargetAttack", _attackTime - (Time.time - _lastAttackTime));
-		} else {
+			Invoke("StartTargetAttack", _attackTime - (Time.time - lastAttackTime));
+		} 
+        else 
 			_corTargetAttack = StartCoroutine(AttackTarget());
-		}
 	}
 	
 	public void StopTargetAttack(bool resetAttackTimer) {
 		if (resetAttackTimer) {
-			_lastAttackTime = 0f;
+			//_lastAttackTime = 0f;
+            if (IsAlly)
+            {
+                _lastAllyAttackUnit = null;
+                _lastAllyAttackTime = 0f;
+            }
+            else
+            {
+                _lastEnemyAttackUnit = null;
+                _lastEnemyAttackTime = 0f;
+            }
 		}
 		if (IsInvoking("StartTargetAttack")) {
 			CancelInvoke("StartTargetAttack");
@@ -264,7 +283,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			CancelInvoke("Run");
 		}
 		
-		StopTargetAttack(true);
+		StopTargetAttack(false);//(true);
 		_targetUnit = null;
         _unitAttack.Reset(true);
 		//_unitPathfinder.Reset(true);
@@ -296,8 +315,17 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	}
 	
 	private IEnumerator AttackTarget() {
-		_lastAttackTime = Time.time;
-		
+		//_lastAttackTime = Time.time;
+        if (IsAlly)
+        {
+            _lastAllyAttackUnit = this;
+            _lastAllyAttackTime = Time.time;
+        }
+        else
+        {
+            _lastEnemyAttackUnit = this;
+            _lastEnemyAttackTime = Time.time;
+        }		
 		_model.PlayAttackAnimation(DistanceToTarget);
 		
 		if (_model.WFSAttackDelay != null) {
