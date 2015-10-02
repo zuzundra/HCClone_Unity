@@ -278,10 +278,10 @@ public class UnitModelView : MonoBehaviour {
 	}
 
 	private IEnumerator PlayAttackAnimationInternal(float distanceToTarget) {
-		if (_wfsAttackDelay != null) {
+        if (_wfsAttackDelay != null)
+        {
 			yield return _wfsAttackDelay;
 		}
-
 		distanceToTarget -= _weaponStanceOffset;
 		if (_weaponViewRH != null) {
 			_weaponViewRH.PlayShot(distanceToTarget);

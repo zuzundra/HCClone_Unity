@@ -136,15 +136,41 @@ public class UnitSet
         }
     }
 
-    public BaseUnitBehaviour GetFirstAttackUnit(BaseUnitBehaviour unit)
+    public BaseUnitBehaviour GetAttackUnit(BaseUnitBehaviour lastAttackUnit)
     {
-        BaseUnitBehaviour first = unit;
+        BaseUnitBehaviour attackUnit = null;
+        if (lastAttackUnit != null)
+        {
+            attackUnit = GetNextAttackUnit(lastAttackUnit);
+            if (attackUnit == null)
+            {
+                attackUnit = GetFirstAttackUnit(!lastAttackUnit.IsAlly);
+            }
+        }
+        else
+        {
+            attackUnit = GetFirstAttackUnit(true);
+        }
+        return attackUnit;
+    }
+
+    BaseUnitBehaviour GetFirstAttackUnit(bool isAlly)
+    {
+        BaseUnitBehaviour first = null;
+        ArrayRO<BaseUnitBehaviour> units = isAlly ? FightManager.SceneInstance.AllyUnits 
+            : FightManager.SceneInstance.EnemyUnits;
+        for (int i = 0; i < units.Length; i++ )
+            if (units[i] != null && !units[i].UnitData.IsDead
+                && !UnitsConfig.Instance.IsHero(units[i].UnitData.Data.Key))
+                first = units[i];
+        if (first == null)
+            return null;
         while (first.PrevAttackUnit != null && !first.PrevAttackUnit.UnitData.IsDead)
             first = first.PrevAttackUnit;
         return first;
     }
 
-    public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour last)
+    BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour last)
     {
         BaseUnitBehaviour next = last.NextAttackUnit;
         while (next != null)
@@ -155,26 +181,4 @@ public class UnitSet
         }
         return next;
     }
-
-    //public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour currentUnit, BaseUnitBehaviour lastAttackUnit)
-    //{
-    //    BaseUnitBehaviour nextAttackUnit = null;
-    //    if (lastAttackUnit != null)
-    //    {
-    //        nextAttackUnit = lastAttackUnit.NextAttackUnit;
-    //        while (nextAttackUnit != null)
-    //        {
-    //            if (!nextAttackUnit.UnitData.IsDead)
-    //                return nextAttackUnit;
-    //            nextAttackUnit = nextAttackUnit.NextAttackUnit;
-    //        }
-    //    }
-    //    if (nextAttackUnit == null)
-    //    {
-    //        nextAttackUnit = currentUnit;
-    //        while (nextAttackUnit.PrevAttackUnit != null && !nextAttackUnit.PrevAttackUnit.UnitData.IsDead)
-    //            nextAttackUnit = nextAttackUnit.PrevAttackUnit;
-    //    }
-    //    return nextAttackUnit;
-    //}
 }

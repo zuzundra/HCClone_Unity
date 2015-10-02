@@ -5,6 +5,7 @@
     NoAttack,
     WatchTarget,
     AttackTarget,
+    DefineTarget,
     LookIntoSunset,
     WalkIntoSunset
 }

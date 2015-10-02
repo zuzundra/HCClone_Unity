@@ -49,10 +49,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	private float _attackTime = 0f;
 	
 	private WaitForSeconds _cachedWaitForSeconds;
-    private static float _lastAttackTime = 0f;
-
-    private static BaseUnitBehaviour _lastAllyAttackUnit = null;
-    private static BaseUnitBehaviour _lastEnemyAttackUnit = null;
+    private float _lastAttackTime = 0f;
 
 	private Coroutine _corTargetAttack;
 	
@@ -171,7 +168,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		//_unitPathfinder.Reset(true);
 		
 		if (IsInvoking("Run")) {
-			CancelInvoke("Run");
+            CancelInvoke("Run");
 		}
 		Invoke("Run", duration);
 	}
@@ -181,11 +178,16 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			_onStart += Run;
 			return;
 		}
-        _unitAttack.TargetAttack(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
-            OnTargetFound, OnTargetReached);
-        //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
-        //    OnTargetFound, OnTargetReached);
+        FindTarget();
 	}
+
+    public void FindTarget()
+    {
+        _unitAttack.FindTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
+            OnTargetFound, OnTargetAttack);
+        //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
+        //    OnTargetFound, OnTargetReached); 
+    }
 
     public void SetPosition(Vector3 position)
     {
@@ -208,40 +210,18 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			_skills[skillKey].Use(this);
 		}
 	}
-	
-	public void StartTargetAttack() {
-		if (UnitsConfig.Instance.IsHero(UnitData.Data.Key) || CastingSkill) {
-			return;
-		}
-        BaseUnitBehaviour nextAttackUnit = null;
-        if (_lastAllyAttackUnit != null)
-        {
-            nextAttackUnit = UnitSet.Instance.GetNextAttackUnit(_lastAllyAttackUnit);
-            if (nextAttackUnit == null && !IsAlly)
-            {
-                nextAttackUnit = UnitSet.Instance.GetFirstAttackUnit(this);                    
-            }
-        }
-        else if (_lastEnemyAttackUnit != null)
-        {
-            nextAttackUnit = UnitSet.Instance.GetNextAttackUnit(_lastEnemyAttackUnit);
-            if (nextAttackUnit == null && IsAlly)
-            {
-                nextAttackUnit = UnitSet.Instance.GetFirstAttackUnit(this);
-            }
-        }
-        else
-            nextAttackUnit = UnitSet.Instance.GetFirstAttackUnit(this);
 
-        if (_lastAttackTime != 0f && Time.time - _lastAttackTime < _attackTime || nextAttackUnit != null && !nextAttackUnit.Equals(this))
+    public void StartTargetAttack()
+    {
+        if (UnitsConfig.Instance.IsHero(UnitData.Data.Key) || CastingSkill)
         {
-			_model.PlayAttackAnimation(0);
-			_model.StopCurrentAnimation();
-			Invoke("StartTargetAttack", _attackTime - (Time.time - _lastAttackTime));
-		} 
-        else 
-			_corTargetAttack = StartCoroutine(AttackTarget());
-	}
+            return;
+        }
+        if (_lastAttackTime == 0f || Time.time - _lastAttackTime > _attackTime)
+        {
+            _corTargetAttack = StartCoroutine(AttackTarget());
+        }
+    }
 	
 	public void StopTargetAttack(bool resetAttackTimer) {
 		if (resetAttackTimer) {
@@ -254,7 +234,6 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			StopCoroutine(_corTargetAttack);
 			_corTargetAttack = null;
 		}
-		
 		_model.StopAttackAnimation();
 	}
 	
@@ -262,10 +241,9 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	private void OnTargetFound(BaseUnitBehaviour target) {
 		_targetUnit = target;
 	}
-	
-	private void OnTargetReached(BaseUnitBehaviour nearesTarget) {
-		_targetUnit = nearesTarget;
-		StartTargetAttack();
+
+	private void OnTargetAttack() {
+         StartTargetAttack();
 	}
 	
 	private void OnTargetDeath() {
@@ -274,21 +252,16 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		}		
 		StopTargetAttack(false);
 		_targetUnit = null;
-        _unitAttack.TargetAttack(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
-            OnTargetFound, OnTargetReached);
-        //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
-        //    OnTargetFound, OnTargetReached);
+        FindTarget();
 	}
 	
 	private void OnSelfDeath() {
 		for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++) {
 			UnitData.ActiveSkills.ActiveSkills[i].OnCasterDeath();
-		}
-		
+		}		
 		if (IsInvoking("Run")) {
 			CancelInvoke("Run");
 		}
-		
 		StopTargetAttack(false);//(true);
 		_targetUnit = null;
         _unitAttack.Reset(true);
@@ -319,39 +292,48 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			//_unitPathfinder.LookIntoSunset();
 		}
 	}
-	
-	private IEnumerator AttackTarget() {
-		_lastAttackTime = Time.time;
-        if (IsAlly)
-        {
-            _lastAllyAttackUnit = this;
-            _lastEnemyAttackUnit = null;
-        }
-        else
-        {
-            _lastEnemyAttackUnit = this;
-            _lastAllyAttackUnit = null;
-        }
-		_model.PlayAttackAnimation(DistanceToTarget);
-		
-		if (_model.WFSAttackDelay != null) {
-			yield return _model.WFSAttackDelay;
-		}
-		
-		EventsAggregator.Fight.Broadcast<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, this, _targetUnit);
 
-        if (_unitAttack.State == EUnitAttackState.WatchTarget)
-		//if (_unitPathfinder.CurrentState == EUnitMovementState.WatchEnemy) 
+    bool _performPlay = false;
+    bool _performAttack = false;
+    bool _performWait = false;
+    private IEnumerator AttackTarget()
+    {
+        _lastAttackTime = Time.time;
+        if (_model.WFSAttackDelay != null)
         {
-			yield return _cachedWaitForSeconds;
-			
-			if (_targetUnit != null && !_targetUnit.UnitData.IsDead) {
-				_corTargetAttack = StartCoroutine(AttackTarget());
-			} else {
-				_corTargetAttack = null;
-			}
-		}
-	}
+            yield return _model.WFSAttackDelay;
+        }
+        if (!_performPlay)
+        {
+            _model.PlayAttackAnimation(DistanceToTarget);
+            _performPlay = true;
+        }
+        if (!_performAttack)
+        {
+            EventsAggregator.Fight.Broadcast<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, this, _targetUnit);
+            _unitAttack.ToNextAttackUnit();
+            //_model.StopCurrentAnimation();
+            _performAttack = true;            
+        }
+        if (_unitAttack.State == EUnitAttackState.AttackTarget)
+        {
+            if (!_performWait)
+            {
+                _performWait = true;
+                yield return _cachedWaitForSeconds;
+            }
+            _model.StopCurrentAnimation();
+
+            StopTargetAttack(false);
+            _targetUnit = null;
+            _unitAttack.Reset(true);
+            //_unitPathfinder.Reset(true);
+            //FindTarget();
+
+            _corTargetAttack = null;
+            _performPlay = _performAttack = _performWait = false;
+        }
+    }
 	
 	private void OnHitReceived(BaseUnit unit, HitInfo hitInfo) {
 		if (unit == _unitData) {

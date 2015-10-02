@@ -13,14 +13,16 @@ public class UnitAttack : MonoBehaviour
     float _speed = 1f;
     float _rotationSpeed = 5f;
 
+    static BaseUnitBehaviour _lastAttackUnit = null;
     BaseUnitBehaviour _target = null;
     Transform _targetTransform = null;
 
     Vector3 _destinationPosition = Vector3.zero;
 
-    Action<BaseUnitBehaviour> _onTargetReached = null;
-
     Dictionary<EUnitAttackState, Action> _attackActions = new Dictionary<EUnitAttackState, Action>();
+
+    Action<BaseUnitBehaviour> _onTargetFound = null;
+    Action _onTargetAttacked = null;
 
     EUnitAttackState _state = EUnitAttackState.None;
     public EUnitAttackState State
@@ -28,6 +30,11 @@ public class UnitAttack : MonoBehaviour
         get { return _state; }
         private set
         {
+            if (value != _state)
+            {
+                BaseUnitBehaviour unit = gameObject.GetComponent<BaseUnitBehaviour>();
+                //Debug.Log("State " + unit.name + " " + _state + "->" + value);
+            }
             _state = value;
             Update();
         }
@@ -41,8 +48,10 @@ public class UnitAttack : MonoBehaviour
         _modelTransform = _model.transform;
         _transform = transform;
 
-        _attackActions.Add(EUnitAttackState.WatchTarget, WatchTarget);
         _attackActions.Add(EUnitAttackState.NoAttack, MoveToPosition); 
+        _attackActions.Add(EUnitAttackState.WatchTarget, WatchTarget);
+        _attackActions.Add(EUnitAttackState.AttackTarget, AttackTarget);
+
         _attackActions.Add(EUnitAttackState.LookIntoSunset, LookForward);
         _attackActions.Add(EUnitAttackState.WalkIntoSunset, MoveForward);
     }
@@ -69,13 +78,15 @@ public class UnitAttack : MonoBehaviour
         _model.PlayRunAnimation();
     }
 
-    public void TargetAttack(BaseUnitBehaviour unit, ArrayRO<BaseUnitBehaviour> possibleTargets,
-        Action<BaseUnitBehaviour> onTargetFound, Action<BaseUnitBehaviour> onTargetReached)
+    public void FindTarget(BaseUnitBehaviour unit, ArrayRO<BaseUnitBehaviour> possibleTargets,
+        Action<BaseUnitBehaviour> onTargetFound, Action onTargetAttacked)
     {
+
         Reset(false);
         UnitSet.Instance.SetUnitPositions();
 
-        _onTargetReached = onTargetReached;
+        _onTargetFound = onTargetFound;
+        _onTargetAttacked = onTargetAttacked;
         _target = GetTarget(unit, possibleTargets);
         if (_target != null)
         {
@@ -88,7 +99,7 @@ public class UnitAttack : MonoBehaviour
             return;
         }
         onTargetFound(_targetTransform.gameObject.GetComponent<BaseUnitBehaviour>());
-        if (State == EUnitAttackState.None || State == EUnitAttackState.WatchTarget)
+        if (State == EUnitAttackState.None || State == EUnitAttackState.NoAttack || State == EUnitAttackState.WatchTarget)
         {
             StartTargetAttack(_target);
         }
@@ -115,20 +126,55 @@ public class UnitAttack : MonoBehaviour
 
     void StartTargetAttack(BaseUnitBehaviour target)
     {
-        //_model.StopCurrentAnimation();
-        Action<BaseUnitBehaviour> onTargetReached = _onTargetReached;
-        _onTargetReached = null;
+        _model.StopCurrentAnimation();
+        Action<BaseUnitBehaviour> onTargetFound = _onTargetFound;
+        _onTargetFound = null;
         StopAllCoroutines();
 
         State = EUnitAttackState.WatchTarget;
-        onTargetReached(target);
+        onTargetFound(target);
     }
 
     private void WatchTarget()
     {
         _modelTransform.localRotation = Quaternion.Lerp(_modelTransform.localRotation, 
             Quaternion.LookRotation(_targetTransform.transform.position - _transform.position), _rotationSpeed * Time.deltaTime);
-        //_cachedModelTransform.LookAt(_nearestTarget.transform);
+
+        BaseUnitBehaviour unit = gameObject.GetComponent<BaseUnitBehaviour>();
+        BaseUnitBehaviour attackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
+        //Debug.Log("Attack " + attackUnit.name + ", last " + (_lastAttackUnit != null ? _lastAttackUnit.name : string.Empty));
+        //Debug.Log("Attack " + unit.name + ", next " + attackUnit.name);
+
+        if (attackUnit != null && attackUnit.Equals(unit) 
+            && (_lastAttackUnit == null || _lastAttackUnit != null && _lastAttackUnit.UnitAttack.State != EUnitAttackState.AttackTarget))
+        {
+            State = EUnitAttackState.AttackTarget;
+        }
+    }
+
+    private void AttackTarget()
+    {
+        _modelTransform.localRotation = Quaternion.Lerp(_modelTransform.localRotation,
+            Quaternion.LookRotation(_targetTransform.transform.position - _transform.position), _rotationSpeed * Time.deltaTime);
+
+        if (_onTargetAttacked != null)
+        {
+            _onTargetAttacked();
+        }
+    }
+
+    public void ToNextAttackUnit()
+    {
+        _lastAttackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
+        if (_lastAttackUnit != null)
+        {
+            BaseUnitBehaviour nextAttackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
+            if (nextAttackUnit != null)
+            {
+                Debug.Log("Next " + nextAttackUnit.name);
+                nextAttackUnit.FindTarget();
+            }
+        }
     }
 
     private void LookForward()
@@ -155,7 +201,8 @@ public class UnitAttack : MonoBehaviour
             _destinationPosition = position;
             if (_destinationPosition != _modelTransform.position)
             {
-                State = EUnitAttackState.NoAttack;
+                if (State != EUnitAttackState.AttackTarget)
+                    State = EUnitAttackState.NoAttack;
                 //_model.PlayRunAnimation();
             }
         }
@@ -180,10 +227,14 @@ public class UnitAttack : MonoBehaviour
         _target = null;
         _targetTransform = null;
 
-        _onTargetReached = null;
+        _onTargetFound = null;
+        _onTargetAttacked = null;
 		StopAllCoroutines();
         if (full)
+        {
             State = EUnitAttackState.None;
+            //Debug.Log("None " + gameObject.GetComponent<BaseUnitBehaviour>().name);
+        }
     }
 }
 
