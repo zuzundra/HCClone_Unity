@@ -163,15 +163,21 @@ public class UnitAttack : MonoBehaviour
         }
     }
 
-    public void ToNextAttackUnit()
+    public void ToNextAttackUnit(BaseUnitBehaviour currentUnit)
     {
-        _lastAttackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
+        if (_lastAttackUnit != null)
+            Debug.Log("Prev " + _lastAttackUnit.name);
+
+        _lastAttackUnit = currentUnit;
+        if (_lastAttackUnit != null)
+            Debug.Log("Current " + _lastAttackUnit.name);
+
         if (_lastAttackUnit != null)
         {
             BaseUnitBehaviour nextAttackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
             if (nextAttackUnit != null)
             {
-                Debug.Log("Next " + nextAttackUnit.name);
+                Debug.Log("ToNext " + nextAttackUnit.name);
                 nextAttackUnit.FindTarget();
             }
         }

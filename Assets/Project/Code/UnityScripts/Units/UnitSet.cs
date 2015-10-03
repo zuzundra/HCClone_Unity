@@ -103,11 +103,15 @@ public class UnitSet
         units.Sort();
         for (int i = 0; i < units.Count; i++)
         {
+            if (i == 0)
+                units[i].PrevAttackUnit = null;
             if (i < units.Count - 1)
             {
                 units[i].NextAttackUnit = units[i + 1];
                 units[i + 1].PrevAttackUnit = units[i];
             }
+            else
+                units[i].NextAttackUnit = null;
         }
         if (units.Count > 3)
         {

@@ -311,7 +311,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
         if (!_performAttack)
         {
             EventsAggregator.Fight.Broadcast<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, this, _targetUnit);
-            _unitAttack.ToNextAttackUnit();
+            _unitAttack.ToNextAttackUnit(this);
             //_model.StopCurrentAnimation();
             _performAttack = true;            
         }
@@ -341,7 +341,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			_ui.ApplyDamage(unit.HealthPoints, hitInfo);
 		}
 	}
-	
+
 	private IEnumerator Vanish() {
 		yield return new WaitForSeconds(1f);
 		
