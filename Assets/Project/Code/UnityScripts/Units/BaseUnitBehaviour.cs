@@ -183,7 +183,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 
     public void FindTarget()
     {
-        _unitAttack.FindTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
+        _unitAttack.FindTarget(this, IsAlly ? UnitSet.Instance.RangeEnemyUnits : UnitSet.Instance.RangeAllyUnits,
             OnTargetFound, OnTargetAttack);
         //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
         //    OnTargetFound, OnTargetReached); 

@@ -78,16 +78,16 @@ public class UnitAttack : MonoBehaviour
         _model.PlayRunAnimation();
     }
 
-    public void FindTarget(BaseUnitBehaviour unit, ArrayRO<BaseUnitBehaviour> possibleTargets,
+    public void FindTarget(BaseUnitBehaviour unit, List<BaseUnitBehaviour>[] rangeUnits,
         Action<BaseUnitBehaviour> onTargetFound, Action onTargetAttacked)
     {
 
         Reset(false);
-        UnitSet.Instance.SetUnitPositions();
+        //UnitSet.Instance.SetUnitPositions();
 
         _onTargetFound = onTargetFound;
         _onTargetAttacked = onTargetAttacked;
-        _target = GetTarget(unit, possibleTargets);
+        _target = GetTarget(unit, rangeUnits);
         if (_target != null)
         {
             _targetTransform = _target.transform;
@@ -105,23 +105,27 @@ public class UnitAttack : MonoBehaviour
         }
     }
 
-    BaseUnitBehaviour GetTarget(BaseUnitBehaviour unit, ArrayRO<BaseUnitBehaviour> possibleTargets)
+    BaseUnitBehaviour GetTarget(BaseUnitBehaviour unit, List<BaseUnitBehaviour>[] rangeUnits)
     {
-        List<BaseUnitBehaviour>[] rangeUnits = UnitSet.Instance.GetRangeUnits(possibleTargets);
-        List<BaseUnitBehaviour> targetUnits = unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.ThirdZoneIndex]
-            : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.SecondZoneIndex] : null);
-
-        if (targetUnits == null || targetUnits.Count == 0)
+        BaseUnitBehaviour target = GetTarget(unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.ThirdZoneIndex]
+            : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.SecondZoneIndex] : null));
+        if (target == null)
         {
-            targetUnits = unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.SecondZoneIndex]
-                : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.ThirdZoneIndex] : null);
-            if (targetUnits == null || targetUnits.Count == 0)
-                targetUnits = rangeUnits[UnitSet.FirstZoneIndex];
+            target = GetTarget(unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.SecondZoneIndex]
+                : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.ThirdZoneIndex] : null));
+            if (target == null)
+            {
+                target = GetTarget(rangeUnits[UnitSet.FirstZoneIndex]);
+            }
         }
-        if (targetUnits == null || targetUnits.Count == 0)
+        return target; 
+    }
+
+    BaseUnitBehaviour GetTarget(List<BaseUnitBehaviour> targetUnits)
+    {
+        if (targetUnits == null)
             return null;
-        targetUnits.Sort();
-        return targetUnits[0]; 
+        return targetUnits.Find(x => x.UnitData != null && !x.UnitData.IsDead);
     }
 
     void StartTargetAttack(BaseUnitBehaviour target)
@@ -165,19 +169,19 @@ public class UnitAttack : MonoBehaviour
 
     public void ToNextAttackUnit(BaseUnitBehaviour currentUnit)
     {
-        if (_lastAttackUnit != null)
-            Debug.Log("Prev " + _lastAttackUnit.name);
+        //if (_lastAttackUnit != null)
+        //    Debug.Log("Prev " + _lastAttackUnit.name);
 
         _lastAttackUnit = currentUnit;
-        if (_lastAttackUnit != null)
-            Debug.Log("Current " + _lastAttackUnit.name);
+        //if (_lastAttackUnit != null)
+        //    Debug.Log("Current " + _lastAttackUnit.name);
 
         if (_lastAttackUnit != null)
         {
             BaseUnitBehaviour nextAttackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
             if (nextAttackUnit != null)
             {
-                Debug.Log("ToNext " + nextAttackUnit.name);
+                //Debug.Log("ToNext " + nextAttackUnit.name);
                 nextAttackUnit.FindTarget();
             }
         }

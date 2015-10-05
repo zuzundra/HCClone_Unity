@@ -23,37 +23,33 @@ public class UnitSet
     public const int SecondZoneIndex = 1;
     public const int ThirdZoneIndex = 2;
 
-    public void SetUnitPositions()
+    List<BaseUnitBehaviour>[] _rangeAllyUnits = null;
+    public List<BaseUnitBehaviour>[] RangeAllyUnits
     {
-        UnitSet.Instance.SetUnitPositions(FightManager.SceneInstance.AllyUnits, true);
-        UnitSet.Instance.SetUnitPositions(FightManager.SceneInstance.EnemyUnits, false);
-    }
-
-    void SetUnitPositions(ArrayRO<BaseUnitBehaviour> units, bool isAlly)
-    {
-        List<BaseUnitBehaviour>[] rangeUnits = GetRangeUnits(units);
-        Canvas canvas = FightManager.SceneInstance.UI.CanvasBG;
-        float width = GameConstants.DEFAULT_RESOLUTION_WIDTH * canvas.transform.localScale.x;
-        float height = GameConstants.DEFAULT_RESOLUTION_HEIGHT * canvas.transform.localScale.y;
-        float xMin = -width / 2;
-        float xMax = width / 2;
-        float yMin = -height / 2;
-        float yMax = height / 2;
-        float delta = (xMax - xMin) / 12;
-
-        List<BaseUnitBehaviour> thirdUnits = rangeUnits[SecondZoneIndex];
-        List<BaseUnitBehaviour> secondUnits = rangeUnits[ThirdZoneIndex];
-        SetZonePositions(rangeUnits[FirstZoneIndex], isAlly ? xMin + delta : xMax - delta, yMin, yMax);
-        SetZonePositions(secondUnits, isAlly ? xMin + delta * 3 : xMax - delta * 3, yMin, yMax);
-        SetZonePositions(thirdUnits, isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
-        if (thirdUnits.Count != 0 && secondUnits.Count != 0)
+        get
         {
-            thirdUnits[thirdUnits.Count - 1].NextAttackUnit = secondUnits[0];
-            secondUnits[0].PrevAttackUnit = thirdUnits[thirdUnits.Count - 1];
+            if (_rangeAllyUnits == null)
+            {
+                _rangeAllyUnits = GetRangeUnits(FightManager.SceneInstance.AllyUnits);
+            }
+            return _rangeAllyUnits;
         }
     }
 
-    public List<BaseUnitBehaviour>[] GetRangeUnits(ArrayRO<BaseUnitBehaviour> units)
+    List<BaseUnitBehaviour>[] _rangeEnemyUnits = null;
+    public List<BaseUnitBehaviour>[] RangeEnemyUnits
+    {
+        get
+        {
+            if (_rangeEnemyUnits == null)
+            {
+                _rangeEnemyUnits = GetRangeUnits(FightManager.SceneInstance.EnemyUnits);
+            }
+            return _rangeEnemyUnits;
+        }
+    }
+
+    List<BaseUnitBehaviour>[] GetRangeUnits(ArrayRO<BaseUnitBehaviour> units)
     {
         List<BaseUnitBehaviour>[] rangeUnits = new List<BaseUnitBehaviour>[3] { new List<BaseUnitBehaviour>(),
             new List<BaseUnitBehaviour>(), new List<BaseUnitBehaviour>() };
@@ -63,7 +59,7 @@ public class UnitSet
         for (int i = 0; i < units.Length; i++)
         {
             BaseUnitBehaviour unit = units[i];
-            if (unit != null && !unit.UnitData.IsDead)
+            if (unit != null)
             {
                 if (UnitsConfig.Instance.IsHero(unit.UnitData.Data.Key))
                 {
@@ -90,10 +86,44 @@ public class UnitSet
                         else if (remoteUnits.Count < 3)
                             remoteUnits.Add(unit);
                     }
-                } 
+                }
             }
         }
         return rangeUnits;
+    }
+
+    public void SetUnitPositions()
+    {
+        Debug.Log("Reset");
+
+        _rangeAllyUnits = null;
+        SetUnitPositions(RangeAllyUnits, true);
+
+        _rangeEnemyUnits = null;
+        SetUnitPositions(RangeEnemyUnits, false);
+    }
+
+    void SetUnitPositions(List<BaseUnitBehaviour>[] rangeUnits, bool isAlly)
+    {
+        Canvas canvas = FightManager.SceneInstance.UI.CanvasBG;
+        float width = GameConstants.DEFAULT_RESOLUTION_WIDTH * canvas.transform.localScale.x;
+        float height = GameConstants.DEFAULT_RESOLUTION_HEIGHT * canvas.transform.localScale.y;
+        float xMin = -width / 2;
+        float xMax = width / 2;
+        float yMin = -height / 2;
+        float yMax = height / 2;
+        float delta = (xMax - xMin) / 12;
+
+        List<BaseUnitBehaviour> thirdUnits = rangeUnits[SecondZoneIndex];
+        List<BaseUnitBehaviour> secondUnits = rangeUnits[ThirdZoneIndex];
+        SetZonePositions(rangeUnits[FirstZoneIndex], isAlly ? xMin + delta : xMax - delta, yMin, yMax);
+        SetZonePositions(secondUnits, isAlly ? xMin + delta * 3 : xMax - delta * 3, yMin, yMax);
+        SetZonePositions(thirdUnits, isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
+        if (thirdUnits.Count != 0 && secondUnits.Count != 0)
+        {
+            thirdUnits[thirdUnits.Count - 1].NextAttackUnit = secondUnits[0];
+            secondUnits[0].PrevAttackUnit = thirdUnits[thirdUnits.Count - 1];
+        }
     }
 
     void SetZonePositions(List<BaseUnitBehaviour> units, float x, float minZ, float maxZ)
@@ -118,25 +148,16 @@ public class UnitSet
             units = units.GetRange(0, 3);
         }
         BaseUnitBehaviour firstUnit = units[0];
-        if (units.Count == 1)
-        {
-            firstUnit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2));
-        }
-        else
+        firstUnit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2));
+        if (units.Count > 1)
         {
             BaseUnitBehaviour secondUnit = units[1];
-            if (units.Count == 2)
+            secondUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
+            if (units.Count > 2)
             {
-                firstUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 3));
-                secondUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 3));
-            }
-            else
-            {
-                firstUnit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2));
-                secondUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
                 BaseUnitBehaviour thirdUnit = units[2];
                 thirdUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
-            } 
+            }
         }
     }
 

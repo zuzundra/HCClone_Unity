@@ -33,7 +33,8 @@ public class FightLogger {
 
 		//WARNING! temp info
 		Debug.Log(attacker.gameObject.tag + " unit " + attacker.UnitData.Data.Key + " (" + attacker.name
-            + ") attacks " + target.UnitData.Data.Key + " for " + attacker.UnitData.Damage + " damage");
+            + ") attacks " + target.gameObject.tag + " unit " + target.UnitData.Data.Key + " (" + target.name
+            + ") for " + attacker.UnitData.Damage + " damage");
 	}
 
 	public string ToJSON() {
