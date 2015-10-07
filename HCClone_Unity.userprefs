@@ -1,8 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\HCClone_Unity-revert-3-master\Assets\Project\Code\UnityScripts\Units\UnitAttack.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\AndroidImmersiveMode\Instructions\Instructions.txt">
     <Files>
-      <File FileName="..\..\HCClone_Unity-revert-3-master\Assets\Project\Code\UnityScripts\Units\UnitAttack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UI\MainMenu\UIMainMenu.cs" Line="15" Column="18" />
+      <File FileName="Assets\Puppet2D\Scripts\Puppet2D_SkinnedVertices.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UI\Fight\UIFight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\Units\UnitModels\SoldierScoutModelView.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UI\Windows\Instances\UIWindowPvPBattleSetup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\PracticScripts\rotation.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\Particles\GunfireParticlesController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\Particles\TracerParticleController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\Units\BaseUnitBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\123.cs" Line="1" Column="1" />
+      <File FileName="Assets\AndroidImmersiveMode\Instructions\Instructions.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

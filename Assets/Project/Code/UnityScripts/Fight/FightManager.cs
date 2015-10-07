@@ -80,7 +80,7 @@ public class FightManager : MonoBehaviour {
 	}
 
     [SerializeField]
-    private float _attackInterval = 2f;
+    private float _attackInterval = 1f;
     public float AttackInterval
     {
         get { return _attackInterval; }
@@ -319,7 +319,8 @@ public class FightManager : MonoBehaviour {
 		}
 
 		for (int i = 0; i < _graphics.EnemyUnits.Length; i++) {
-			_graphics.EnemyUnits[i].Run();
+            if (_graphics.EnemyUnits[i] != null)
+                _graphics.EnemyUnits[i].Run();
 		}
 	}
 	#endregion
@@ -518,6 +519,7 @@ public class FightManager : MonoBehaviour {
 	#endregion
 
 	#region listeners
+
 	private void OnUnitAttack(BaseUnitBehaviour attacker, BaseUnitBehaviour target) {
 		_logger.LogDamage(attacker, target);
 		attacker.UnitData.Attack(target.UnitData);
