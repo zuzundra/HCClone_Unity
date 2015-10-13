@@ -5,21 +5,25 @@ using System.Collections.Generic;
 public class UIWindowBattlePreview : UIWindow {
 	[SerializeField]
 	private Text _txtTitleCaption;
+	//название босса
 
 	[SerializeField]
 	private Text _txtAttemptsCaption;
 	[SerializeField]
 	private Text _txtAttemptsAmount;
+	//количество оставшихся попыток
 
 	[SerializeField]
 	private Text _txtFuelCaption;
 	[SerializeField]
 	private Text _txtFuelAmount;
+	//необходимое количество топлива
 
 	[SerializeField]
 	private Text _txtEnemiesCaption;
 	[SerializeField]
 	private Text _txtLootCaption;
+	//Лут
 
 	[SerializeField]
 	private UIBattlePreviewUnitInfo _iconEnemy;

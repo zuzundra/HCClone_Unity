@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class UIWindowsManager : MonoBehaviourSingleton<UIWindowsManager> {
 	private Dictionary<EUIWindowKey, string> _windowResources = new Dictionary<EUIWindowKey, string>() {
+
+		//перечисление всех префабов
+
 		{ EUIWindowKey.BattlePreview, GameConstants.Paths.Prefabs.UI_WIN_BATTLE_PREVIEW },
 		{ EUIWindowKey.BattleSetup, GameConstants.Paths.Prefabs.UI_WIN_BATTLE_SETUP },
 		{ EUIWindowKey.BattleVictory, GameConstants.Paths.Prefabs.UI_WIN_BATTLE_VICTORY },

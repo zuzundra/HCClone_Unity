@@ -17,7 +17,7 @@
     <CompilerResponseFile>Assets\smcs.rsp</CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
-    <UnityVersion>4.6.7f1</UnityVersion>
+    <UnityVersion>4.6.8f1</UnityVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -25,7 +25,7 @@
     <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_4_6_7;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_8;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_4_6_7;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
+    <DefineConstants>TRACE;UNITY_4_6_8;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_PRO_LICENSE;MISSIONS_TEST;BARRACKS_TEST</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -198,6 +198,7 @@
     <Compile Include="Assets\Project\Code\UI\Fight\UnitUI.cs" />
     <Compile Include="Assets\Project\Code\UI\LoadingScreen\LoadingScreen.cs" />
     <Compile Include="Assets\Project\Code\UI\MainMenu\UIMainMenu.cs" />
+    <Compile Include="Assets\Project\Code\UI\MissionSelect\Back_.cs" />
     <Compile Include="Assets\Project\Code\UI\MissionSelect\UIMissionIcon.cs" />
     <Compile Include="Assets\Project\Code\UI\MissionSelect\UIPlanet.cs" />
     <Compile Include="Assets\Project\Code\UI\Windows\EUIWindowDisplayAction.cs" />
@@ -267,56 +268,6 @@
     <Compile Include="Assets\Project\Code\_Common\UnityScripts\UI\MultiImageButton.cs" />
     <Compile Include="Assets\Project\Graphics\Units\Models\_TestingStuff\FightTest\UnitsSelectGUI.cs" />
     <Compile Include="Assets\Project\Graphics\Units\Models\_TestingStuff\test.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_AngleLimitNode.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_BakeAnimation.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_Bakedmesh.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_EditSkinWeights.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_FFDLineDisplay.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_FFDStoreData.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_GlobalControl.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_HiddenBone.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_IKHandle.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_ParentControl.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_SkinnedVertices.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_SortingLayer.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_SplineControl.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Puppet2D_VertHandler.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\DelaunayTriangle.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\AdvancingFront.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\AdvancingFrontNode.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweep.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweepBasin.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweepConstraint.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweepContext.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweepDebugContext.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweepEdgeEvent.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\DTSweepPointComparator.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Delaunay\Sweep\PointOnEdgeException.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\ITriangulatable.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Orientation.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\P2T.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Polygon\Contour.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Polygon\Polygon.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Polygon\PolygonPoint.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Polygon\PolygonSet.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Polygon\PolygonUtil.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Sets\ConstrainedPointSet.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Sets\PointSet.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\TriangulationAlgorithm.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\TriangulationConstraint.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\TriangulationContext.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\TriangulationDebugContext.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\TriangulationMode.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\TriangulationPoint.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Util\PointGenerator.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Util\PolygonGenerator.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Util\TriangulationUtil.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Utility\FixedArray3.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Utility\FixedBitArray3.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Utility\MathUtil.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Utility\Point2D.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Utility\Point2DList.cs" />
-    <Compile Include="Assets\Puppet2D\Scripts\Triangulation\Utility\Rect2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AndroidImmersiveMode\Instructions\Instructions.txt" />
@@ -342,9 +293,6 @@
     <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Invert.shader" />
     <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
     <None Include="Assets\Project\SHaders\Mobile_Diffise2Sided.shader" />
-    <None Include="Assets\Puppet2D\Shaders\BlackAndWhite.shader" />
-    <None Include="Assets\Puppet2D\Shaders\VertColor.shader" />
-    <None Include="Assets\Puppet2D\Shaders\unlitTransparentDouble.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
 </Project>
