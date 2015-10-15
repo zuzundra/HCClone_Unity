@@ -63,7 +63,7 @@ MonoBehaviour:
       _mineIncome: 0
       _maps:
       - _units: 44420f0044420f0044420f0044420f0044420f00
-        _mapBackgroundPath: battle1_forest_1
+        _mapBackgroundPath: background_battle
       - _units: 44420f0044420f0044420f00
         _mapBackgroundPath: battle1_forest_2
     - _key: 2
