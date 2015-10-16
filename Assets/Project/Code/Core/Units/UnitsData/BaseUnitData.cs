@@ -27,13 +27,6 @@ public abstract class BaseUnitData {
         get { return _baseRange; }
     }
 
-    [SerializeField]
-    protected EUnitRange _basePriority = EUnitRange.None;	//base priority range
-    public EUnitRange BasePriority
-    {
-        get { return _basePriority; }
-    }
-
     //[SerializeField]
     //protected float _baseAR = 1;	//base attack range (without upgrades)
     //public float BaseAR {

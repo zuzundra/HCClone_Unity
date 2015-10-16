@@ -50,7 +50,7 @@ public class GunfireParticlesController : MonoBehaviour {
 	private Coroutine _explosionRoutine;
 
 	public void Awake() {
-		_wfsGunfireDuration = new WaitForSeconds(0.035f);
+        _wfsGunfireDuration = new WaitForSeconds(0.035f);
 		if (_firstPelletDelay > 0f) {
 			_wfsFirstPellek = new WaitForSeconds(_firstPelletDelay);
 		}
@@ -116,21 +116,20 @@ public class GunfireParticlesController : MonoBehaviour {
 
 		for (int i = 0; i < _pelletsPerAttack; i++) {
 			currentPellet = GetFreePellet();
-			if (currentPellet == null) {
-				ExtendPelletsPool();
-				currentPellet = GetFreePellet();
-			}
-
+            if (currentPellet == null)
+            {
+                ExtendPelletsPool();
+                currentPellet = GetFreePellet();
+            }
 			currentPellet.Play(distanceToTarget, pelletStartPosition, PlayExplosion);
 			_gunfireParticleInstance.SetActive(true);
-			yield return _wfsGunfireDuration;
+            yield return _wfsGunfireDuration;
 			_gunfireParticleInstance.SetActive(false);
-
 			if (_wfsNextPellek != null) {
 				yield return _wfsNextPellek;
 			}
 		}
-	}
+    }
 
 	private void PlayExplosion(Vector3 position) {
 		if (_explosionRoutine != null) {

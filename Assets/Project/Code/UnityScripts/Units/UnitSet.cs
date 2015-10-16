@@ -61,30 +61,49 @@ public class UnitSet
             BaseUnitBehaviour unit = units[i];
             if (unit != null)
             {
+                EUnitPosition position = unit.Place.Position;
                 if (UnitsConfig.Instance.IsHero(unit.UnitData.Data.Key))
                 {
                     if (heroes.Count < 3)
                         heroes.Add(unit);
                     else if (remoteUnits.Count < 3)
+                    {
+                        unit.Place = new UnitPlace() { Range = EUnitRange.Ranged, Position = position };
                         remoteUnits.Add(unit);
+                    }
                     else if (nearUnits.Count < 3)
+                    {
+                        unit.Place = new UnitPlace() { Range = EUnitRange.Melee, Position = position };
                         nearUnits.Add(unit);
+                    }
                 }
                 else
                 {
                     if (unit.UnitData.Data.BaseRange == EUnitRange.Ranged)
                     {
                         if (remoteUnits.Count < 3)
+                        {
+                            unit.Place = new UnitPlace() { Range = EUnitRange.Ranged, Position = position };
                             remoteUnits.Add(unit);
+                        }
                         else if (nearUnits.Count < 3)
+                        {
+                            unit.Place = new UnitPlace() { Range = EUnitRange.Melee, Position = position };
                             nearUnits.Add(unit);
+                        }
                     }
                     else if (unit.UnitData.Data.BaseRange == EUnitRange.Melee)
                     {
                         if (nearUnits.Count < 3)
+                        {
+                            unit.Place = new UnitPlace() { Range = EUnitRange.Melee, Position = position };
                             nearUnits.Add(unit);
+                        }
                         else if (remoteUnits.Count < 3)
+                        {
+                            unit.Place = new UnitPlace() { Range = EUnitRange.Ranged, Position = position };
                             remoteUnits.Add(unit);
+                        }
                     }
                 }
             }
@@ -94,8 +113,6 @@ public class UnitSet
 
     public void SetUnitPositions()
     {
-        Debug.Log("Reset");
-
         _rangeAllyUnits = null;
         SetUnitPositions(RangeAllyUnits, true);
 
@@ -114,15 +131,28 @@ public class UnitSet
         float yMax = height / 2;
         float delta = (xMax - xMin) / 12;
 
-        List<BaseUnitBehaviour> thirdUnits = rangeUnits[SecondZoneIndex];
-        List<BaseUnitBehaviour> secondUnits = rangeUnits[ThirdZoneIndex];
-        SetZonePositions(rangeUnits[FirstZoneIndex], isAlly ? xMin + delta : xMax - delta, yMin, yMax);
-        SetZonePositions(secondUnits, isAlly ? xMin + delta * 3 : xMax - delta * 3, yMin, yMax);
-        SetZonePositions(thirdUnits, isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
-        if (thirdUnits.Count != 0 && secondUnits.Count != 0)
+        List<BaseUnitBehaviour> heroes = rangeUnits[FirstZoneIndex];
+        SetZonePositions(heroes, isAlly ? xMin + delta : xMax - delta, yMin, yMax);
+
+        List<BaseUnitBehaviour> remoteUnits = rangeUnits[SecondZoneIndex];
+        SetZonePositions(remoteUnits, isAlly ? xMin + delta * 3 : xMax - delta * 3, yMin, yMax);
+
+        List<BaseUnitBehaviour> nearUnits = rangeUnits[ThirdZoneIndex];
+        SetZonePositions(nearUnits, isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
+
+        if (heroes.Count != 0)
         {
-            thirdUnits[thirdUnits.Count - 1].NextAttackUnit = secondUnits[0];
-            secondUnits[0].PrevAttackUnit = thirdUnits[thirdUnits.Count - 1];
+            List<BaseUnitBehaviour> units = remoteUnits.Count != 0 ? remoteUnits : nearUnits;
+            if (units.Count != 0)
+            {
+                remoteUnits[remoteUnits.Count - 1].NextAttackUnit = heroes[0];
+                heroes[0].PrevAttackUnit = remoteUnits[remoteUnits.Count - 1];
+            }
+        }
+        if (nearUnits.Count != 0 && remoteUnits.Count != 0)
+        {
+            nearUnits[nearUnits.Count - 1].NextAttackUnit = remoteUnits[0];
+            remoteUnits[0].PrevAttackUnit = nearUnits[nearUnits.Count - 1];
         }
     }
 
@@ -149,19 +179,22 @@ public class UnitSet
         }
         BaseUnitBehaviour firstUnit = units[0];
         firstUnit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2));
+        firstUnit.Place = new UnitPlace() { Range = firstUnit.Place.Range, Position = EUnitPosition.Middle };
         if (units.Count > 1)
         {
             BaseUnitBehaviour secondUnit = units[1];
             secondUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
+            secondUnit.Place = new UnitPlace() { Range = secondUnit.Place.Range, Position = EUnitPosition.Top };
             if (units.Count > 2)
             {
                 BaseUnitBehaviour thirdUnit = units[2];
                 thirdUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
+                thirdUnit.Place = new UnitPlace() { Range = thirdUnit.Place.Range, Position = EUnitPosition.Bottom };
             }
         }
-    }
+    }    
 
-    public BaseUnitBehaviour GetAttackUnit(BaseUnitBehaviour lastAttackUnit)
+    public BaseUnitBehaviour GetAttackUnit(bool isAlly, BaseUnitBehaviour lastAttackUnit)
     {
         BaseUnitBehaviour attackUnit = null;
         if (lastAttackUnit != null)
@@ -169,12 +202,12 @@ public class UnitSet
             attackUnit = GetNextAttackUnit(lastAttackUnit);
             if (attackUnit == null)
             {
-                attackUnit = GetFirstAttackUnit(!lastAttackUnit.IsAlly);
+                attackUnit = GetFirstAttackUnit(isAlly);
             }
         }
         else
         {
-            attackUnit = GetFirstAttackUnit(true);
+            attackUnit = GetFirstAttackUnit(isAlly);
         }
         return attackUnit;
     }
@@ -184,12 +217,13 @@ public class UnitSet
         BaseUnitBehaviour first = null;
         ArrayRO<BaseUnitBehaviour> units = isAlly ? FightManager.SceneInstance.AllyUnits 
             : FightManager.SceneInstance.EnemyUnits;
+
         for (int i = 0; i < units.Length; i++ )
-            if (units[i] != null && !units[i].UnitData.IsDead
-                && !UnitsConfig.Instance.IsHero(units[i].UnitData.Data.Key))
+            if (units[i] != null && !units[i].UnitData.IsDead)
                 first = units[i];
         if (first == null)
             return null;
+
         while (first.PrevAttackUnit != null && !first.PrevAttackUnit.UnitData.IsDead)
             first = first.PrevAttackUnit;
         return first;

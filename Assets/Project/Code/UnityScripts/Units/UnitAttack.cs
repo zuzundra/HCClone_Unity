@@ -13,7 +13,9 @@ public class UnitAttack : MonoBehaviour
     float _speed = 1f;
     float _rotationSpeed = 5f;
 
-    static BaseUnitBehaviour _lastAttackUnit = null;
+    static bool _isAllyAttack = true;
+    static BaseUnitBehaviour _lastAllyAttackUnit = null;
+    static BaseUnitBehaviour _lastEnemyAttackUnit = null;
     BaseUnitBehaviour _target = null;
     Transform _targetTransform = null;
 
@@ -78,7 +80,7 @@ public class UnitAttack : MonoBehaviour
         _model.PlayRunAnimation();
     }
 
-    public void FindTarget(BaseUnitBehaviour unit, List<BaseUnitBehaviour>[] rangeUnits,
+    public void FindTarget(BaseUnitBehaviour unit, BaseUnitBehaviour currentTarget, ArrayRO<BaseUnitBehaviour> possibleUnits,
         Action<BaseUnitBehaviour> onTargetFound, Action onTargetAttacked)
     {
 
@@ -87,7 +89,7 @@ public class UnitAttack : MonoBehaviour
 
         _onTargetFound = onTargetFound;
         _onTargetAttacked = onTargetAttacked;
-        _target = GetTarget(unit, rangeUnits);
+        _target = GetTarget(unit, currentTarget, possibleUnits);
         if (_target != null)
         {
             _targetTransform = _target.transform;
@@ -105,28 +107,141 @@ public class UnitAttack : MonoBehaviour
         }
     }
 
-    BaseUnitBehaviour GetTarget(BaseUnitBehaviour unit, List<BaseUnitBehaviour>[] rangeUnits)
+    public BaseUnitBehaviour GetBaseUnitBehaviour(ArrayRO<BaseUnitBehaviour> possibleUnits, UnitPlace place)
     {
-        BaseUnitBehaviour target = GetTarget(unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.ThirdZoneIndex]
-            : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.SecondZoneIndex] : null));
-        if (target == null)
+        for (int i = 0; i < possibleUnits.Length; i++)
         {
-            target = GetTarget(unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.SecondZoneIndex]
-                : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.ThirdZoneIndex] : null));
-            if (target == null)
-            {
-                target = GetTarget(rangeUnits[UnitSet.FirstZoneIndex]);
-            }
+            BaseUnitBehaviour possibleUnit = possibleUnits[i];
+            if (possibleUnit.Place.Range == place.Range && possibleUnit.Place.Position == place.Position)
+                return possibleUnit;
         }
-        return target; 
+        return null;
     }
 
-    BaseUnitBehaviour GetTarget(List<BaseUnitBehaviour> targetUnits)
+    BaseUnitBehaviour GetTarget(BaseUnitBehaviour unit, BaseUnitBehaviour currentTarget, ArrayRO<BaseUnitBehaviour> possibleUnits)
     {
-        if (targetUnits == null)
-            return null;
-        return targetUnits.Find(x => x.UnitData != null && !x.UnitData.IsDead);
+        UnitPlace currentPlace = currentTarget != null ? currentTarget.Place
+            : new UnitPlace() { Position = EUnitPosition.Middle };
+        BaseUnitBehaviour nextUnit = GetNextBaseUnitBehaviour(unit, currentPlace, possibleUnits);
+        Debug.Log(unit.name + " attack " + (nextUnit != null ? nextUnit.name : string.Empty));
+        while (nextUnit != null && nextUnit.UnitData.Data.Key != unit.UnitData.Data.Key && nextUnit.UnitData.IsDead)
+        {
+            nextUnit = GetNextBaseUnitBehaviour(unit, nextUnit.Place, possibleUnits);
+            Debug.Log(unit.name + " attack " + (nextUnit != null ? nextUnit.name : string.Empty));
+        }
+        return nextUnit;
     }
+
+    BaseUnitBehaviour GetNextBaseUnitBehaviour(BaseUnitBehaviour attackUnit, UnitPlace currentPlace, ArrayRO<BaseUnitBehaviour> possibleUnits)
+    {
+        UnitPlace nextPlace = GetNextPlace(attackUnit.Place, currentPlace);
+        if (nextPlace.Range != EUnitRange.None || nextPlace.Position != EUnitPosition.None)
+        {
+            return GetBaseUnitBehaviour(possibleUnits, nextPlace);
+        }    
+        return null;
+    }
+
+    UnitPlace GetNextPlace(UnitPlace attackPlace, UnitPlace currentPlace)
+    {
+        Debug.Log("Place " + attackPlace.Range + " - " + attackPlace.Position);
+        switch (attackPlace.Position)
+        {
+            case EUnitPosition.Middle:
+                if (attackPlace.Range == EUnitRange.Ranged || attackPlace.Range == EUnitRange.Melee)
+                {
+                    if (currentPlace.Range == EUnitRange.Melee)
+                        return new UnitPlace() { Range = EUnitRange.Ranged, Position = currentPlace.Position };
+                    else if (currentPlace.Range == EUnitRange.Ranged)
+                    {
+                        if (currentPlace.Position == EUnitPosition.Middle)
+                            return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                        else if (currentPlace.Position == EUnitPosition.Top)
+                            return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                        else if (currentPlace.Position == EUnitPosition.Bottom)
+                            return new UnitPlace() { Position = EUnitPosition.Middle };
+                    }
+                    else
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                }
+                else
+                {
+                    if (currentPlace.Position == EUnitPosition.Middle)
+                    {
+                        if (currentPlace.Range == EUnitRange.Ranged || currentPlace.Range == EUnitRange.Melee)
+                            return new UnitPlace() { Range = currentPlace.Range, Position = EUnitPosition.Top };
+                        else
+                            return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                    }
+                    else if (currentPlace.Position == EUnitPosition.Top)
+                        return new UnitPlace() { Range = currentPlace.Range, Position = EUnitPosition.Bottom };
+                    else if (currentPlace.Position == EUnitPosition.Bottom)
+                    {
+                        if (currentPlace.Range == EUnitRange.Melee)
+                            return new UnitPlace() { Range = EUnitRange.Ranged, Position = EUnitPosition.Middle };
+                        else if (currentPlace.Range == EUnitRange.Ranged)
+                            return new UnitPlace() { Position = EUnitPosition.Middle };
+                    }
+                }
+                break;
+
+            case EUnitPosition.Top:
+                if (currentPlace.Range == EUnitRange.Melee)
+                    return new UnitPlace() { Range = EUnitRange.Ranged, Position = currentPlace.Position };
+                else if (currentPlace.Range == EUnitRange.Ranged)
+                {
+                    if (currentPlace.Position == EUnitPosition.Top)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                    else if (currentPlace.Position == EUnitPosition.Middle)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                    else if (currentPlace.Position == EUnitPosition.Bottom)
+                        return new UnitPlace() { Position = EUnitPosition.Middle };
+                }
+                else
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                break;
+
+            case EUnitPosition.Bottom:
+                if (currentPlace.Range == EUnitRange.Melee)
+                    return new UnitPlace() { Range = EUnitRange.Ranged, Position = currentPlace.Position };
+                else if (currentPlace.Range == EUnitRange.Ranged)
+                {
+                    if (currentPlace.Position == EUnitPosition.Bottom)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                    else if (currentPlace.Position == EUnitPosition.Middle)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                    else if (currentPlace.Position == EUnitPosition.Top)
+                        return new UnitPlace() { Position = EUnitPosition.Middle };
+                }
+                else
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                break;
+        }
+        return new UnitPlace();
+    }
+
+    //BaseUnitBehaviour GetTarget(BaseUnitBehaviour unit, List<BaseUnitBehaviour>[] rangeUnits)
+    //{
+    //    BaseUnitBehaviour target = GetTarget(unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.ThirdZoneIndex]
+    //        : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.SecondZoneIndex] : null));
+    //    if (target == null)
+    //    {
+    //        target = GetTarget(unit.UnitData.Data.BasePriority == EUnitRange.Melee ? rangeUnits[UnitSet.SecondZoneIndex]
+    //            : (unit.UnitData.Data.BasePriority == EUnitRange.Ranged ? rangeUnits[UnitSet.ThirdZoneIndex] : null));
+    //        if (target == null)
+    //        {
+    //            target = GetTarget(rangeUnits[UnitSet.FirstZoneIndex]);
+    //        }
+    //    }
+    //    return target; 
+    //}
+
+    //BaseUnitBehaviour GetTarget(List<BaseUnitBehaviour> targetUnits)
+    //{
+    //    if (targetUnits == null)
+    //        return null;
+    //    return targetUnits.Find(x => x.UnitData != null && !x.UnitData.IsDead);
+    //}
 
     void StartTargetAttack(BaseUnitBehaviour target)
     {
@@ -145,14 +260,16 @@ public class UnitAttack : MonoBehaviour
             Quaternion.LookRotation(_targetTransform.transform.position - _transform.position), _rotationSpeed * Time.deltaTime);
 
         BaseUnitBehaviour unit = gameObject.GetComponent<BaseUnitBehaviour>();
-        BaseUnitBehaviour attackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
-        //Debug.Log("Attack " + attackUnit.name + ", last " + (_lastAttackUnit != null ? _lastAttackUnit.name : string.Empty));
-        //Debug.Log("Attack " + unit.name + ", next " + attackUnit.name);
+        BaseUnitBehaviour attackUnit = UnitSet.Instance.GetAttackUnit(_isAllyAttack,
+            _isAllyAttack ? _lastAllyAttackUnit : _lastEnemyAttackUnit);
 
-        if (attackUnit != null && attackUnit.Equals(unit) 
-            && (_lastAttackUnit == null || _lastAttackUnit != null && _lastAttackUnit.UnitAttack.State != EUnitAttackState.AttackTarget))
+        if (attackUnit != null && attackUnit.Equals(unit))
         {
-            State = EUnitAttackState.AttackTarget;
+            BaseUnitBehaviour lastAttackUnit = _isAllyAttack ? _lastEnemyAttackUnit : _lastAllyAttackUnit;
+            if (lastAttackUnit == null || lastAttackUnit != null && lastAttackUnit.UnitAttack.State != EUnitAttackState.AttackTarget)
+            {
+                State = EUnitAttackState.AttackTarget;
+            }
         }
     }
 
@@ -169,19 +286,17 @@ public class UnitAttack : MonoBehaviour
 
     public void ToNextAttackUnit(BaseUnitBehaviour currentUnit)
     {
-        //if (_lastAttackUnit != null)
-        //    Debug.Log("Prev " + _lastAttackUnit.name);
-
-        _lastAttackUnit = currentUnit;
-        //if (_lastAttackUnit != null)
-        //    Debug.Log("Current " + _lastAttackUnit.name);
-
-        if (_lastAttackUnit != null)
+        if (currentUnit.IsAlly)
+            _lastAllyAttackUnit = currentUnit;
+        else
+            _lastEnemyAttackUnit = currentUnit;
+        if (currentUnit != null)
         {
-            BaseUnitBehaviour nextAttackUnit = UnitSet.Instance.GetAttackUnit(_lastAttackUnit);
+            _isAllyAttack = !currentUnit.IsAlly;
+            BaseUnitBehaviour nextAttackUnit = UnitSet.Instance.GetAttackUnit(_isAllyAttack,
+                _isAllyAttack ? _lastAllyAttackUnit : _lastEnemyAttackUnit);
             if (nextAttackUnit != null)
             {
-                //Debug.Log("ToNext " + nextAttackUnit.name);
                 nextAttackUnit.FindTarget();
             }
         }

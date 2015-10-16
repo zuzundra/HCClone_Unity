@@ -25,9 +25,8 @@ public class TracerParticleController : MonoBehaviour {
 
 	public void Update() {
 		_cachedTransform.position = Vector3.MoveTowards(_cachedTransform.position, _positionEnd, _speed * Time.deltaTime);
-
 		if (Time.time >= _timeEnd) {
-			Blow();
+            Blow();
 		}
 	}
 
@@ -39,7 +38,6 @@ public class TracerParticleController : MonoBehaviour {
 		_timeEnd = Time.time + distance / _speed;
 
 		gameObject.SetActive(true);
-		
 	}
 
 	private void Blow() {
