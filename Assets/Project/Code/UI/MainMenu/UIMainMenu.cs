@@ -69,7 +69,7 @@ public class UIMainMenu : MonoBehaviour {
 
 	private void OnBtnCampaignClick() {
 		//TODO: load last planet's scene
-		Application.LoadLevel("Planet1");
+		Application.LoadLevel("Missions");
 	}
 
 	private void OnBtnArenaClick() {
