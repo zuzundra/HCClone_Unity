@@ -184,12 +184,12 @@ public class UnitSet
         {
             BaseUnitBehaviour secondUnit = units[1];
             secondUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
-            secondUnit.Place = new UnitPlace() { Range = secondUnit.Place.Range, Position = EUnitPosition.Top };
+            secondUnit.Place = new UnitPlace() { Range = secondUnit.Place.Range, Position = EUnitPosition.Bottom };
             if (units.Count > 2)
             {
                 BaseUnitBehaviour thirdUnit = units[2];
                 thirdUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
-                thirdUnit.Place = new UnitPlace() { Range = thirdUnit.Place.Range, Position = EUnitPosition.Bottom };
+                thirdUnit.Place = new UnitPlace() { Range = thirdUnit.Place.Range, Position = EUnitPosition.Top };
             }
         }
     }    
@@ -212,7 +212,7 @@ public class UnitSet
         return attackUnit;
     }
 
-    BaseUnitBehaviour GetFirstAttackUnit(bool isAlly)
+    public BaseUnitBehaviour GetFirstAttackUnit(bool isAlly)
     {
         BaseUnitBehaviour first = null;
         ArrayRO<BaseUnitBehaviour> units = isAlly ? FightManager.SceneInstance.AllyUnits 

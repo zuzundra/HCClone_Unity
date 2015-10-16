@@ -186,10 +186,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			_onStart += Run;
 			return;
 		}
-        //BaseUnitBehaviour firstAttackUnit = _unitAttack.GetBaseUnitBehaviour(IsAlly ? FightManager.SceneInstance.AllyUnits : FightManager.SceneInstance.EnemyUnits,
-        //    new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle });
-        //if (firstAttackUnit != null && !firstAttackUnit.UnitData.IsDead && firstAttackUnit.UnitData.Data.Key == UnitData.Data.Key)
-            FindTarget();
+        FindTarget();
 	}
 
     public void FindTarget()
@@ -246,7 +243,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	
 	#region unit controller
 	private void OnTargetFound(BaseUnitBehaviour target) {		
-        _lastTargetUnit = _targetUnit = target;
+        _targetUnit = target;
 	}
 
 	private void OnTargetAttack() {
@@ -303,6 +300,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
     private IEnumerator AttackTarget()
     {
         _lastAttackTime = Time.time;
+        _lastTargetUnit = _targetUnit;
+
         if (_model.WFSAttackDelay != null)
             yield return _model.WFSAttackDelay;
         if (!_performPlay)
