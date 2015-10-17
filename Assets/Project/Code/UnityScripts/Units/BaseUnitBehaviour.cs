@@ -32,8 +32,16 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	public BaseUnit UnitData {
 		get { return _unitData; }
 	}
+
+    [SerializeField]
+    protected UnitPlace _place = new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.None }; //base place on field
+    public UnitPlace Place
+    {
+        get { return _place; }
+        set { _place = value; }
+    }
 	
-	private BaseUnitBehaviour _targetUnit;
+	private BaseUnitBehaviour _targetUnit, _lastTargetUnit;
 	public BaseUnitBehaviour TargetUnit {
 		get { return _targetUnit; }
 	}
@@ -183,10 +191,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 
     public void FindTarget()
     {
-        _unitAttack.FindTarget(this, IsAlly ? UnitSet.Instance.RangeEnemyUnits : UnitSet.Instance.RangeAllyUnits,
+        _unitAttack.FindTarget(this, _lastTargetUnit, IsAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits,
             OnTargetFound, OnTargetAttack);
-        //_unitPathfinder.MoveToTarget(this, _isAlly ? FightManager.SceneInstance.EnemyUnits : FightManager.SceneInstance.AllyUnits, 
-        //    OnTargetFound, OnTargetReached); 
     }
 
     public void SetPosition(Vector3 position)
@@ -213,10 +219,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 
     public void StartTargetAttack()
     {
-        if (UnitsConfig.Instance.IsHero(UnitData.Data.Key) || CastingSkill)
-        {
+        if (CastingSkill)
             return;
-        }
         if (_lastAttackTime == 0f || Time.time - _lastAttackTime > _attackTime)
         {
             _corTargetAttack = StartCoroutine(AttackTarget());
@@ -238,8 +242,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	}
 	
 	#region unit controller
-	private void OnTargetFound(BaseUnitBehaviour target) {
-		_targetUnit = target;
+	private void OnTargetFound(BaseUnitBehaviour target) {		
+        _targetUnit = target;
 	}
 
 	private void OnTargetAttack() {
@@ -265,7 +269,6 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		StopTargetAttack(false);//(true);
 		_targetUnit = null;
         _unitAttack.Reset(true);
-		//_unitPathfinder.Reset(true);
 		
 		EventsAggregator.Fight.Broadcast<BaseUnit>(gameObject.tag == GameConstants.Tags.UNIT_ALLY ? EFightEvent.AllyDeath : EFightEvent.EnemyDeath, _unitData);
 		
@@ -284,12 +287,10 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		StopTargetAttack(true);
 		_targetUnit = null;
         _unitAttack.Reset(true);
-		//_unitPathfinder.Reset(true);
 		
 		if (_unitData != null && !_unitData.IsDead) {
 			_model.PlayWinAnimation();
             _unitAttack.LookIntoSunset();
-			//_unitPathfinder.LookIntoSunset();
 		}
 	}
 
@@ -299,10 +300,10 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
     private IEnumerator AttackTarget()
     {
         _lastAttackTime = Time.time;
+        _lastTargetUnit = _targetUnit;
+
         if (_model.WFSAttackDelay != null)
-        {
             yield return _model.WFSAttackDelay;
-        }
         if (!_performPlay)
         {
             _model.PlayAttackAnimation(DistanceToTarget);
@@ -312,7 +313,6 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
         {
             EventsAggregator.Fight.Broadcast<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, this, _targetUnit);
             _unitAttack.ToNextAttackUnit(this);
-            //_model.StopCurrentAnimation();
             _performAttack = true;            
         }
         if (_unitAttack.State == EUnitAttackState.AttackTarget)
@@ -327,8 +327,6 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
             StopTargetAttack(false);
             _targetUnit = null;
             _unitAttack.Reset(true);
-            //_unitPathfinder.Reset(true);
-            //FindTarget();
 
             _corTargetAttack = null;
             _performPlay = _performAttack = _performWait = false;

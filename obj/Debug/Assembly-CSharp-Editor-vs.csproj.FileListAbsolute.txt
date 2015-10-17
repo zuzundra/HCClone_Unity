@@ -35,3 +35,4 @@ D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\Temp\bin\Debug\Assembly-
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor-vs.csprojResolveAssemblyReference.cache
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor.dll
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor.pdb
+D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Assembly-CSharp.pdb
