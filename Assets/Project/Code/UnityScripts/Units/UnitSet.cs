@@ -23,6 +23,17 @@ public class UnitSet
     public const int SecondZoneIndex = 1;
     public const int ThirdZoneIndex = 2;
 
+    #region Первоначальная расстановка юнитов по полю
+
+    public void SetUnitPositions()
+    {
+        _rangeAllyUnits = null;
+        SetUnitPositions(RangeAllyUnits, true);
+
+        _rangeEnemyUnits = null;
+        SetUnitPositions(RangeEnemyUnits, false);
+    }
+
     List<BaseUnitBehaviour>[] _rangeAllyUnits = null;
     public List<BaseUnitBehaviour>[] RangeAllyUnits
     {
@@ -111,15 +122,6 @@ public class UnitSet
         return rangeUnits;
     }
 
-    public void SetUnitPositions()
-    {
-        _rangeAllyUnits = null;
-        SetUnitPositions(RangeAllyUnits, true);
-
-        _rangeEnemyUnits = null;
-        SetUnitPositions(RangeEnemyUnits, false);
-    }
-
     void SetUnitPositions(List<BaseUnitBehaviour>[] rangeUnits, bool isAlly)
     {
         Canvas canvas = FightManager.SceneInstance.UI.CanvasBG;
@@ -139,21 +141,6 @@ public class UnitSet
 
         List<BaseUnitBehaviour> nearUnits = rangeUnits[ThirdZoneIndex];
         SetZonePositions(nearUnits, isAlly ? xMin + delta * 5 : xMax - delta * 5, yMin, yMax);
-
-        if (heroes.Count != 0)
-        {
-            List<BaseUnitBehaviour> units = remoteUnits.Count != 0 ? remoteUnits : nearUnits;
-            if (units.Count != 0)
-            {
-                remoteUnits[remoteUnits.Count - 1].NextAttackUnit = heroes[0];
-                heroes[0].PrevAttackUnit = remoteUnits[remoteUnits.Count - 1];
-            }
-        }
-        if (nearUnits.Count != 0 && remoteUnits.Count != 0)
-        {
-            nearUnits[nearUnits.Count - 1].NextAttackUnit = remoteUnits[0];
-            remoteUnits[0].PrevAttackUnit = nearUnits[nearUnits.Count - 1];
-        }
     }
 
     void SetZonePositions(List<BaseUnitBehaviour> units, float x, float minZ, float maxZ)
@@ -161,18 +148,6 @@ public class UnitSet
         if (units.Count == 0)
             return;
         units.Sort();
-        for (int i = 0; i < units.Count; i++)
-        {
-            if (i == 0)
-                units[i].PrevAttackUnit = null;
-            if (i < units.Count - 1)
-            {
-                units[i].NextAttackUnit = units[i + 1];
-                units[i + 1].PrevAttackUnit = units[i];
-            }
-            else
-                units[i].NextAttackUnit = null;
-        }
         if (units.Count > 3)
         {
             units = units.GetRange(0, 3);
@@ -192,52 +167,189 @@ public class UnitSet
                 thirdUnit.Place = new UnitPlace() { Range = thirdUnit.Place.Range, Position = EUnitPosition.Top };
             }
         }
-    }    
+    }
 
-    public BaseUnitBehaviour GetAttackUnit(bool isAlly, BaseUnitBehaviour lastAttackUnit)
+    #endregion
+
+    #region Поочерёдная атака
+
+    public BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour attackUnit)
     {
-        BaseUnitBehaviour attackUnit = null;
-        if (lastAttackUnit != null)
+        bool currentIsAllyAttack =  attackUnit != null && attackUnit.IsAlly;
+        UnitPlace currentAttackPlace = attackUnit != null ? attackUnit.Place
+            : new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+
+        bool nextIsAllyAttack = !currentIsAllyAttack;
+        UnitPlace nextAttackPlace = nextIsAllyAttack && attackUnit != null
+            ? GetNextAttackPlace(currentAttackPlace) : currentAttackPlace;
+
+        while (!(nextIsAllyAttack == currentIsAllyAttack && nextAttackPlace.Equals(currentAttackPlace)))
         {
-            attackUnit = GetNextAttackUnit(lastAttackUnit);
-            if (attackUnit == null)
+            if (nextAttackPlace.Range != EUnitRange.None || nextAttackPlace.Position != EUnitPosition.None)
             {
-                attackUnit = GetFirstAttackUnit(isAlly);
+                BaseUnitBehaviour nextUnit = GetPlaceBaseUnitBehaviour(nextIsAllyAttack
+                    ? FightManager.SceneInstance.AllyUnits : FightManager.SceneInstance.EnemyUnits, nextAttackPlace);
+                if (nextUnit != null && !nextUnit.UnitData.IsDead)
+                    return nextUnit;
             }
+            nextIsAllyAttack = attackUnit != null ? !nextIsAllyAttack : nextIsAllyAttack;
+            nextAttackPlace = nextIsAllyAttack ? GetNextAttackPlace(nextAttackPlace) : nextAttackPlace;
+            if (attackUnit == null && nextIsAllyAttack.Equals(currentAttackPlace))
+                nextIsAllyAttack = false;
         }
+        return null;
+    }
+
+    UnitPlace GetNextAttackPlace(UnitPlace attackPlace)
+    {
+        switch (attackPlace.Range)
+        {
+            case EUnitRange.Melee:
+                return new UnitPlace() { Range = EUnitRange.Ranged, Position = attackPlace.Position };
+
+            case EUnitRange.Ranged:
+                if (attackPlace.Position == EUnitPosition.Middle)
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                else if (attackPlace.Position == EUnitPosition.Top)
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                else if (attackPlace.Position == EUnitPosition.Bottom)
+                    return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.Middle };
+                break;
+
+            case EUnitRange.None:
+                if (attackPlace.Position == EUnitPosition.Middle)
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                break;
+        }
+        return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.None };
+    }
+
+    BaseUnitBehaviour GetPlaceBaseUnitBehaviour(ArrayRO<BaseUnitBehaviour> units, UnitPlace place)
+    {
+        for (int i = 0; i < units.Length; i++)
+        {
+            BaseUnitBehaviour possibleUnit = units[i];
+            if (possibleUnit.Place.Range == place.Range && possibleUnit.Place.Position == place.Position)
+                return possibleUnit;
+        }
+        return null;
+    }
+
+    #endregion
+
+    #region Поиск цели
+
+    public BaseUnitBehaviour GetTarget(BaseUnitBehaviour unit, BaseUnitBehaviour currentTarget, 
+        ArrayRO<BaseUnitBehaviour> possibleUnits)
+    {
+        UnitPlace currentTargetPlace = currentTarget != null ? currentTarget.Place
+            : new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.Middle };
+        UnitPlace nextTargetPlace = GetNextTargetPlace(unit.Place, currentTargetPlace);
+        while (!nextTargetPlace.Equals(currentTargetPlace))
+        {
+            if (nextTargetPlace.Range != EUnitRange.None || nextTargetPlace.Position != EUnitPosition.None)
+            {
+                BaseUnitBehaviour nextUnit = GetPlaceBaseUnitBehaviour(possibleUnits, nextTargetPlace);
+                if (nextUnit != null && !nextUnit.UnitData.IsDead)
+                    return nextUnit;
+            }
+            nextTargetPlace = GetNextTargetPlace(unit.Place, nextTargetPlace);
+        }
+        if (currentTarget != null)
+            return currentTarget;
         else
         {
-            attackUnit = GetFirstAttackUnit(isAlly);
+            BaseUnitBehaviour nextUnit = GetPlaceBaseUnitBehaviour(possibleUnits, currentTargetPlace);
+            return nextUnit != null && !nextUnit.UnitData.IsDead ? nextUnit : null;
         }
-        return attackUnit;
     }
 
-    public BaseUnitBehaviour GetFirstAttackUnit(bool isAlly)
+    UnitPlace GetNextTargetPlace(UnitPlace attackPlace, UnitPlace currentPlace)
     {
-        BaseUnitBehaviour first = null;
-        ArrayRO<BaseUnitBehaviour> units = isAlly ? FightManager.SceneInstance.AllyUnits 
-            : FightManager.SceneInstance.EnemyUnits;
-
-        for (int i = 0; i < units.Length; i++ )
-            if (units[i] != null && !units[i].UnitData.IsDead)
-                first = units[i];
-        if (first == null)
-            return null;
-
-        while (first.PrevAttackUnit != null && !first.PrevAttackUnit.UnitData.IsDead)
-            first = first.PrevAttackUnit;
-        return first;
-    }
-
-    BaseUnitBehaviour GetNextAttackUnit(BaseUnitBehaviour last)
-    {
-        BaseUnitBehaviour next = last.NextAttackUnit;
-        while (next != null)
+        switch (attackPlace.Position)
         {
-            if (!next.UnitData.IsDead)
-                return next;
-            next = next.NextAttackUnit;
+            case EUnitPosition.Middle:
+                if (attackPlace.Range == EUnitRange.Ranged || attackPlace.Range == EUnitRange.Melee)
+                {
+                    if (currentPlace.Range == EUnitRange.Melee)
+                        return new UnitPlace() { Range = EUnitRange.Ranged, Position = currentPlace.Position };
+                    else if (currentPlace.Range == EUnitRange.Ranged)
+                    {
+                        if (currentPlace.Position == EUnitPosition.Middle)
+                            return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                        else if (currentPlace.Position == EUnitPosition.Top)
+                            return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                        else if (currentPlace.Position == EUnitPosition.Bottom)
+                            return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.Middle };
+                    }
+                    else
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                }
+                else
+                {
+                    if (currentPlace.Position == EUnitPosition.Middle)
+                    {
+                        if (currentPlace.Range == EUnitRange.Ranged || currentPlace.Range == EUnitRange.Melee)
+                            return new UnitPlace() { Range = currentPlace.Range, Position = EUnitPosition.Top };
+                        else
+                            return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                    }
+                    else if (currentPlace.Position == EUnitPosition.Top)
+                        return new UnitPlace() { Range = currentPlace.Range, Position = EUnitPosition.Bottom };
+                    else if (currentPlace.Position == EUnitPosition.Bottom)
+                    {
+                        if (currentPlace.Range == EUnitRange.Melee)
+                            return new UnitPlace() { Range = EUnitRange.Ranged, Position = EUnitPosition.Middle };
+                        else if (currentPlace.Range == EUnitRange.Ranged)
+                            return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.Middle };
+                    }
+                }
+                break;
+
+            case EUnitPosition.Top:
+                if (currentPlace.Range == EUnitRange.Melee)
+                    return new UnitPlace() { Range = EUnitRange.Ranged, Position = currentPlace.Position };
+                else if (currentPlace.Range == EUnitRange.Ranged)
+                {
+                    if (currentPlace.Position == EUnitPosition.Top)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                    else if (currentPlace.Position == EUnitPosition.Middle)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                    else if (currentPlace.Position == EUnitPosition.Bottom)
+                        return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.Middle };
+                }
+                else
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                break;
+
+            case EUnitPosition.Bottom:
+                if (currentPlace.Range == EUnitRange.Melee)
+                    return new UnitPlace() { Range = EUnitRange.Ranged, Position = currentPlace.Position };
+                else if (currentPlace.Range == EUnitRange.Ranged)
+                {
+                    if (currentPlace.Position == EUnitPosition.Bottom)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Middle };
+                    else if (currentPlace.Position == EUnitPosition.Middle)
+                        return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Top };
+                    else if (currentPlace.Position == EUnitPosition.Top)
+                        return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.Middle };
+                }
+                else
+                    return new UnitPlace() { Range = EUnitRange.Melee, Position = EUnitPosition.Bottom };
+                break;
         }
-        return next;
+        return new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.None };
     }
+
+    #endregion
+
+    //string GetUnitName(BaseUnitBehaviour unit)
+    //{
+    //    return unit != null ? unit.name : string.Empty;
+    //}
+
+    //string GetPlaceName(UnitPlace place)
+    //{
+    //    return place.Range + " " + place.Position;
+    //}
 }

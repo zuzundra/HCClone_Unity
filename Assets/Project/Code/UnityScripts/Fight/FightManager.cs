@@ -144,6 +144,7 @@ public class FightManager : MonoBehaviour {
 	}
 
 	#region map start
+
 	public void StartFightPreparations() {
 		_fightPreparationStep = EFightPreparationStep.Begin;
 		_status = EFightStatus.Preparation;
@@ -192,8 +193,6 @@ public class FightManager : MonoBehaviour {
 		while (_fightPreparationStep != EFightPreparationStep.UnitsGraphicsInitialized) {
 			yield return null;
 		}
-        //InitializeUnitsPositions(_graphics.AllyUnits, _allySpawnPoints, _allyUnitsRoot);
-        //InitializeUnitsPositions(_graphics.EnemyUnits, _enemySpawnPoints, _enemyUnitsRoot);
         UnitSet.Instance.SetUnitPositions();
 
 		_fightPreparationStep = EFightPreparationStep.UnitsInitialized;
@@ -394,8 +393,9 @@ public class FightManager : MonoBehaviour {
 	public void NextMap() {
 		_currentMapIndex++;
 
-		if (_currentMapIndex < _missionData.MapsCount) {
-			StartCoroutine(LoadMap());
+		if (_currentMapIndex < _missionData.MapsCount)
+        {
+            StartCoroutine(LoadMap());
 		} else {
 			MissionComplete();
 		}
@@ -527,9 +527,20 @@ public class FightManager : MonoBehaviour {
 
 	private void OnAllyDeath(BaseUnit unit) {
 		_alliesCount--;
-		if (_alliesCount <= 0) {
-			MapFail();
-		}
+        bool heroIsDead = true;
+        for (int i = 0; i < AllyUnits.Length; i++)
+        {
+            if (AllyUnits[i] != null && UnitsConfig.Instance.IsHero(AllyUnits[i].UnitData.Data.Key)
+                && !AllyUnits[i].UnitData.IsDead)
+            {
+                heroIsDead = false;
+                break;
+            }
+        }
+        if (_alliesCount <= 0 || heroIsDead)
+        {
+            MapFail();
+        }
 	}
 
 	private void OnEnemyDeath(BaseUnit unit) {
