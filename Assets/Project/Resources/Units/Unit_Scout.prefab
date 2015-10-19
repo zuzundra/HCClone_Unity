@@ -32,7 +32,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &114750
 GameObject:
   m_ObjectHideFlags: 1
@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &114752
 GameObject:
   m_ObjectHideFlags: 1
@@ -89,6 +89,22 @@ GameObject:
   - 4: {fileID: 465762}
   m_Layer: 8
   m_Name: rPalm_boneFix
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &177366
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 477366}
+  - 137: {fileID: 13777366}
+  m_Layer: 0
+  m_Name: UnitModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,6 +156,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5999999, y: 2.5999999, z: 2.5999999}
   m_Children:
+  - {fileID: 477366}
   - {fileID: 414748}
   - {fileID: 414750}
   - {fileID: 414752}
@@ -157,7 +174,7 @@ Transform:
   m_LocalScale: {x: .0253999997, y: .0253999997, z: .0253999997}
   m_Children: []
   m_Father: {fileID: 414746}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &414750
 Transform:
   m_ObjectHideFlags: 1
@@ -169,7 +186,7 @@ Transform:
   m_LocalScale: {x: .0253999997, y: .0253999997, z: .0253999997}
   m_Children: []
   m_Father: {fileID: 414746}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &414752
 Transform:
   m_ObjectHideFlags: 1
@@ -181,7 +198,7 @@ Transform:
   m_LocalScale: {x: .0253999121, y: .0254001394, z: .0253999494}
   m_Children: []
   m_Father: {fileID: 414746}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!4 &414754
 Transform:
   m_ObjectHideFlags: 1
@@ -194,7 +211,7 @@ Transform:
   m_Children:
   - {fileID: 465762}
   m_Father: {fileID: 414746}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!4 &465762
 Transform:
   m_ObjectHideFlags: 1
@@ -206,6 +223,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 414754}
+  m_RootOrder: 0
+--- !u!4 &477366
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177366}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .170000002, y: .170000002, z: .384615421}
+  m_Children: []
+  m_Father: {fileID: 414746}
   m_RootOrder: 0
 --- !u!4 &478006
 Transform:
@@ -287,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headArmorMeshRenderer: {fileID: 13714754}
-  _bodyArmorMeshRenderer: {fileID: 13714752}
+  _bodyArmorMeshRenderer: {fileID: 13777366}
   _weaponBoneRight: {fileID: 465762}
   _weaponBoneLeft: {fileID: 414754}
   _animator: {fileID: 9514754}
@@ -349,6 +378,9 @@ MonoBehaviour:
   _unitAttack: {fileID: 11446846}
   _model: {fileID: 11414754}
   _healthBarPosition: {x: 0, y: 1.45000005, z: 0}
+  _place:
+    _range: 2
+    _position: 3
 --- !u!137 &13714752
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -410,6 +442,39 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: -7.73591328, y: .142571449, z: .0349810123}
     m_Extent: {x: 3.26091647, y: 3.3430872, z: 2.07319069}
+  m_DirtyAABB: 0
+--- !u!137 &13777366
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177366}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: a9ebd5e5796611c4cab2f56d755bb8c1, type: 2}
+  - {fileID: 2100000, guid: c08d0a6adeae08d49b9ee8832e7b76cb, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_Mesh: {fileID: 4300000, guid: b13bf6500f1b65c4eb4d9ae3aed1fdb4, type: 3}
+  m_Bones:
+  - {fileID: 0}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: 2.38418579e-07, y: 0, z: .0813229457}
+    m_Extent: {x: 1.86549306, y: 1.86549342, z: .0813229457}
   m_DirtyAABB: 0
 --- !u!1001 &100100000
 Prefab:
