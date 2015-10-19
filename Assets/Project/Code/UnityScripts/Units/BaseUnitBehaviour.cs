@@ -50,9 +50,6 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	public bool IsAlly {
 		get { return _isAlly; }
 	}
-
-    public BaseUnitBehaviour NextAttackUnit { get; set; }
-    public BaseUnitBehaviour PrevAttackUnit { get; set; }
 	
 	private float _attackTime = 0f;
 	
@@ -123,7 +120,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		}
 		
 		_unitData = null;
-		_targetUnit = null;
+        _lastTargetUnit = _targetUnit = null;
         _unitAttack = null;
         //_unitPathfinder = null;
         _model = null;
@@ -168,8 +165,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 		
 		for (int i = 0; i < UnitData.ActiveSkills.ActiveSkills.Count; i++) {
 			UnitData.ActiveSkills.ActiveSkills[i].OnCasterStunned();
-		}
-		
+		}		
 		StopTargetAttack(false);
 		_targetUnit = null;
         _unitAttack.Reset(true);
@@ -182,7 +178,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	}
 	
 	public void Run() {
-		if (!_isStarted) {
+		if (!_isStarted)         
+        {
 			_onStart += Run;
 			return;
 		}
@@ -267,7 +264,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			CancelInvoke("Run");
 		}
 		StopTargetAttack(false);//(true);
-		_targetUnit = null;
+		_lastTargetUnit = _targetUnit = null;
         _unitAttack.Reset(true);
 		
 		EventsAggregator.Fight.Broadcast<BaseUnit>(gameObject.tag == GameConstants.Tags.UNIT_ALLY ? EFightEvent.AllyDeath : EFightEvent.EnemyDeath, _unitData);
@@ -285,7 +282,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 			CancelInvoke("Run");
 		}		
 		StopTargetAttack(true);
-		_targetUnit = null;
+		_lastTargetUnit = _targetUnit = null;
         _unitAttack.Reset(true);
 		
 		if (_unitData != null && !_unitData.IsDead) {
@@ -329,8 +326,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
             _unitAttack.Reset(true);
 
             _corTargetAttack = null;
-            _performPlay = _performAttack = _performWait = false;
         }
+        _performPlay = _performAttack = _performWait = false;
     }
 	
 	private void OnHitReceived(BaseUnit unit, HitInfo hitInfo) {
