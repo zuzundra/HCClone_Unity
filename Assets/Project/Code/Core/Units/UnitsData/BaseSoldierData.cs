@@ -27,4 +27,11 @@ public class BaseSoldierData : BaseUnitData {
     {
         get { return _agroCost; }
     }
+
+    [SerializeField]
+    protected EUnitKey _type = EUnitKey.Idle;
+    public EUnitKey Type
+    {
+        get { return _type; }
+    }
 }

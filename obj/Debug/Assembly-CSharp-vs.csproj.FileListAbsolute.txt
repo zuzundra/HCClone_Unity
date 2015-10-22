@@ -22,3 +22,6 @@ D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\Temp\bin\Debug\ICSharpCo
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp.dll
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp.pdb
+D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Photon3Unity3D.dll
+D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\PlayMaker.dll
+D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Photon3Unity3D.xml

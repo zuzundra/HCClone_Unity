@@ -10,7 +10,8 @@ public class UIWindowsManager : MonoBehaviourSingleton<UIWindowsManager> {
 		{ EUIWindowKey.BattleSetup, GameConstants.Paths.Prefabs.UI_WIN_BATTLE_SETUP },
 		{ EUIWindowKey.BattleVictory, GameConstants.Paths.Prefabs.UI_WIN_BATTLE_VICTORY },
 		{ EUIWindowKey.BattleDefeat, GameConstants.Paths.Prefabs.UI_WIN_BATTLE_DEFEAT },
-
+        { EUIWindowKey.UnitSelect, GameConstants.Paths.Prefabs.UI_WIN_UNIT_SELECT },
+        { EUIWindowKey.UnitConfirm, GameConstants.Paths.Prefabs.UI_WIN_UNIT_CONFIRM },
 		
 		{ EUIWindowKey.CityBuildingUpgrade, GameConstants.Paths.Prefabs.UI_WIN_CITY_BUILDING_UPGRADE },
 		{ EUIWindowKey.CityBarracks, GameConstants.Paths.Prefabs.UI_WIN_CITY_BARRACKS },
@@ -47,8 +48,8 @@ public class UIWindowsManager : MonoBehaviourSingleton<UIWindowsManager> {
 
 		GameObject windowResource = UIResourcesManager.Instance.GetResource<GameObject>(_windowResources[windowKey]);
 		if (windowResource != null) {
-			UIWindow windowInstance = (GameObject.Instantiate(windowResource) as GameObject).GetComponent<UIWindow>();
-			windowInstance.transform.SetParent(Utils.UI.GetWindowsCanvas().transform, false);
+            UIWindow windowInstance = (GameObject.Instantiate(windowResource) as GameObject).GetComponent<UIWindow>();
+            windowInstance.transform.SetParent(Utils.UI.GetWindowsCanvas().transform, false);
 			windowInstance.gameObject.SetActive(false);
 			windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreShow, OnWindowShow);
 			windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreHide, OnWindowHide);

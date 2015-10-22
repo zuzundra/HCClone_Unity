@@ -2,9 +2,11 @@
 	None = 0,
 
 	BattlePreview = 1,
-	BattleSetup,
+	BattleSetup = 2,
 	BattleVictory,
 	BattleDefeat,
+    UnitSelect = 10,
+    UnitConfirm = 20,
 
 	CityMainHall = 101,
 	CityBarracks,

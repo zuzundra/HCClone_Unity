@@ -7,12 +7,26 @@ using UnityEngine.EventSystems;
 public class MultiImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler {
 	[SerializeField]
 	private Image[] _affectedImages;
+    public Image[] AffectedImages
+    {
+        get
+        {
+            return _affectedImages;
+        }
+    }
 
-	private Button _myButton;
+    private Button _myButton;
 
 	public void Awake() {
 		_myButton = GetComponent<Button>();
 	}
+
+    public void SetEnabled(bool enabled)
+    {
+        _myButton.image.enabled = enabled;
+        for (int i = 0; i < AffectedImages.Length; i++)
+            AffectedImages[i].enabled = enabled;
+    }
 
 	public void OnPointerEnter(PointerEventData eventData) {
 		if (!_myButton.interactable) {

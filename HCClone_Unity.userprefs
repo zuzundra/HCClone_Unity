@@ -1,10 +1,30 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Project\Code\UI\Windows\UIWindowsManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Project\Code\Core\Units\UnitsCore\UnitKeys.cs">
     <Files>
-      <File FileName="Assets\Project\Code\UI\MainMenu\UIMainMenu.cs" Line="63" Column="41" />
+      <File FileName="Assets\Project\Code\UnityScripts\Units\BaseUnitBehaviour.cs" Line="23" Column="25" />
+      <File FileName="Assets\iTween\ReadMe!\ReadMe!.txt" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UI\MainMenu\UIMainMenu.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Code\UI\MissionSelect\Back_.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Code\UI\Windows\UIWindowsManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\Units\UnitAttack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\GameConfig\UnitsConfig.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\Units\UnitsCore\UnitKeys.cs" Line="16" Column="2" />
+      <File FileName="Assets\Project\Code\Core\Units\UnitsCore\UnitRarity.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\Units\UnitsCore\BaseSoldier.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\Units\UnitsCore\BaseHero.cs" Line="96" Column="45" />
+      <File FileName="Assets\Project\Code\UI\Windows\UIBattleSetupUnitInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\GameConstants.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\Global.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UnityScripts\Units\UnitSet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\_Common\UnityScripts\UI\MultiImageButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\_Common\ArrayRO.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\_Common\ListRO.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\UI\Windows\Instances\UIWindowShop.cs" Line="28" Column="4" />
+      <File FileName="Assets\Project\Code\Core\Player\PlayerData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\Player\PlayerCity.cs" Line="106" Column="86" />
+      <File FileName="Assets\Project\Code\Core\Player\PlayerStoryProgress.cs" Line="1" Column="1" />
+      <File FileName="Assets\Project\Code\Core\Player\PlayerStatistics.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

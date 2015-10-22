@@ -45,7 +45,10 @@ public static class GameConstants {
 
 			public static string UI_WIN_SETS { get { return string.Format("{0}/City/WndSets", UI_WINDOWS_RESOURCES); } }
 			public static string UI_WIN_SHOP { get { return string.Format("{0}/City/WndShop", UI_WINDOWS_RESOURCES); } }
-			public static string UI_WIN_UPGRADES { get { return string.Format("{0}/City/WndUpgrades", UI_WINDOWS_RESOURCES); } }
+            public static string UI_WIN_UPGRADES { get { return string.Format("{0}/City/WndUpgrades", UI_WINDOWS_RESOURCES); } }
+
+            public static string UI_WIN_UNIT_SELECT { get { return string.Format("{0}/Missions/WndUnitSelect", UI_WINDOWS_RESOURCES); } }
+            public static string UI_WIN_UNIT_CONFIRM { get { return string.Format("{0}/Missions/WndUnitConfirm", UI_WINDOWS_RESOURCES); } }
 
 			public static string UI_WIN_PLANET_OVERAY { get { return string.Format("{0}/Missions/WndPlanetOverlay", UI_WINDOWS_RESOURCES); } }
 		}

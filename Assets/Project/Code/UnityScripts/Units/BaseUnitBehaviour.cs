@@ -197,6 +197,12 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
         UnitAttack.SetPosition(this, position);
     }
 
+    public void SetPlace(EUnitRange range, EUnitPosition position)
+    {
+        Place = UnitData.Place.Range != EUnitRange.None && UnitData.Place.Position != EUnitPosition.None
+            ? UnitData.Place : new UnitPlace() { Range = range, Position = position }; 
+    }
+
 	public void GoToMapEnd() {
         _unitAttack.WalkIntoSunset();
 		//_unitPathfinder.WalkIntoSunset();
