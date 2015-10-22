@@ -349,6 +349,9 @@ MonoBehaviour:
   _unitAttack: {fileID: 11446846}
   _model: {fileID: 11414754}
   _healthBarPosition: {x: 0, y: 1.45000005, z: 0}
+  _place:
+    _range: 2
+    _position: 3
 --- !u!137 &13714752
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

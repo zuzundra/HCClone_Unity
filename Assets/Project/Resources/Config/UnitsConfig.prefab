@@ -47,7 +47,6 @@ MonoBehaviour:
     _baseHealthPoints: 10
     _baseDamage: 10
     _baseRange: 1
-    _basePriority: 1
     _baseEquipment:
     - _slotName: 1
       _itemKey: 1000001
@@ -62,7 +61,6 @@ MonoBehaviour:
     _baseHealthPoints: 0
     _baseDamage: 15
     _baseRange: 2
-    _basePriority: 2
     _baseEquipment:
     - _slotName: 1
       _itemKey: 1000002
@@ -78,7 +76,6 @@ MonoBehaviour:
     _baseHealthPoints: 6
     _baseDamage: 2
     _baseRange: 1
-    _basePriority: 1
     _baseEquipment:
     - _slotName: 1
       _itemKey: 1000001
@@ -89,11 +86,10 @@ MonoBehaviour:
     _leadershipCost: 1
     _npcReward: 0
     _agroCost: 0
-  - _key: 1000002
+  - _key: 1000003
     _baseHealthPoints: 16
     _baseDamage: 2
     _baseRange: 1
-    _basePriority: 0
     _baseEquipment:
     - _slotName: 1
       _itemKey: 1000002
@@ -108,7 +104,6 @@ MonoBehaviour:
     _baseHealthPoints: 5
     _baseDamage: 5
     _baseRange: 1
-    _basePriority: 1
     _baseEquipment:
     - _slotName: 1
       _itemKey: 1000001
@@ -123,7 +118,6 @@ MonoBehaviour:
     _baseHealthPoints: 0
     _baseDamage: 3
     _baseRange: 2
-    _basePriority: 2
     _baseEquipment:
     - _slotName: 1
       _itemKey: 1000002
@@ -132,6 +126,20 @@ MonoBehaviour:
     _hexIconName: 
     _rarity: 0
     _leadershipCost: 0
+    _npcReward: 0
+    _agroCost: 0
+  - _key: 1000002
+    _baseHealthPoints: 6
+    _baseDamage: 6
+    _baseRange: 1
+    _baseEquipment:
+    - _slotName: 1
+      _itemKey: 1000002
+    _prefabName: Unit_Scout_drone
+    _iconName: Jawas/unit_jawa2
+    _hexIconName: Hexagonal/npc_5_element
+    _rarity: 0
+    _leadershipCost: 5
     _npcReward: 0
     _agroCost: 0
   _soldierUpgrades:

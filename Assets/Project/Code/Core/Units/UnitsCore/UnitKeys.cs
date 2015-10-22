@@ -7,6 +7,7 @@ public enum EUnitKey {
 	Hero_Goblin,
 
 	Scout = 1000001,
+	Scout_Drone = 1000002,
 	Trooper,
 	Medic,
 
