@@ -623,7 +623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &278038336
 RectTransform:
   m_ObjectHideFlags: 0
@@ -865,7 +865,7 @@ Transform:
   m_LocalScale: {x: 1, y: .99999994, z: .99999994}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &454966424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,10 +1731,10 @@ RectTransform:
   - {fileID: 566186440}
   m_Father: {fileID: 369896386}
   m_RootOrder: 2
-  m_AnchorMin: {x: .506230533, y: .00361992745}
+  m_AnchorMin: {x: .503843904, y: .00710159494}
   m_AnchorMax: {x: .998000026, y: .996309936}
-  m_AnchoredPosition: {x: -4.5, y: .0277139992}
-  m_SizeDelta: {x: 16.7000008, y: 5.76020002}
+  m_AnchoredPosition: {x: 9.1791153e-06, y: .421620011}
+  m_SizeDelta: {x: 14.7000008, y: 7.7602005}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &983214897
 MonoBehaviour:
@@ -2637,7 +2637,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .0062305294, y: .00915498286}
   m_AnchorMax: {x: .495846301, y: .99077493}
-  m_AnchoredPosition: {x: -2.36129999, y: .0274804682}
+  m_AnchoredPosition: {x: -3.79999995, y: 1.14405215}
   m_SizeDelta: {x: 12.7229996, y: 14.4829998}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1885023111
@@ -2833,156 +2833,3 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1968745547}
---- !u!1 &2077995391
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2077995393}
-  - 114: {fileID: 2077995392}
-  m_Layer: 0
-  m_Name: (singleton) UnitsConfig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2077995392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2077995391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32abf7a4b745d949aa752d6fdc56806, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxUnitsHeroCanHire: 6
-  _heroEquipmentSlots: 01000000020000000b000000
-  _soldierEquipmentSlots: 01000000020000000b000000
-  _heroesData:
-  - _key: 1
-    _baseHealthPoints: 10
-    _baseDamage: 10
-    _baseRange: 1
-    _baseEquipment:
-    - _slotName: 1
-      _itemKey: 1000001
-    _prefabName: Hero_Capral
-    _iconName: Heroes/hero_1
-    _hexIconName: 
-    _baseLeadership: 17
-    _baseAggroCrystalsPerAttack: 2.5
-    _baseAggroCrystalsMaximum: 10
-    _availableItemTypes: []
-  - _key: 2
-    _baseHealthPoints: 0
-    _baseDamage: 15
-    _baseRange: 2
-    _baseEquipment:
-    - _slotName: 1
-      _itemKey: 1000002
-    _prefabName: Hero_Goblin
-    _iconName: 
-    _hexIconName: 
-    _baseLeadership: 17
-    _baseAggroCrystalsPerAttack: 0
-    _baseAggroCrystalsMaximum: 0
-    _availableItemTypes: []
-  _soldiersData:
-  - _key: 1000001
-    _baseHealthPoints: 6
-    _baseDamage: 2
-    _baseRange: 1
-    _baseEquipment:
-    - _slotName: 1
-      _itemKey: 1000001
-    _prefabName: Unit_Scout
-    _iconName: Soldiers/npc_5_icon
-    _hexIconName: Hexagonal/npc_5_element
-    _rarity: 0
-    _leadershipCost: 1
-    _npcReward: 0
-    _agroCost: 0
-  - _key: 1000002
-    _baseHealthPoints: 16
-    _baseDamage: 2
-    _baseRange: 1
-    _baseEquipment:
-    - _slotName: 1
-      _itemKey: 1000002
-    _prefabName: Unit_Trooper
-    _iconName: Soldiers/npc_6_icon
-    _hexIconName: Hexagonal/npc_6_element
-    _rarity: 0
-    _leadershipCost: 2
-    _npcReward: 0
-    _agroCost: 0
-  - _key: 1000004
-    _baseHealthPoints: 5
-    _baseDamage: 5
-    _baseRange: 1
-    _baseEquipment:
-    - _slotName: 1
-      _itemKey: 1000001
-    _prefabName: Enemy_Jawa1
-    _iconName: Jawas/unit_jawa1
-    _hexIconName: 
-    _rarity: 0
-    _leadershipCost: 0
-    _npcReward: 0
-    _agroCost: 0
-  - _key: 1000005
-    _baseHealthPoints: 0
-    _baseDamage: 3
-    _baseRange: 2
-    _baseEquipment:
-    - _slotName: 1
-      _itemKey: 1000002
-    _prefabName: Enemy_Jawa2
-    _iconName: Jawas/unit_jawa2
-    _hexIconName: 
-    _rarity: 0
-    _leadershipCost: 0
-    _npcReward: 0
-    _agroCost: 0
-  _soldierUpgrades:
-  - _soldierKey: 1000001
-    _levelsData:
-    - _modifierDamage: 0
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-  - _soldierKey: 1000002
-    _levelsData:
-    - _modifierDamage: 0
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
-    - _modifierDamage: 1
---- !u!4 &2077995393
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2077995391}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
