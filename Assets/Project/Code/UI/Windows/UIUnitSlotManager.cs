@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIUnitSlotManager : MonoBehaviour
 {
-    public event EventHandler UnitSlotIsChanged;
+    public event EventHandler UnitSlotIsSelected;
 
     [SerializeField]
     private UIUnitSlot[] _unitSlots = null;
@@ -20,6 +20,20 @@ public class UIUnitSlotManager : MonoBehaviour
                 _unitSlotsRO = new ArrayRO<UIUnitSlot>(_unitSlots);
             }
             return _unitSlotsRO;
+        }
+    }
+
+    UIUnitSlot SelectedSlot
+    {
+        get
+        {
+            for (int i = 0; i < UnitSlotsRO.Length; i++)
+            {
+                UIUnitSlot slot = UnitSlotsRO[i];
+                if (slot != null && slot.IsSelected)
+                    return slot;
+            }
+            return null;
         }
     }
 
@@ -44,7 +58,7 @@ public class UIUnitSlotManager : MonoBehaviour
         {
             UIUnitSlot slot = UnitSlotsRO[i];
             if (slot != null)
-                slot.UnitIsSelected +=new EventHandler(slot_UnitIsSelected);
+                slot.SlotIsSelected += new EventHandler(slot_SlotIsSelected);
         }
     }
 
@@ -64,7 +78,7 @@ public class UIUnitSlotManager : MonoBehaviour
                     uiSlot.SetUnitData(soldierData);
                     if (firstUISlot == null)
                     {
-                        uiSlot.SelectSlot(soldierData);
+                        uiSlot.SelectSlot(true);
                         firstUISlot = uiSlot;
                     }                    
                 }
@@ -83,10 +97,27 @@ public class UIUnitSlotManager : MonoBehaviour
         return null;
     }
 
-    void slot_UnitIsSelected(object sender, EventArgs e)
+    public void ChangeCurrentUnit()
     {
-        if (UnitSlotIsChanged != null)
-            UnitSlotIsChanged(sender, e);
+        UIUnitSlot selectedSlot = SelectedSlot;
+        if (selectedSlot != null)
+            selectedSlot.ShowUnitSelect();
+    }
+
+    public void DeleteCurrentUnit()
+    {
+        UIUnitSlot selectedSlot = SelectedSlot;
+        if (selectedSlot != null)
+            selectedSlot.SetUnitData(null);
+    }
+
+    void slot_SlotIsSelected(object sender, EventArgs e)
+    {
+        if (UnitSlotIsSelected != null)
+            UnitSlotIsSelected(sender, e);
+        for (int i = 0; i < UnitSlotsRO.Length; i++)
+            if (UnitSlotsRO[i] != null)
+                UnitSlotsRO[i].SelectSlot(false);
     }
 
     public void SaveHiredSoldiers()
@@ -101,7 +132,7 @@ public class UIUnitSlotManager : MonoBehaviour
                 {
                     BaseSoldier soldier = new BaseSoldier(soldierData,
                         Global.Instance.Player.City.GetSoldierUpgradesInfo(soldierData.Key).Level);
-                    soldier.Place = UnitSlotsRO[i].Place;
+                    soldier.TemplatePlace = UnitSlotsRO[i].Place;
                     soldiers.Add(soldier); 
                 }
             }
@@ -110,7 +141,16 @@ public class UIUnitSlotManager : MonoBehaviour
 
         UnitSlot[] slotTemplate = new UnitSlot[soldiers.Count];
         for (int i = 0; i < slotTemplate.Count(); i++)
-            slotTemplate[i] = new UnitSlot(soldiers[i].Place, soldiers[i].Data.Key);
+            slotTemplate[i] = new UnitSlot(soldiers[i].TemplatePlace, soldiers[i].Data.Key);
         Global.Instance.Player.Heroes.Current.Data.SlotTemplate = new ArrayRO<UnitSlot>(slotTemplate);
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i < UnitSlotsRO.Length; i++)
+        {
+            if (UnitSlotsRO[i] != null)
+                UnitSlotsRO[i].SetUnitData(null);
+        }
     }
 }

@@ -21,7 +21,7 @@ public abstract class BaseUnit  {
 
 	public int HealthPoints { get; private set; }	//health amount after all upgrades applied
 	public int Damage { get; private set; }	//damage amount after all upgrades applied
-    public UnitPlace Place { get; set; }
+    public UnitPlace TemplatePlace { get; set; }
 
 	//public float AR { get; private set; }	//damage range after all upgrades applied
 	//public float AttackSpeed { get; private set; }	//damage speed after all upgrades applied

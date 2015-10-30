@@ -926,10 +926,10 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.7/Standalone/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Photon3Unity3D">
- <HintPath>D:/Оля/My works/Star Wars/Github/HCClone_Unity/Assets/Photon Unity Networking/Plugins/PhotonNetwork/library/Photon3Unity3D.dll</HintPath>
+ <HintPath>D:/My job/My job/Development/C#/Star Wars/GitHub/HCClone_Unity/Assets/Photon Unity Networking/Plugins/PhotonNetwork/library/Photon3Unity3D.dll</HintPath>
  </Reference>
  <Reference Include="PlayMaker">
- <HintPath>D:/Оля/My works/Star Wars/Github/HCClone_Unity/Assets/PlayMaker/PlayMaker.dll</HintPath>
+ <HintPath>D:/My job/My job/Development/C#/Star Wars/GitHub/HCClone_Unity/Assets/PlayMaker/PlayMaker.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

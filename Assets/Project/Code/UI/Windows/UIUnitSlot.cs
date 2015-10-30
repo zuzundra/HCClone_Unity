@@ -4,7 +4,7 @@ using System;
 
 public class UIUnitSlot : MonoBehaviour
 {
-    public event EventHandler UnitIsSelected;
+    public event EventHandler SlotIsSelected;
 
     [SerializeField]
     private Button _button;
@@ -29,6 +29,15 @@ public class UIUnitSlot : MonoBehaviour
         }
     }
 
+    bool _isSelected = false;
+    public bool IsSelected
+    {
+        get
+        {
+            return _isSelected;
+        }
+    }
+
     public void Awake()
     {
         _button.image.enabled = false;
@@ -37,6 +46,9 @@ public class UIUnitSlot : MonoBehaviour
 
     public void SetUnitData(BaseSoldierData unitData)
     {
+        if (_unitData != null)
+            UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));             
+
         _unitData = unitData;
         if (_unitData != null)
         {
@@ -47,27 +59,44 @@ public class UIUnitSlot : MonoBehaviour
         {
             _button.image.enabled = false;
             _button.image.sprite = null;
+            _isSelected = false;
         }
     }
 
     private void OnBtnClick()
     {
+        if (_unitData == null)
+        {
+            ShowUnitSelect();       
+        }
+        else
+        {
+            SelectSlot(true);
+        }
+    }
+
+    public void ShowUnitSelect()
+    {
         UIWindowUnitSelect wus = UIWindowsManager.Instance.GetWindow(EUIWindowKey.UnitSelect) as UIWindowUnitSelect;
         wus.UnitIsSelected += new System.EventHandler(wus_UnitIsSelected);
         wus.UnitSelectIsHided += new System.EventHandler(wus_UnitSelectIsHided);
-        wus.Show(_unitData);
+        wus.Show(_unitData); 
     }
 
     void wus_UnitIsSelected(object sender, System.EventArgs e)
     {
-        SelectSlot((BaseSoldierData)sender);
+        SetUnitData((BaseSoldierData)sender);
+        SelectSlot(true);
     }
 
-    public void SelectSlot(BaseSoldierData soldierData)
+    public void SelectSlot(bool isSelected)
     {
-        SetUnitData(soldierData);
-        if (UnitIsSelected != null)
-            UnitIsSelected(soldierData, new EventArgs()); 
+        if (isSelected)
+        {
+            if (SlotIsSelected != null)
+                SlotIsSelected(_unitData, new EventArgs());         
+        }
+        _isSelected = isSelected;
     }
 
     void wus_UnitSelectIsHided(object sender, System.EventArgs e)

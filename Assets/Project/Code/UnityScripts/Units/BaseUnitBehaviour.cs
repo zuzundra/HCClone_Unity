@@ -199,8 +199,8 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 
     public void SetPlace(EUnitRange range, EUnitPosition position)
     {
-        Place = UnitData.Place.Range != EUnitRange.None && UnitData.Place.Position != EUnitPosition.None
-            ? UnitData.Place : new UnitPlace() { Range = range, Position = position }; 
+        Place = UnitData.TemplatePlace.Range != EUnitRange.None && UnitData.TemplatePlace.Position != EUnitPosition.None
+            ? UnitData.TemplatePlace : new UnitPlace() { Range = range, Position = position };
     }
 
 	public void GoToMapEnd() {

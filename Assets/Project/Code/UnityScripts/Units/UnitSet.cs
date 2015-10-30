@@ -159,12 +159,12 @@ public class UnitSet
         {
             BaseUnitBehaviour secondUnit = units[1];
             secondUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
-            secondUnit.SetPlace(secondUnit.Place.Range, EUnitPosition.Bottom);
+            secondUnit.SetPlace(secondUnit.Place.Range, EUnitPosition.Top);
             if (units.Count > 2)
             {
                 BaseUnitBehaviour thirdUnit = units[2];
                 thirdUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
-                thirdUnit.SetPlace(thirdUnit.Place.Range, EUnitPosition.Top);
+                thirdUnit.SetPlace(thirdUnit.Place.Range, EUnitPosition.Bottom);
             }
         }
     }

@@ -27,6 +27,8 @@ public class UIWindowBattleSetup : UIWindow {
 	[SerializeField]
 	private Image _imgCurrrentSoldier;
 
+    BaseSoldierData _currentSoldierData = null;
+
     //[SerializeField]
     //private float _offsetImageAvailableSoldiersX = 70f;
 	//[SerializeField]
@@ -36,6 +38,8 @@ public class UIWindowBattleSetup : UIWindow {
 	private Button _btnBack;
 	[SerializeField]
 	private Button _btnPlay;
+    [SerializeField]
+    private Button _btnChangeCurrentSoldier;
     [SerializeField]
     private Button _btnDeleteCurrentSoldier;
 
@@ -57,8 +61,10 @@ public class UIWindowBattleSetup : UIWindow {
 
 		_btnBack.onClick.AddListener(OnBtnBackClick);
 		_btnPlay.onClick.AddListener(OnBtnPlayClick);
+        _btnChangeCurrentSoldier.onClick.AddListener(OnBtnChangeCurrentSoldier);
+        _btnDeleteCurrentSoldier.onClick.AddListener(OnBtnDeleteCurrentSoldier);
 
-        _slotManager.UnitSlotIsChanged += new System.EventHandler(_slotManager_UnitSlotIsChanged);
+        _slotManager.UnitSlotIsSelected += new System.EventHandler(_slotManager_UnitSlotIsSelected);
 	}
 
 	public void Show(EPlanetKey planetKey, EMissionKey missionKey) {
@@ -194,21 +200,25 @@ public class UIWindowBattleSetup : UIWindow {
     //    }
     //}
 
-    void _slotManager_UnitSlotIsChanged(object sender, System.EventArgs e)
+    void _slotManager_UnitSlotIsSelected(object sender, System.EventArgs e)
     {
-        SetHiredUnit((BaseSoldierData)sender);
+        SetSelectedUnit((BaseSoldierData)sender);
     }
 
-    void SetHiredUnit(BaseSoldierData data)
+    void SetSelectedUnit(BaseSoldierData currentSoldierData)
     {
-        if (data != null)
+        if (_currentSoldierData != null)
+            UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_currentSoldierData.IconName));
+        
+        _currentSoldierData = currentSoldierData;
+        if (_currentSoldierData != null)
         {
-            _lblCurrentSoldierLeadershipCost.text = data.LeadershipCost.ToString();
-            _lblCurrentSoldierLevel.text = Global.Instance.Player.City.GetSoldierUpgradesInfo(data.Key).Level.ToString();
-            _lblCurrentSoldierDescription.text = data.PrefabName;
+            _lblCurrentSoldierLeadershipCost.text = _currentSoldierData.LeadershipCost.ToString();
+            _lblCurrentSoldierLevel.text = Global.Instance.Player.City.GetSoldierUpgradesInfo(_currentSoldierData.Key).Level.ToString();
+            _lblCurrentSoldierDescription.text = _currentSoldierData.PrefabName;
 
             _imgCurrrentSoldier.enabled = true;
-            _imgCurrrentSoldier.sprite = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(data.IconName));
+            _imgCurrrentSoldier.sprite = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_currentSoldierData.IconName));
         }
         else
         {
@@ -217,6 +227,19 @@ public class UIWindowBattleSetup : UIWindow {
             _imgCurrrentSoldier.enabled = false;
             _imgCurrrentSoldier.sprite = null;
         }
+        UpdateLeadership();
+    }
+
+    void OnBtnChangeCurrentSoldier()
+    {
+        _slotManager.ChangeCurrentUnit();
+        UpdateLeadership();
+    }
+
+    void OnBtnDeleteCurrentSoldier()
+    {
+        _slotManager.DeleteCurrentUnit();
+        UpdateLeadership();
     }
 
 	#endregion
@@ -309,8 +332,9 @@ public class UIWindowBattleSetup : UIWindow {
 			UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(Global.Instance.Player.Heroes.Current.Data.IconName));
 		}
 
-
-		//TODO: free resources and clear data
+        //TODO: free resources and clear data
+        _slotManager.Clear();
+        SetSelectedUnit(null);
 	}
 	#endregion
 }
