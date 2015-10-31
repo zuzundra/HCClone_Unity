@@ -57,6 +57,7 @@ MonoBehaviour:
     _baseAggroCrystalsPerAttack: 2.5
     _baseAggroCrystalsMaximum: 10
     _availableItemTypes: []
+    _slotTemplate: []
   - _key: 2
     _baseHealthPoints: 0
     _baseDamage: 15
@@ -71,6 +72,19 @@ MonoBehaviour:
     _baseAggroCrystalsPerAttack: 0
     _baseAggroCrystalsMaximum: 0
     _availableItemTypes: []
+    _slotTemplate:
+    - _place:
+        _range: 0
+        _position: 0
+      _unit: 1000001
+    - _place:
+        _range: 1
+        _position: 1
+      _unit: 1000001
+    - _place:
+        _range: 0
+        _position: 2
+      _unit: 1000003
   _soldiersData:
   - _key: 1000001
     _baseHealthPoints: 6
@@ -86,6 +100,7 @@ MonoBehaviour:
     _leadershipCost: 1
     _npcReward: 0
     _agroCost: 0
+    _type: 1
   - _key: 1000003
     _baseHealthPoints: 16
     _baseDamage: 2
@@ -100,6 +115,7 @@ MonoBehaviour:
     _leadershipCost: 2
     _npcReward: 0
     _agroCost: 0
+    _type: 0
   - _key: 1000004
     _baseHealthPoints: 5
     _baseDamage: 5
@@ -114,6 +130,7 @@ MonoBehaviour:
     _leadershipCost: 0
     _npcReward: 0
     _agroCost: 0
+    _type: 0
   - _key: 1000005
     _baseHealthPoints: 0
     _baseDamage: 3
@@ -128,6 +145,7 @@ MonoBehaviour:
     _leadershipCost: 0
     _npcReward: 0
     _agroCost: 0
+    _type: 0
   - _key: 1000002
     _baseHealthPoints: 6
     _baseDamage: 6
@@ -142,6 +160,7 @@ MonoBehaviour:
     _leadershipCost: 5
     _npcReward: 0
     _agroCost: 0
+    _type: 0
   _soldierUpgrades:
   - _soldierKey: 1000001
     _levelsData:

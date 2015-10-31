@@ -17,8 +17,8 @@ public class UIWindowPvPBattleSetup : UIWindow {
 	[SerializeField]
 	private float _offsetImageHiredSoldiers = 40f;
 
-	[SerializeField]
-	private UIBattleSetupUnitInfo _availableSoldierInfo;
+    [SerializeField]
+    private UIBattleSetupUnitInfo _availableSoldierInfo;
 	[SerializeField]
 	private float _offsetImageAvailableSoldiersX = 70f;
 	//[SerializeField]

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class  BaseHeroData : BaseUnitData {
@@ -32,4 +33,23 @@ public class  BaseHeroData : BaseUnitData {
 			return _availableItemTypesRO;
 		}
 	}
+
+    [SerializeField]
+    protected UnitSlot[] _slotTemplate = null;
+    protected ArrayRO<UnitSlot> _slotTemplateRO = null;
+    public ArrayRO<UnitSlot> SlotTemplate
+    {
+        get
+        {
+            if (_slotTemplateRO == null)
+            {
+                _slotTemplateRO = new ArrayRO<UnitSlot>(_slotTemplate);
+            }
+            return _slotTemplateRO;
+        }
+        set
+        {
+            _slotTemplateRO = value;
+        }
+    }
 }

@@ -118,7 +118,7 @@ public class UnitAttack : MonoBehaviour
 
     private void WatchTarget()
     {
-        _modelTransform.localRotation = Quaternion.Lerp(_modelTransform.localRotation, 
+        _modelTransform.localRotation = Quaternion.Lerp(_modelTransform.localRotation,
             Quaternion.LookRotation(_targetTransform.position - _transform.position), _rotationSpeed * Time.deltaTime);
 
         BaseUnitBehaviour unit = gameObject.GetComponent<BaseUnitBehaviour>();

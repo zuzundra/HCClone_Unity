@@ -154,17 +154,17 @@ public class UnitSet
         }
         BaseUnitBehaviour firstUnit = units[0];
         firstUnit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2));
-        firstUnit.Place = new UnitPlace() { Range = firstUnit.Place.Range, Position = EUnitPosition.Middle };
+        firstUnit.SetPlace(firstUnit.Place.Range, EUnitPosition.Middle);
         if (units.Count > 1)
         {
             BaseUnitBehaviour secondUnit = units[1];
             secondUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
-            secondUnit.Place = new UnitPlace() { Range = secondUnit.Place.Range, Position = EUnitPosition.Bottom };
+            secondUnit.SetPlace(secondUnit.Place.Range, EUnitPosition.Top);
             if (units.Count > 2)
             {
                 BaseUnitBehaviour thirdUnit = units[2];
                 thirdUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
-                thirdUnit.Place = new UnitPlace() { Range = thirdUnit.Place.Range, Position = EUnitPosition.Top };
+                thirdUnit.SetPlace(thirdUnit.Place.Range, EUnitPosition.Bottom);
             }
         }
     }
