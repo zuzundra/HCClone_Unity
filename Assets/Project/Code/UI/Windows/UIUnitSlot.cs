@@ -54,6 +54,7 @@ public class UIUnitSlot : MonoBehaviour
         {
             _button.image.enabled = true;
             _button.image.sprite = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
+
         }
         else
         {
