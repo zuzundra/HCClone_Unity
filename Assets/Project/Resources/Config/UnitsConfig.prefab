@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxUnitsHeroCanHire: 6
   _heroEquipmentSlots: 01000000020000000b000000
-  _soldierEquipmentSlots: 01000000020000000b000000
+  _soldierEquipmentSlots: 
   _heroesData:
   - _key: 1
     _baseHealthPoints: 10
