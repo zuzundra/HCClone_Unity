@@ -6,32 +6,6 @@ public class UIUnitSelectInfo : MonoBehaviour
 {
     public event EventHandler UnitIsConfirmed;
 
-    [SerializeField]
-    private Button _button;
-    public Button Button
-    {
-        get { return _button; }
-    }
-
-    public MultiImageButton MultiImageButton
-    {
-        get { return _button != null ? _button.GetComponent<MultiImageButton>() : null; }
-    }
-
-    [SerializeField]
-    private Text _lblLeadershipCost;
-    public Text LblLeadershipCost
-    {
-        get { return _lblLeadershipCost; }
-    }
-
-    [SerializeField]
-    private Text _lblDescription;
-    public Text LblDescription
-    {
-        get { return _lblDescription; }
-    }
-
     BaseSoldierData _unitData = null;
     public BaseSoldierData UnitData
     {
@@ -41,35 +15,42 @@ public class UIUnitSelectInfo : MonoBehaviour
         }
     }
 
-    Color _normalColor = Color.clear;
+    Button _button = null; 
+    public Button Button
+    {
+        get
+        {
+            if (_button == null)
+                _button = gameObject.GetComponent<Button>();
+            return _button;
+        }
+    }
+
     public void Awake()
     {
-        _button.image.enabled = false;
-        _button.onClick.AddListener(OnBtnClick);
-        _normalColor = _button.colors.normalColor;
+        Button.image.enabled = false;
+        Button.onClick.AddListener(OnBtnClick);
     }
 
     public void LoadSoldierData(BaseSoldierData unitData, bool isSelected)
     {
-        MultiImageButton multiButton = _button.GetComponent<MultiImageButton>();
         _unitData = unitData;
-        if (_unitData != null)
-        {
-            Sprite iconResource = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
-            if (iconResource != null)
-            {
-                multiButton.SetEnabled(true);
-                _button.image.sprite = iconResource;
-            }
-            _lblLeadershipCost.text = _unitData.LeadershipCost.ToString();
-            _lblDescription.text = _unitData.PrefabName;
-        }
-        else
-        {
-            multiButton.SetEnabled(false);
-            _button.image.sprite = null;
-            _lblLeadershipCost.text = _lblDescription.text = string.Empty;
-        }
+        if (_unitData == null)
+            return;
+
+        Button button = Button;
+        GameObject cardResource = UIResourcesManager.Instance.GetResource<GameObject>(
+            string.Format("{0}/{1}", GameConstants.Paths.UNIT_PREFAB_RESOURCES, _unitData.CardPrefab));
+        GameObject cardUnitData = GameObject.Instantiate(cardResource) as GameObject;
+        cardUnitData.transform.SetParent(button.transform, false);
+
+        RectTransform rectCard = cardUnitData.GetComponent<RectTransform>();
+        Rect rectImage = button.image.rectTransform.rect;
+        rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectImage.width);
+        rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectImage.height);
+        rectCard.anchoredPosition = new Vector2(rectImage.width / 2, -rectImage.height / 2);
+
+        (gameObject.GetComponent<MultiImageButton>()).AddChildImages(cardUnitData);
     }
 
     private void OnBtnClick()
@@ -98,12 +79,10 @@ public class UIUnitSelectInfo : MonoBehaviour
 
     public void ClearData()
     {
-        if (_button.image.sprite != null)
-        {
-            _button.image.sprite = null;
-            if (_unitData != null)
-                UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
-        }
+        Button button = Button;
+        for (int i = button.transform.childCount; i > 0; i--)
+            button.transform.GetChild(i - 1).SetParent(null);
+
         _unitData = null;
     }
 }
