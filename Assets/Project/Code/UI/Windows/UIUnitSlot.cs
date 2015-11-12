@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class UIUnitSlot : MonoBehaviour
 {
@@ -38,16 +40,98 @@ public class UIUnitSlot : MonoBehaviour
         }
     }
 
+    Vector3 _slotPosition = Vector3.zero;
+
+    static UIUnitSlot _touchSlot = null;
+    UIUnitSlot _targetSlot = null;
+
     public void Awake()
     {
         _button.image.enabled = false;
         _button.onClick.AddListener(OnBtnClick);
     }
 
+    public void Update()
+    {
+        if (_unitData == null)
+        {
+            _slotPosition = transform.position;
+            return;
+        }
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+            {
+                Vector2 position = touch.position;
+                if (_touchSlot == null)
+                {
+                    List<UIUnitSlot> slots = GetSlots(position);
+                    if (slots.Contains(this))
+                        _touchSlot = this;
+                }
+                if (_touchSlot == this)
+                {
+                    _targetSlot = GetTargetSlot(position);
+                    Vector3 targetPosition = new Vector3(position.x, position.y, transform.position.z);
+                    transform.position = targetPosition;
+                }
+            }
+        }
+        else
+        {
+            if (_targetSlot != null)
+            {
+                BaseSoldierData targetData = _targetSlot.UnitData;
+                if (targetData != null)
+                {
+                    _targetSlot.SetUnitData(_unitData);
+                    _targetSlot.SelectSlot(true);
+                    SetUnitData(targetData);
+                }
+                _targetSlot = null;
+            }
+            transform.position = _slotPosition;
+            _touchSlot = null;
+        }
+    }
+
+    UIUnitSlot GetTargetSlot(Vector2 position)
+    {
+        List<UIUnitSlot> slots = GetSlots(position);
+        foreach (UIUnitSlot slot in slots)
+        {
+            if (slot != this)
+                return slot;
+        }
+        return null;
+    }
+
+    List<UIUnitSlot> GetSlots(Vector2 position)
+    {
+        List<UIUnitSlot> slots = new List<UIUnitSlot>();
+        Canvas canvas = Utils.UI.GetCanvas(RenderMode.ScreenSpaceOverlay);
+        if (canvas != null)
+        {
+            GraphicRaycaster rayCaster = canvas.GetComponent<GraphicRaycaster>();
+            List<RaycastResult> results = new List<RaycastResult>();
+            PointerEventData eventData = new PointerEventData(null);
+            eventData.position = position;
+            rayCaster.Raycast(eventData, results);
+            foreach (RaycastResult result in results)
+            {
+                UIUnitSlot slot = result.gameObject.GetComponent<UIUnitSlot>();
+                if (slot != null)
+                    slots.Add(slot);
+            }
+        }
+        return slots;
+    }
+
     public void SetUnitData(BaseSoldierData unitData)
     {
         if (_unitData != null)
-            UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));             
+            UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
 
         _unitData = unitData;
         if (_unitData != null)
@@ -68,7 +152,7 @@ public class UIUnitSlot : MonoBehaviour
     {
         if (_unitData == null)
         {
-            ShowUnitSelect();       
+            ShowUnitSelect();
         }
         else
         {
@@ -81,7 +165,7 @@ public class UIUnitSlot : MonoBehaviour
         UIWindowUnitSelect wus = UIWindowsManager.Instance.GetWindow(EUIWindowKey.UnitSelect) as UIWindowUnitSelect;
         wus.UnitIsSelected += new System.EventHandler(wus_UnitIsSelected);
         wus.UnitSelectIsHided += new System.EventHandler(wus_UnitSelectIsHided);
-        wus.Show(_unitData); 
+        wus.Show(_unitData);
     }
 
     void wus_UnitIsSelected(object sender, System.EventArgs e)
@@ -95,7 +179,7 @@ public class UIUnitSlot : MonoBehaviour
         if (isSelected)
         {
             if (SlotIsSelected != null)
-                SlotIsSelected(_unitData, new EventArgs());         
+                SlotIsSelected(_unitData, new EventArgs());
         }
         _isSelected = isSelected;
     }

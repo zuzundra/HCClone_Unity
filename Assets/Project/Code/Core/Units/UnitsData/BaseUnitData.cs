@@ -99,6 +99,27 @@ public abstract class BaseUnitData {
 		get { return _hexIconName; }
 	}
 
+    [SerializeField]
+    protected string _cardPrefab = string.Empty;
+    public string CardPrefab
+    {
+        get { return _cardPrefab; }
+    }
+
+    [SerializeField]
+    protected string _battlePrefab = string.Empty;
+    public string BattlePrefab
+    {
+        get { return _battlePrefab; }
+    }
+
+    [SerializeField]
+    protected string _aboutInfo = string.Empty;
+    public string AboutInfo
+    {
+        get { return _aboutInfo; }
+    }
+
 	public EItemKey GetBaseItemInSlot(EUnitEqupmentSlot slotName) {
 		for (int i = 0; i < _baseEquipment.Length; i++) {
 			if (_baseEquipment[i].SlotName == slotName) {

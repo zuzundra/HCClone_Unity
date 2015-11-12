@@ -28,13 +28,45 @@ public class MultiImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
             AffectedImages[i].enabled = enabled;
     }
 
+    public void AddChildImages(GameObject parentObject)
+    {
+        Image[] images = new Image[0];
+        _affectedImages = AddChildImages(parentObject.transform, images);
+    }
+
+    Image[] AddChildImages(Transform parentTransform, Image[] allImages)
+    {
+        Image[] childImages = AddImage(allImages, null);
+        for (int i = 0; i < parentTransform.childCount; i++)
+        {
+            Transform childObject = parentTransform.GetChild(i);
+            Image image = childObject.GetComponent<Image>();
+            if (image != null)
+            {
+                childImages = AddImage(childImages, image); 
+            }
+            childImages = AddChildImages(childObject, childImages);
+        }
+        return childImages;
+    }
+
+    Image[] AddImage(Image[] images, Image image)
+    {
+        Image[] newImages = new Image[image != null ? images.Length + 1 : images.Length];
+        for (int i = 0; i < images.Length; i++)
+            newImages[i] = images[i];
+        if (image != null)
+            newImages[newImages.Length - 1] = image;
+        return newImages;
+    }
+
 	public void OnPointerEnter(PointerEventData eventData) {
 		if (!_myButton.interactable) {
 			return;
 		}
 
 		for (int i = 0; i < _affectedImages.Length; i++) {
-			_affectedImages[i].CrossFadeColor(_myButton.colors.highlightedColor, _myButton.colors.fadeDuration, true, true);
+            _affectedImages[i].CrossFadeColor(_myButton.colors.highlightedColor, _myButton.colors.fadeDuration, true, true);
 		}
 	}
 
@@ -44,7 +76,7 @@ public class MultiImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
 		}
 
 		for (int i = 0; i < _affectedImages.Length; i++) {
-			_affectedImages[i].CrossFadeColor(_myButton.colors.normalColor, _myButton.colors.fadeDuration, true, true);
+            _affectedImages[i].CrossFadeColor(_myButton.colors.normalColor, _myButton.colors.fadeDuration, true, true);
 		}
 	}
 
@@ -54,7 +86,7 @@ public class MultiImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
 		}
 
 		for (int i = 0; i < _affectedImages.Length; i++) {
-			_affectedImages[i].CrossFadeColor(_myButton.colors.pressedColor, _myButton.colors.fadeDuration, true, true);
+            _affectedImages[i].CrossFadeColor(_myButton.colors.pressedColor, _myButton.colors.fadeDuration, true, true);
 		}
 	}
 
@@ -64,7 +96,7 @@ public class MultiImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
 		}
 
 		for (int i = 0; i < _affectedImages.Length; i++) {
-			_affectedImages[i].CrossFadeColor(_myButton.colors.highlightedColor, _myButton.colors.fadeDuration, true, true);
+            _affectedImages[i].CrossFadeColor(_myButton.colors.highlightedColor, _myButton.colors.fadeDuration, true, true);
 		}
 	}
 

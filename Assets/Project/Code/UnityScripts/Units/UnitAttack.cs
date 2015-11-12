@@ -30,11 +30,6 @@ public class UnitAttack : MonoBehaviour
         get { return _state; }
         private set
         {
-            if (value != _state)
-            {
-                BaseUnitBehaviour unit = gameObject.GetComponent<BaseUnitBehaviour>();
-                //Debug.Log("State " + unit.name + " " + _state + "->" + value);
-            }
             _state = value;
             Update();
         }

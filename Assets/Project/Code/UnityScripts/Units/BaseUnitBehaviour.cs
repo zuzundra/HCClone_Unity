@@ -4,12 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BaseUnitBehaviour : MonoBehaviour, IComparable {
-	[SerializeField]
-	private UnitPathfinding _unitPathfinder;
-	public UnitPathfinding UnitPathfinder {
-		get { return _unitPathfinder; }
-	}
-
     [SerializeField]
     private UnitAttack _unitAttack;
     public UnitAttack UnitAttack

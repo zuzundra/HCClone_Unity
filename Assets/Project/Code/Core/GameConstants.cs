@@ -13,6 +13,7 @@ public static class GameConstants {
 	public class Paths {
 		public const string ITEM_RESOURCES = "Items";
 		public const string UNIT_RESOURCES = "Units";
+        public const string UNIT_PREFAB_RESOURCES = "Units/Prefabs";
 		public const string UI_RESOURCES = "UI";
 
 		public const string UI_CITY_RESOURCES = "UI/City";
@@ -27,7 +28,7 @@ public static class GameConstants {
 		public static string UI_MAP_BACKGROUND_RESOURCES = "Maps/Backgrounds";
 
 		public class Prefabs {
-			public static string UI_UNIT { get { return string.Format("{0}/UnitUI", UI_RESOURCES); } }
+            public static string UI_UNIT { get { return string.Format("{0}/UnitUI", UI_RESOURCES); } }
 
 			public static string UI_WIN_BATTLE_PREVIEW { get { return string.Format("{0}/Missions/WndBattlePreview", UI_WINDOWS_RESOURCES); } }
 			public static string UI_WIN_BATTLE_SETUP { get { return string.Format("{0}/Missions/WndBattleSetup", UI_WINDOWS_RESOURCES); } }

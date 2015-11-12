@@ -16,24 +16,24 @@ public class UIWindowUnitConfirm : UIWindow
     private Image _imgUnit;
 
     [SerializeField]
-    private Text _lblLeadershipCost;
-    public Text LblLeadershipCost
+    private Text _txtDamage;
+    public Text TxtDamage
     {
-        get { return _lblLeadershipCost; }
+        get { return _txtDamage; }
     }
 
     [SerializeField]
-    private Text _lblLevel;
-    public Text LblLevel
+    private Text _txtHP;
+    public Text TxtHP
     {
-        get { return _lblLevel; }
+        get { return _txtHP; }
     }
 
     [SerializeField]
-    private Text _lblDescription;
-    public Text LblDescription
+    private Text _txtInfo;
+    public Text TxtInfo
     {
-        get { return _lblDescription; }
+        get { return _txtInfo; }
     }
 
     BaseSoldierData _unitData = null;
@@ -51,6 +51,7 @@ public class UIWindowUnitConfirm : UIWindow
 
         _btnCancel.onClick.AddListener(OnBtnCancelClick);
         _btnOK.onClick.AddListener(OnBtnOKClick);
+        _imgUnit.enabled = false;
     }
 
     public void Show(BaseSoldierData unitData)
@@ -62,16 +63,22 @@ public class UIWindowUnitConfirm : UIWindow
     void SetUnit(BaseSoldierData unitData)
     {
         _unitData = unitData;
-        _lblLeadershipCost.text = _unitData.LeadershipCost.ToString(); 
-        _lblLevel.text = Global.Instance.Player.City.GetSoldierUpgradesInfo(_unitData.Key).Level.ToString();
-        _lblDescription.text = _unitData.PrefabName;
+        if (_unitData == null)
+            return;
 
-        Sprite iconResource = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
-        if (iconResource != null)
-        {
-            _imgUnit.enabled = true;
-            _imgUnit.sprite = iconResource;
-        }
+        GameObject cardResource = UIResourcesManager.Instance.GetResource<GameObject>(
+            string.Format("{0}/{1}", GameConstants.Paths.UNIT_PREFAB_RESOURCES, _unitData.CardPrefab));
+        GameObject cardUnitData = GameObject.Instantiate(cardResource) as GameObject;
+        cardUnitData.transform.SetParent(transform, false);
+
+        RectTransform rectCard = cardUnitData.GetComponent<RectTransform>();
+        Rect rectBackground = gameObject.GetComponent<RectTransform>().rect;
+        rectCard.anchoredPosition = new Vector2(rectBackground.width / 2, - rectBackground.height / 2);
+        rectCard.localScale *= _imgUnit.rectTransform.rect.width / rectCard.rect.width;
+
+        _txtDamage.text = "Damage: " + _unitData.BaseDamage.ToString();
+        _txtHP.text = "Health Points: " + _unitData.BaseHealthPoints.ToString();
+        _txtInfo.text = "About Unit: " + _unitData.AboutInfo;
     }
 
     void OnBtnOKClick()
@@ -88,11 +95,6 @@ public class UIWindowUnitConfirm : UIWindow
 
 	private void OnWindowHide(UIWindow window)
     {
-        if (_imgUnit.sprite != null)
-        {
-            _imgUnit.sprite = null;
-            UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
-        }
         _unitData = null;
         if (ConfirmIsHided != null)
             ConfirmIsHided(this, new EventArgs());

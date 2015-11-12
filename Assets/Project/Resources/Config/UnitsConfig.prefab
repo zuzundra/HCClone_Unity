@@ -53,6 +53,8 @@ MonoBehaviour:
     _prefabName: Hero_Capral
     _iconName: Heroes/hero_1
     _hexIconName: 
+    _cardPrefab: 
+    _battlePrefab: 
     _baseLeadership: 17
     _baseAggroCrystalsPerAttack: 2.5
     _baseAggroCrystalsMaximum: 10
@@ -68,6 +70,8 @@ MonoBehaviour:
     _prefabName: Hero_Goblin
     _iconName: 
     _hexIconName: 
+    _cardPrefab: 
+    _battlePrefab: 
     _baseLeadership: 17
     _baseAggroCrystalsPerAttack: 0
     _baseAggroCrystalsMaximum: 0
@@ -96,6 +100,8 @@ MonoBehaviour:
     _prefabName: Unit_Scout
     _iconName: Soldiers/npc_5_icon
     _hexIconName: Hexagonal/npc_5_element
+    _cardPrefab: Scout_card
+    _battlePrefab: 
     _rarity: 0
     _leadershipCost: 1
     _npcReward: 0
@@ -111,6 +117,8 @@ MonoBehaviour:
     _prefabName: Unit_Trooper
     _iconName: Soldiers/npc_6_icon
     _hexIconName: Hexagonal/npc_6_element
+    _cardPrefab: 
+    _battlePrefab: 
     _rarity: 0
     _leadershipCost: 2
     _npcReward: 0
@@ -126,6 +134,8 @@ MonoBehaviour:
     _prefabName: Enemy_Jawa1
     _iconName: Jawas/unit_jawa1
     _hexIconName: 
+    _cardPrefab: 
+    _battlePrefab: 
     _rarity: 0
     _leadershipCost: 0
     _npcReward: 0
@@ -141,6 +151,8 @@ MonoBehaviour:
     _prefabName: Enemy_Jawa2
     _iconName: Jawas/unit_jawa2
     _hexIconName: 
+    _cardPrefab: 
+    _battlePrefab: 
     _rarity: 0
     _leadershipCost: 0
     _npcReward: 0
@@ -156,6 +168,8 @@ MonoBehaviour:
     _prefabName: Unit_Scout_drone
     _iconName: Jawas/unit_jawa2
     _hexIconName: Hexagonal/npc_5_element
+    _cardPrefab: 
+    _battlePrefab: 
     _rarity: 0
     _leadershipCost: 5
     _npcReward: 0

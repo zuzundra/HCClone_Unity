@@ -95,9 +95,6 @@ public class FightManager : MonoBehaviour {
 	public void Awake() {
 		_sceneInstance = this;
 
-		HCCGridController.Instance.Initialize((int)(-HCCGridView.Instance.ZeroPoint.x / HCCGridView.Instance.TileSize) * 2, 
-            (int)(-HCCGridView.Instance.ZeroPoint.z / HCCGridView.Instance.TileSize) * 2);
-
 		EventsAggregator.Units.AddListener<BaseUnitBehaviour>(EUnitEvent.ReadyToFight, OnUnitReadyToFight);
 		EventsAggregator.Fight.AddListener<BaseUnitBehaviour, BaseUnitBehaviour>(EFightEvent.PerformAttack, OnUnitAttack);
 		EventsAggregator.Fight.AddListener<BaseUnit>(EFightEvent.AllyDeath, OnAllyDeath);
