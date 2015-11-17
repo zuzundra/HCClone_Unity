@@ -102,7 +102,7 @@ public class FightManager : MonoBehaviour {
 	}
 
 	public void Start() {
-		FightCamera.AdaptMain();
+		//FightCamera.AdaptMain();
 		FightCamera.AdaptCanvas(GameConstants.DEFAULT_RESOLUTION_WIDTH, _ui.CanvasBG);
 		Utils.UI.AdaptCanvasResolution(GameConstants.DEFAULT_RESOLUTION_WIDTH, GameConstants.DEFAULT_RESOLUTION_HEIGHT, _ui.CanvasUI);
 
