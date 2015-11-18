@@ -32,25 +32,36 @@ public class UIUnitSelectInfo : MonoBehaviour
         Button.onClick.AddListener(OnBtnClick);
     }
 
-    public void LoadSoldierData(BaseSoldierData unitData, bool isSelected)
+    bool _isLoad = false;
+    public void Update()
     {
-        _unitData = unitData;
-        if (_unitData == null)
+        if (_unitData == null || _isLoad)
             return;
 
-        Button button = Button;
+        Rect rectImage = GetComponent<RectTransform>().rect;
+        if (rectImage.width == 0 || rectImage.height == 0)
+            return;
+
         GameObject cardResource = UIResourcesManager.Instance.GetResource<GameObject>(
             string.Format("{0}/{1}", GameConstants.Paths.UNIT_PREFAB_RESOURCES, _unitData.CardPrefab));
+        if (cardResource == null)
+            return;
+
+        _isLoad = true;
         GameObject cardUnitData = GameObject.Instantiate(cardResource) as GameObject;
-        cardUnitData.transform.SetParent(button.transform, false);
+        cardUnitData.transform.SetParent(gameObject.transform, false);
 
         RectTransform rectCard = cardUnitData.GetComponent<RectTransform>();
-        Rect rectImage = button.image.rectTransform.rect;
         rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectImage.width);
         rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectImage.height);
         rectCard.anchoredPosition = new Vector2(rectImage.width / 2, -rectImage.height / 2);
 
         (gameObject.GetComponent<MultiImageButton>()).AddChildImages(cardUnitData);
+    }
+
+    public void LoadSoldierData(BaseSoldierData unitData, bool isSelected)
+    {
+        _unitData = unitData;
     }
 
     private void OnBtnClick()
@@ -81,8 +92,9 @@ public class UIUnitSelectInfo : MonoBehaviour
     {
         Button button = Button;
         for (int i = button.transform.childCount; i > 0; i--)
-            button.transform.GetChild(i - 1).SetParent(null);
+            GameObject.Destroy(button.transform.GetChild(i - 1).gameObject);
 
         _unitData = null;
+        _isLoad = false;
     }
 }

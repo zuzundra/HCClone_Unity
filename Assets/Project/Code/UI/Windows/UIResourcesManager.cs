@@ -28,7 +28,7 @@ public class UIResourcesManager {
 
 	public T GetResource<T>(string path) where T : Object {
 		if (_loadedResources.ContainsKey(path) && _loadedResources[path].resource != null) {
-			_loadedResources[path].usageAmount++;
+            _loadedResources[path].usageAmount++;
 			return (T)_loadedResources[path].resource;
 		}
 

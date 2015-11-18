@@ -45,7 +45,7 @@ public class FightGraphics {
 
 	private void InstantiateBackground(MissionMapData mapData) {
 		if (_backgroundResource != null) {
-			FightManager.SceneInstance.UI.ImgMapBackground.sprite = _backgroundResource;
+			//FightManager.SceneInstance.UI.ImgMapBackground.sprite = _backgroundResource;
 		}
 	}
 

@@ -14,6 +14,7 @@ public class UIMissionIcon : MonoBehaviour {
 			Global.Instance.Initialize();
 		}
 #endif
+        Global.Instance.Initialize();
 		
 		PlanetData pd = MissionsConfig.Instance.GetPlanet(_missionKey);
 		if (pd != null) {
@@ -23,7 +24,7 @@ public class UIMissionIcon : MonoBehaviour {
 		bool missionAvailable = false;
 
 		if (_planetKey != EPlanetKey.None && _missionKey != EMissionKey.None) {
-			if (Global.Instance.Player.StoryProgress.IsMissioAvailable(_planetKey, _missionKey)) {
+			if (Global.Instance.Player.StoryProgress != null && Global.Instance.Player.StoryProgress.IsMissioAvailable(_planetKey, _missionKey)) {
 				missionAvailable = true;
 			}
 		}
