@@ -83,12 +83,10 @@ public class UIUnitSlot : MonoBehaviour
             if (_targetSlot != null)
             {
                 BaseSoldierData targetData = _targetSlot.UnitData;
-                if (targetData != null)
-                {
-                    _targetSlot.SetUnitData(_unitData);
-                    _targetSlot.SelectSlot(true);
-                    SetUnitData(targetData);
-                }
+                _targetSlot.SetUnitData(_unitData);
+                _targetSlot.SelectSlot(true);
+
+                SetUnitData(targetData);
                 _targetSlot = null;
             }
             transform.position = _slotPosition;
