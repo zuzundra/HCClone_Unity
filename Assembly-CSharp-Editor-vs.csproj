@@ -49,37 +49,10 @@
      <Compile Include="Assets\JMO Assets\Cartoon FX Easy Editor\Editor\CFXEasyEditor.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Editor\CFX_InspectorHelpEditor.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Editor\CFX_SpawnSystemEditor.cs" />
-     <Compile Include="Assets\PlayMaker\Actions\Editor\LookAtActionEditor.cs" />
-     <Compile Include="Assets\PlayMaker\Actions\Editor\MoveTowardsActionEditor.cs" />
-     <Compile Include="Assets\PlayMaker\Actions\Editor\SetCameraFOVActionEditor.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\AboutWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\ContextToolWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmActionWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmComponentInspector.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmEditorHelpers.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmEditorWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmErrorWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmEventsWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmGlobalsWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmLogWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmSelectorWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmStateWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmTemplate.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmTemplateEditor.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\FsmTemplateWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\PlayMakerBugReportWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\PlayMakerCustomActionWizard.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\PlayMakerGUIInspector.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\PlayMakerGlobalsInspector.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\PlayMakerMainMenu.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\PlayMakerWelcomeWindow.cs" />
-     <Compile Include="Assets\PlayMaker\Editor\ReportWindow.cs" />
      <Compile Include="Assets\Project\Code\UnityScripts\Editor\EditorMenu.cs" />
-     <Compile Include="Assets\iTween\PlayMaker\Editor\iTweenMoveToActionEditor.cs" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJump.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Billboard.shader" />
-     <None Include="Assets\PlayMaker\Readme.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Burnout.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Heat.shader" />
@@ -94,15 +67,12 @@
      <None Include="Assets\JMO Assets\!JMO Assets Readme.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpDistortion.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\NebulaStaticBoard.shader" />
-     <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Holographic.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpTwist.shader" />
      <None Include="Assets\AndroidImmersiveMode\Instructions\Instructions.txt" />
-     <None Include="Assets\PlayMaker\Resources\PlayMakerAssemblies.txt" />
      <None Include="Assets\Project\SHaders\Mobile_Diffise2Sided.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnel.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Additive.shader" />
-     <None Include="Assets\PlayMaker\Versions\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.8/Standalone/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -111,45 +81,6 @@
  </Reference>
  <Reference Include="JMOAssets">
  <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/JMO Assets/Editor/JMOAssets.dll</HintPath>
- </Reference>
- <Reference Include="PlayMaker">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/PlayMaker.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/PlayMakerEditor.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditorResources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/PlayMakerEditorResources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.de.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/de/PlayMakerEditor.de.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.es-ES.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/es-ES/PlayMakerEditor.es-ES.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.fr.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/fr/PlayMakerEditor.fr.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.it.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/it/PlayMakerEditor.it.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.ja.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/ja/PlayMakerEditor.ja.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.nl.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/nl/PlayMakerEditor.nl.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.pt-BR.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/pt-BR/PlayMakerEditor.pt-BR.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.sv-SE.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/sv-SE/PlayMakerEditor.sv-SE.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.zh-CN.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/zh-CN/PlayMakerEditor.zh-CN.resources.dll</HintPath>
- </Reference>
- <Reference Include="PlayMakerEditor.zh-TW.resources">
- <HintPath>C:/Users/zuzundra/Documents/GitHub/HCClone_Unity/Assets/PlayMaker/Editor/zh-TW/PlayMakerEditor.zh-TW.resources.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>

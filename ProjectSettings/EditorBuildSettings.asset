@@ -8,6 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Project/Scenes/MainMenu.unity
   - enabled: 1
-    path: Assets/Project/Scenes/Fight.unity
-  - enabled: 1
     path: Assets/Project/Scenes/Missions.unity
+  - enabled: 1
+    path: Assets/Project/Scenes/Fight.unity
