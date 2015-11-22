@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &121598
 GameObject:
   m_ObjectHideFlags: 1
@@ -219,6 +219,23 @@ GameObject:
   - 114: {fileID: 11459038}
   m_Layer: 5
   m_Name: txtFuelAmount
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &160662
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 22460662}
+  - 222: {fileID: 22260662}
+  - 114: {fileID: 11460662}
+  m_Layer: 5
+  m_Name: Enemy_slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -520,7 +537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: ebcffa2281d708b41af6e298fda3ed1c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e3994cbaa0e4ff94aa168609699b5a7e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -829,6 +846,27 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &11460662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c93d1b1b99f5c0347afb0a27c31e4495, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!114 &11460992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1308,6 +1346,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159038}
+--- !u!222 &22260662
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160662}
 --- !u!222 &22260994
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1403,12 +1447,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22400436}
+  - {fileID: 22460662}
   m_Father: {fileID: 22405434}
   m_RootOrder: 0
   m_AnchorMin: {x: .298312455, y: .00559002068}
-  m_AnchorMax: {x: .702000022, y: .99648428}
-  m_AnchoredPosition: {x: -.5, y: -1}
-  m_SizeDelta: {x: 7, y: 10}
+  m_AnchorMax: {x: .701000035, y: .984368503}
+  m_AnchoredPosition: {x: .700029969, y: -2.10000038}
+  m_SizeDelta: {x: 9, y: 23}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22400436
 RectTransform:
@@ -1458,10 +1503,10 @@ RectTransform:
   - {fileID: 22460994}
   m_Father: {fileID: 22464544}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 245.983978, y: -90}
-  m_SizeDelta: {x: 400, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22405428
 RectTransform:
@@ -1633,6 +1678,23 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -182, y: -230}
   m_SizeDelta: {x: 105, y: 51}
+  m_Pivot: {x: .5, y: .5}
+--- !u!224 &22460662
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 22400434}
+  m_RootOrder: 1
+  m_AnchorMin: {x: .20732893, y: .389852464}
+  m_AnchorMax: {x: .787596583, y: .799114764}
+  m_AnchoredPosition: {x: 2.00002289, y: 2}
+  m_SizeDelta: {x: 14, y: 12}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22460994
 RectTransform:
@@ -1823,7 +1885,7 @@ RectTransform:
   m_RootOrder: 8
   m_AnchorMin: {x: .0992156565, y: .3778148}
   m_AnchorMax: {x: .466738433, y: .814814866}
-  m_AnchoredPosition: {x: 2.5, y: 5.34059982e-05}
+  m_AnchoredPosition: {x: 19, y: -14.5649996}
   m_SizeDelta: {x: 13, y: 20}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22493870
