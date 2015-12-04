@@ -73,7 +73,7 @@ public class UIWindowUnitConfirm : UIWindow
 
         RectTransform rectCard = cardUnitData.GetComponent<RectTransform>();
         Rect rectBackground = gameObject.GetComponent<RectTransform>().rect;
-        rectCard.anchoredPosition = new Vector2(rectBackground.width / 2, - rectBackground.height / 2);
+        rectCard.anchoredPosition = new Vector2(rectBackground.width / 2, rectBackground.height / 2);
         rectCard.localScale *= _imgUnit.rectTransform.rect.width / rectCard.rect.width;
 
         _txtDamage.text = "Damage: " + _unitData.BaseDamage.ToString();

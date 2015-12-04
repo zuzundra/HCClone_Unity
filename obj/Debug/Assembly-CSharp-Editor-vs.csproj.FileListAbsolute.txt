@@ -32,10 +32,3 @@ D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CShar
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor.dll
 D:\My job\Development\C#\Star Wars\GitHub\HCClone_Unity\obj\Debug\Assembly-CSharp-Editor.pdb
 D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Assembly-CSharp.pdb
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Newtonsoft.Json.dll
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Photon3Unity3D.dll
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\PlayMaker.dll
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\PlayMakerEditor.dll
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\PlayMakerEditor.it.resources.dll
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\PlayMakerEditorResources.dll
-D:\Оля\My works\Star Wars\Github\HCClone_Unity\Temp\bin\Debug\Photon3Unity3D.xml

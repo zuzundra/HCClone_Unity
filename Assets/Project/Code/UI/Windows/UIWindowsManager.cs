@@ -40,27 +40,45 @@ public class UIWindowsManager : MonoBehaviourSingleton<UIWindowsManager> {
 		return window != null ? window as T : null;
 	}
 
-	public UIWindow GetWindow(EUIWindowKey windowKey) {
-		int windowIndex = _activeWindows.FindIndex((UIWindow w) => { return w.WindowKey == windowKey; });
-		if (windowIndex != -1) {
-			return _activeWindows[windowIndex];
-		}
+	public UIWindow GetWindow(EUIWindowKey windowKey, Transform parentTransform) 
+    {
+        GameObject windowResource = UIResourcesManager.Instance.GetResource<GameObject>(_windowResources[windowKey]);
+        if (windowResource != null)
+        {
+            UIWindow windowInstance = (GameObject.Instantiate(windowResource) as GameObject).GetComponent<UIWindow>();
+            windowInstance.transform.SetParent(parentTransform, false);
+            windowInstance.gameObject.SetActive(false);
 
-		GameObject windowResource = UIResourcesManager.Instance.GetResource<GameObject>(_windowResources[windowKey]);
-		if (windowResource != null) {
+            windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreShow, OnWindowShow);
+            windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreHide, OnWindowHide);
+
+            return windowInstance;
+        }
+        return null;
+    }
+
+    public UIWindow GetWindow(EUIWindowKey windowKey)
+    {
+        int windowIndex = _activeWindows.FindIndex((UIWindow w) => { return w.WindowKey == windowKey; });
+        if (windowIndex != -1)
+        {
+            return _activeWindows[windowIndex];
+        }
+        GameObject windowResource = UIResourcesManager.Instance.GetResource<GameObject>(_windowResources[windowKey]);
+        if (windowResource != null)
+        {
             UIWindow windowInstance = (GameObject.Instantiate(windowResource) as GameObject).GetComponent<UIWindow>();
             windowInstance.transform.SetParent(Utils.UI.GetWindowsCanvas().transform, false);
-			windowInstance.gameObject.SetActive(false);
-			windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreShow, OnWindowShow);
-			windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreHide, OnWindowHide);
+            windowInstance.gameObject.SetActive(false);
+            windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreShow, OnWindowShow);
+            windowInstance.AddDisplayAction(EUIWindowDisplayAction.PreHide, OnWindowHide);
 
-			_activeWindows.Add(windowInstance);
+            _activeWindows.Add(windowInstance);
 
-			return windowInstance;
-		}
-
-		return null;
-	}
+            return windowInstance;
+        }
+        return null;
+    }
 
 	public void Clear() {
 		for (int i = 0; i < _activeWindows.Count; i++) {
@@ -78,18 +96,17 @@ public class UIWindowsManager : MonoBehaviourSingleton<UIWindowsManager> {
 		if (_activeWindow == window) {
 			return;
 		}
-
-		if (_activeWindow != null && _activeWindow != window) {
-			_activeWindow.gameObject.SetActive(false);
-		}
-
-
-		int windowIndex = _activeWindows.FindIndex((UIWindow w) => { return w.WindowKey == window.WindowKey; });
-		if (windowIndex != -1) {
-			_activeWindows.RemoveAt(windowIndex);
-			_activeWindows.Insert(0, window);
-		}
-
+        if (_activeWindow != null && _activeWindow != window)
+        {
+            if (!_activeWindow.IsActive)
+                _activeWindow.gameObject.SetActive(false);
+        }
+        int windowIndex = _activeWindows.FindIndex((UIWindow w) => { return w.WindowKey == window.WindowKey; });
+        if (windowIndex != -1)
+        {
+            _activeWindows.RemoveAt(windowIndex);
+            _activeWindows.Insert(0, window);
+        }
 		_activeWindow = window;
 	}
 

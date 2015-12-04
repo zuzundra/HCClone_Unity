@@ -87,7 +87,7 @@ public class BaseUnitBehaviour : MonoBehaviour, IComparable {
 	public IEnumerator Start() {
 		_model.SimulateAttack();
 		
-		while (_model.Animator.GetCurrentAnimationClipState(0).Length == 0) {
+		if (_model.Animator.GetCurrentAnimationClipState(0).Length == 0) {
 			yield return null;
 		}
 		_model.SetupWeapon();

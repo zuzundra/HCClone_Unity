@@ -10,6 +10,13 @@ public class UIWindow : MonoBehaviour {
 		get { return _windowKey; }
 	}
 
+    [SerializeField]
+    private bool _isActive = false;
+    public bool IsActive
+    {
+        get { return _isActive; }
+    }
+
 	private Dictionary<EUIWindowDisplayAction, Action<UIWindow>> _displayActions = null;
 
 	public UIWindow() {

@@ -54,7 +54,7 @@ public class UIUnitSelectInfo : MonoBehaviour
         RectTransform rectCard = cardUnitData.GetComponent<RectTransform>();
         rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectImage.width);
         rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectImage.height);
-        rectCard.anchoredPosition = new Vector2(rectImage.width / 2, -rectImage.height / 2);
+        rectCard.anchoredPosition = new Vector2(rectImage.width / 2, rectImage.height / 2);
 
         (gameObject.GetComponent<MultiImageButton>()).AddChildImages(cardUnitData);
     }
@@ -68,7 +68,9 @@ public class UIUnitSelectInfo : MonoBehaviour
     {
         if (_unitData != null)
         {
-            UIWindowUnitConfirm wuc = UIWindowsManager.Instance.GetWindow(EUIWindowKey.UnitConfirm) as UIWindowUnitConfirm;
+            UIWindowUnitSelect wus = UIWindowsManager.Instance.GetWindow(EUIWindowKey.UnitSelect) as UIWindowUnitSelect;
+            UIWindowUnitConfirm wuc = UIWindowsManager.Instance.GetWindow(EUIWindowKey.UnitConfirm, wus.transform) as UIWindowUnitConfirm;
+
             wuc.UnitIsConfirmed += new System.EventHandler(wuc_UnitIsConfirmed);
             wuc.ConfirmIsHided += new System.EventHandler(wuc_ConfirmIsHided);
             wuc.Show(_unitData);

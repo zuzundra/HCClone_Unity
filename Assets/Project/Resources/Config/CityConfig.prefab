@@ -68,7 +68,7 @@ MonoBehaviour:
       _costMinerals: 0
       _buildingRequirements: []
     _upgrades:
-    - _availableUnits: 41420f00
+    - _availableUnits: 41420f0043420f00
       _unitWeaponUpgradeLevel: 0
       _unitArmorUpgradeLevel: 0
     - _availableUnits: 42420f00

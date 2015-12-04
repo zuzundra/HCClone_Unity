@@ -9,11 +9,19 @@ public class UIUnitSlot : MonoBehaviour
     public event EventHandler SlotIsSelected;
 
     [SerializeField]
-    private Button _button;
-    public Button Button
-    {
-        get { return _button; }
-    }
+    private Image _imgSlot;
+
+    [SerializeField]
+    private Image _imgMaskUnit;
+
+    [SerializeField]
+    private Image _imgUnit;
+
+    [SerializeField]
+    private Image _imgPressedBorder;
+
+    [SerializeField]
+    private Image _imgBorder;
 
     [SerializeField]
     private UnitPlace _place = new UnitPlace() { Range = EUnitRange.None, Position = EUnitPosition.None };
@@ -47,8 +55,11 @@ public class UIUnitSlot : MonoBehaviour
 
     public void Awake()
     {
-        _button.image.enabled = false;
-        _button.onClick.AddListener(OnBtnClick);
+        Button button = GetComponent<Button>();
+        button.onClick.AddListener(OnBtnClick);
+
+        (GetComponent<MultiImageButton>()).AddChildImages(this.gameObject);
+        _imgMaskUnit.enabled = _imgUnit.enabled = _imgBorder.enabled = _imgPressedBorder.enabled = false;
     }
 
     public void Update()
@@ -132,18 +143,15 @@ public class UIUnitSlot : MonoBehaviour
             UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
 
         _unitData = unitData;
+        _imgSlot.enabled = _unitData == null;
+        _imgMaskUnit.enabled = _imgUnit.enabled = !_imgSlot.enabled;
         if (_unitData != null)
         {
-            _button.image.enabled = true;
-            _button.image.sprite = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
-
+            _imgUnit.sprite = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_unitData.IconName));
         }
         else
-        {
-            _button.image.enabled = false;
-            _button.image.sprite = null;
             _isSelected = false;
-        }
+        SelectImage();
     }
 
     private void OnBtnClick()
@@ -180,6 +188,21 @@ public class UIUnitSlot : MonoBehaviour
                 SlotIsSelected(_unitData, new EventArgs());
         }
         _isSelected = isSelected;
+        SelectImage();
+    }
+
+    void SelectImage()
+    {
+        if (_imgMaskUnit.enabled && _imgUnit.enabled)
+        {
+            _imgPressedBorder.enabled = _isSelected;
+            _imgBorder.enabled = !_imgPressedBorder.enabled;
+            //_imgUnit.CrossFadeColor(_isSelected ? new Color(0.7F, 0.95F, 1F, 0.95F) : Color.clear, 0.1f, true, true);
+        }
+        else
+        {
+            _imgPressedBorder.enabled = _imgBorder.enabled = false;
+        }
     }
 
     void wus_UnitSelectIsHided(object sender, System.EventArgs e)

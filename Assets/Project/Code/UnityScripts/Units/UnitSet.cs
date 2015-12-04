@@ -129,9 +129,19 @@ public class UnitSet
         float height = GameConstants.DEFAULT_RESOLUTION_HEIGHT * canvas.transform.localScale.y;
         float xMin = -width / 2;
         float xMax = width / 2;
-        float yMin = -height / 2;
-        float yMax = height / 2;
+        float yMin = -height;
+        float yMax = 0;
         float delta = (xMax - xMin) / 12;
+
+        //Debug.Log("W" + GameConstants.DEFAULT_RESOLUTION_WIDTH);
+        //Debug.Log("H" + GameConstants.DEFAULT_RESOLUTION_HEIGHT);
+        //Debug.Log("w" + width);
+        //Debug.Log("h" + height);
+        //Debug.Log("xmin" + xMin);
+        //Debug.Log("xmax" + xMax);
+        //Debug.Log("ymin" + yMin);
+        //Debug.Log("ymax" + yMax);
+        //Debug.Log("d" + delta);
 
         List<BaseUnitBehaviour> heroes = rangeUnits[FirstZoneIndex];
         SetZonePositions(heroes, isAlly ? xMin + delta : xMax - delta, yMin, yMax);
@@ -153,18 +163,24 @@ public class UnitSet
             units = units.GetRange(0, 3);
         }
         BaseUnitBehaviour firstUnit = units[0];
-        firstUnit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2));
-        firstUnit.SetPlace(firstUnit.Place.Range, EUnitPosition.Middle);
+        firstUnit.SetPlace(firstUnit.Place.Range, EUnitPosition.Middle);        
         if (units.Count > 1)
         {
-            BaseUnitBehaviour secondUnit = units[1];
-            secondUnit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6));
+            BaseUnitBehaviour secondUnit = units[1];            
             secondUnit.SetPlace(secondUnit.Place.Range, EUnitPosition.Top);
             if (units.Count > 2)
             {
-                BaseUnitBehaviour thirdUnit = units[2];
-                thirdUnit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6));
+                BaseUnitBehaviour thirdUnit = units[2];                
                 thirdUnit.SetPlace(thirdUnit.Place.Range, EUnitPosition.Bottom);
+            }
+        }
+        foreach (BaseUnitBehaviour unit in units)
+        {
+            switch (unit.Place.Position)
+            {
+                case EUnitPosition.Middle: unit.SetPosition(new Vector3(x, 0, (maxZ + minZ) / 2)); break;
+                case EUnitPosition.Top: unit.SetPosition(new Vector3(x, 0, maxZ - (maxZ - minZ) / 6)); break;
+                case EUnitPosition.Bottom: unit.SetPosition(new Vector3(x, 0, minZ + (maxZ - minZ) / 6)); break;                 
             }
         }
     }

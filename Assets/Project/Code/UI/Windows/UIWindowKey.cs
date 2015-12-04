@@ -6,7 +6,7 @@
 	BattleVictory,
 	BattleDefeat,
     UnitSelect = 10,
-    UnitConfirm = 20,
+    UnitConfirm = 15,
 
 	CityMainHall = 101,
 	CityBarracks,

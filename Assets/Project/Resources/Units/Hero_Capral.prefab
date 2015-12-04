@@ -9,8 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400948}
   - 114: {fileID: 11400952}
-  - 114: {fileID: 11400950}
-  - 114: {fileID: 11400948}
   - 114: {fileID: 11435782}
   m_Layer: 8
   m_Name: Hero_Capral
@@ -333,34 +331,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 0
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11400948
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbe24aa4e0b5ca419da402b0565e261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tModelPosition: {fileID: 400948}
-  _xWorldSize: .5
-  _zWorldSize: .5
-  _isStatic: 0
---- !u!114 &11400950
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0633cd4d83242c45a55545fd252bff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gridObject: {fileID: 11400948}
-  _model: {fileID: 11404076}
 --- !u!114 &11400952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -372,10 +342,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19da7223a1ef8d748914a1019c620e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitPathfinder: {fileID: 11400950}
   _unitAttack: {fileID: 11435782}
   _model: {fileID: 11404076}
   _healthBarPosition: {x: 0, y: 1.60000002, z: 0}
+  _place:
+    _range: 2
+    _position: 3
 --- !u!114 &11404076
 MonoBehaviour:
   m_ObjectHideFlags: 1

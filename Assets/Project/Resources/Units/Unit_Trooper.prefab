@@ -120,8 +120,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 491652}
   - 114: {fileID: 11491646}
-  - 114: {fileID: 11491644}
-  - 114: {fileID: 11491642}
   - 114: {fileID: 11499044}
   m_Layer: 8
   m_Name: Unit_Trooper
@@ -294,34 +292,6 @@ MonoBehaviour:
   _shootPositionTimeOffset: .270000011
   _gunStanceOffset: .439999998
   _rifleStanceOffset: .550000012
---- !u!114 &11491642
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbe24aa4e0b5ca419da402b0565e261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tModelPosition: {fileID: 491652}
-  _xWorldSize: .5
-  _zWorldSize: .5
-  _isStatic: 0
---- !u!114 &11491644
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0633cd4d83242c45a55545fd252bff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gridObject: {fileID: 11491642}
-  _model: {fileID: 0}
 --- !u!114 &11491646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,10 +303,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19da7223a1ef8d748914a1019c620e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitPathfinder: {fileID: 11491644}
   _unitAttack: {fileID: 11499044}
   _model: {fileID: 0}
   _healthBarPosition: {x: 0, y: 1.45000005, z: 0}
+  _place:
+    _range: 2
+    _position: 3
 --- !u!114 &11499044
 MonoBehaviour:
   m_ObjectHideFlags: 1

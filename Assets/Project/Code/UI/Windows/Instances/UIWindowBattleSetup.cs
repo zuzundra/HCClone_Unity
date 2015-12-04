@@ -9,23 +9,22 @@ public class UIWindowBattleSetup : UIWindow {
 	private Text _txtPlayerLeadershipAmount;
 
 	[SerializeField]
-	private Image _imgHeroBG;
-	[SerializeField]
-	private Image _imgHeroFG;
+	private Image _imgHero;
     [SerializeField]
     private Text _txtHeroName;
+    [SerializeField]
+    private Text _txtLevel;
+    [SerializeField]
+    private Text _txtHealth;
+    [SerializeField]
+    private Text _txtDamage;
+    [SerializeField]
+    private Text _txtLeadership;
+    [SerializeField]
+    private Text _txtSkills;
 
-    //[SerializeField]
-    //private Button _btnHiredSoldier;
-
-	[SerializeField]
-	private Text _lblCurrentSoldierLeadershipCost;
-	[SerializeField]
-	private Text _lblCurrentSoldierLevel;
-	[SerializeField]
-	private Text _lblCurrentSoldierDescription;
-	[SerializeField]
-	private Image _imgCurrrentSoldier;
+    [SerializeField]
+    private MultiImageButton _mbtnCurrrentSoldier;
 
     BaseSoldierData _currentSoldierData = null;
 
@@ -81,7 +80,6 @@ public class UIWindowBattleSetup : UIWindow {
         SetupCurrentHero();
 		//SetupAvailableUnits();
 		//SetupHiredUnits();
-        _imgCurrrentSoldier.GetComponent<MultiImageButton>();
 
 		UpdateLeadership();
 		//UpdateSoldiersHireAvailability();
@@ -119,28 +117,23 @@ public class UIWindowBattleSetup : UIWindow {
 
     void SetupCurrentHero()
     {
-        BaseHeroData heroData = Global.Instance.Player.Heroes.Current.Data;
-        Sprite heroIconBGResource = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitBGIconResourcePath(heroData.IconName));
+        BaseHero hero = Global.Instance.Player.Heroes.Current;
+        Sprite heroIconBGResource = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(hero.Data.IconName));
         if (heroIconBGResource != null)
         {
-            _imgHeroBG.sprite = heroIconBGResource;
-            _imgHeroBG.enabled = true;
+            _imgHero.sprite = heroIconBGResource;
+            _imgHero.enabled = true;
         }
         else
         {
-            _imgHeroBG.enabled = false;
+            _imgHero.enabled = false;
         }
-        Sprite heroIconFGResource = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(heroData.IconName));
-        if (heroIconFGResource != null)
-        {
-            _imgHeroFG.sprite = heroIconFGResource;
-            _imgHeroFG.enabled = true;
-        }
-        else
-        {
-            _imgHeroFG.enabled = false;
-        }
-        _txtHeroName.text = heroData.PrefabName;
+        _txtHeroName.text = hero.Data.PrefabName;
+        _txtLevel.text = hero.Level.ToString();
+        _txtHealth.text = hero.HealthPoints.ToString();
+        _txtDamage.text = hero.Damage.ToString();
+        _txtLeadership.text = hero.Leadership.ToString();
+        _txtSkills.text = hero.ActiveSkills.ActiveSkills.Count.ToString();
         _slotManager.SetHeroTemplate();
 
         //MultiImageButton multiButton = _imgCurrrentSoldier.GetComponent<MultiImageButton>()
@@ -208,24 +201,34 @@ public class UIWindowBattleSetup : UIWindow {
     void SetSelectedUnit(BaseSoldierData currentSoldierData)
     {
         if (_currentSoldierData != null)
-            UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(_currentSoldierData.IconName));
-        
+            UIResourcesManager.Instance.FreeResource(string.Format("{0}/{1}",
+                GameConstants.Paths.UNIT_PREFAB_RESOURCES, _currentSoldierData.CardPrefab));
+
+        Rect rectImage = _mbtnCurrrentSoldier.GetComponent<RectTransform>().rect;
+        if (rectImage.width == 0 || rectImage.height == 0)
+            return;
+
         _currentSoldierData = currentSoldierData;
         if (_currentSoldierData != null)
         {
-            _lblCurrentSoldierLeadershipCost.text = _currentSoldierData.LeadershipCost.ToString();
-            _lblCurrentSoldierLevel.text = Global.Instance.Player.City.GetSoldierUpgradesInfo(_currentSoldierData.Key).Level.ToString();
-            _lblCurrentSoldierDescription.text = _currentSoldierData.PrefabName;
+            GameObject cardResource = UIResourcesManager.Instance.GetResource<GameObject>(
+                string.Format("{0}/{1}", GameConstants.Paths.UNIT_PREFAB_RESOURCES, _currentSoldierData.CardPrefab));
+            if (cardResource == null)
+                return;
 
-            _imgCurrrentSoldier.enabled = true;
-            _imgCurrrentSoldier.sprite = UIResourcesManager.Instance.GetResource<Sprite>(GameConstants.Paths.GetUnitIconResourcePath(_currentSoldierData.IconName));
+            GameObject cardUnitData = GameObject.Instantiate(cardResource) as GameObject;
+            cardUnitData.transform.SetParent(_mbtnCurrrentSoldier.transform, false);
+
+            RectTransform rectCard = cardUnitData.GetComponent<RectTransform>();
+            rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectImage.width);
+            rectCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectImage.height);
+            rectCard.anchoredPosition = new Vector2(rectImage.width / 2, rectImage.height / 2);
+            _mbtnCurrrentSoldier.AddChildImages(cardUnitData);
         }
         else
         {
-            _lblCurrentSoldierLeadershipCost.text = _lblCurrentSoldierLevel.text = _lblCurrentSoldierDescription.text = string.Empty;
-
-            _imgCurrrentSoldier.enabled = false;
-            _imgCurrrentSoldier.sprite = null;
+            for (int i = _mbtnCurrrentSoldier.transform.childCount; i > 0; i--)
+                GameObject.Destroy(_mbtnCurrrentSoldier.transform.GetChild(i - 1).gameObject);
         }
         UpdateLeadership();
     }
@@ -239,6 +242,7 @@ public class UIWindowBattleSetup : UIWindow {
     void OnBtnDeleteCurrentSoldier()
     {
         _slotManager.DeleteCurrentUnit();
+        SetSelectedUnit(null);
         UpdateLeadership();
     }
 
@@ -323,15 +327,10 @@ public class UIWindowBattleSetup : UIWindow {
 		_missionKey = EMissionKey.None;
 
 		//hero
-		if (_imgHeroBG.sprite != null) {
-			_imgHeroBG.sprite = null;
-			UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitBGIconResourcePath(Global.Instance.Player.Heroes.Current.Data.IconName));
-		}
-		if (_imgHeroFG.sprite != null) {
-			_imgHeroFG.sprite = null;
+		if (_imgHero.sprite != null) {
+			_imgHero.sprite = null;
 			UIResourcesManager.Instance.FreeResource(GameConstants.Paths.GetUnitIconResourcePath(Global.Instance.Player.Heroes.Current.Data.IconName));
 		}
-
         //TODO: free resources and clear data
         _slotManager.Clear();
         SetSelectedUnit(null);
